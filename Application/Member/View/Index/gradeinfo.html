@@ -1,0 +1,24 @@
+<h3>{$name}会员等级</h3>
+<admin:panel >
+<admin:form url="{:U()}" method="post" id="form"   class="m-form-horizontal">
+  <admin:formrow title="会员等级：" tip="会员等级名称" labelwidth="1" width="2" >
+    <admin:text name="gradename"  value="{$info.gradename}" len="250" datatype="*"  />
+  </admin:formrow>
+  <admin:formrow title="免费学员位：" tip="免费添加学员的数量" labelwidth="1" width="2" >
+    <admin:text name="free_stu"  value="{$info.free_stu}" len="50" datatype="*"  />
+  </admin:formrow>
+  <admin:formrow title="子账户数量：" tip="添加子账户的数量" labelwidth="1" width="2" >
+    <admin:text name="child_account"  value="{$info.child_account}" len="50" datatype="*"  />
+  </admin:formrow>
+  <admin:formrow title="启用状态：" labelwidth="1" width="2" >
+    <admin:radio name="is_used"  item="启用,关闭" value="1,0" checked="$info['is_used']" isset="1" />
+  </admin:formrow>
+  <admin:formsubmit/>
+  <admin:text name="grade_id" type="hidden"  value="{$info.id}"  />
+</admin:form>
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#form').duxForm();
+});
+</script> 

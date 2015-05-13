@@ -1,0 +1,145 @@
+<h3>{$name}院校</h3>
+<admin:form url="{:U()}" method="post" id="form">
+<div class="g-main-body">
+    <div class="g-main-content m-form-horizontal">
+      <admin:panel >
+        <admin:formrow title="所在国家：" tip="选择院校所在国家">
+          <select name="class_id" class="form-element" id="class_id">
+           <option value="0">==请选择==</option>
+           <volist name='country' id='vo'>
+            <option value="{$vo['countryid']}" <if condition="$info['country_id'] eq $vo['countryid']"> selected="selected" </if>>{$vo['name']}</option>
+           </volist>
+          </select>
+        </admin:formrow>
+        <admin:formrow title="所在地：" tip="选择院校所在州\城市">
+          <select name="area_id" class="form-element" id="area_id">
+            <option value="0" >==请选择==</option>
+          </select>&nbsp;
+          <select name="city_id" class="form-element" id="city_id">
+            <option value="0">==请选择==</option>
+          </select>
+        </admin:formrow>
+        <admin:formrow title="院校中文名称：" tip="院校中文名称请不要填写特殊字符">
+          <admin:text name="cname" value="{$info.cname}" len="250" datatype="*" width="large" />
+        </admin:formrow>
+        <admin:formrow title="院校英文名称：" tip="院校英文名称请不要填写特殊字符">
+          <admin:text name="ename" value="{$info.ename}" len="250" datatype="*" width="large" />
+        </admin:formrow>
+        <admin:formrow title="院校分类：" tip="">
+          <foreach name="type" item="vo" >
+          <label><input name="type[]" type="checkbox" value="{$vo.id}" <if condition="$vo['select'] eq 1"> checked="checked" </if> />&nbsp;<span>{$vo.typename}</span></label>
+          </foreach>
+        </admin:formrow>
+        <admin:formrow title="学历：" tip="">
+          <foreach name="education" item="vo" >
+          <label><input name="education[]" type="checkbox" value="{$vo.id}" <if condition="$vo['select'] eq 1"> checked="checked" </if>/>&nbsp;<span>{$vo.name}</span></label>
+          </foreach>
+        </admin:formrow>
+         </admin:formrow>
+        <admin:formrow title="院校官网：" tip="院校官网,以http://开头">
+          <admin:text name="website" value="{$info.website}" len="250" datatype="*" width="large" />
+        </admin:formrow>
+        <admin:formrow title="院校简介：">
+          <admin:textarea name="content" class="u-editor" rows="5">{$info.introduction|html_out}</admin:textarea>
+        </admin:formrow>
+        <admin:formsubmit/>
+      </admin:panel>
+    </div>
+  </div>
+  <div class="g-main-sidebar">
+    <admin:panel title="校徽" icon="plus" padding="true">
+        <div class="u-thumbnail">
+        <if condition="empty($info['schoolbadge'])">
+        <img id="content_image" src="__PUBLIC__/admin/images/placeholder.jpg" width="270"  alt="">
+        <else/>
+        <img id="content_image" src="{$info.schoolbadge}" width="270" alt="">
+        </if>
+        </div>
+        <admin:text name="image" type="text" value="{$info.schoolbadge}" len="250" width="medium" />
+        <a class="u-btn u-btn-primary" data="image" href="javascript:;" id="upload">上传</a>
+    </admin:panel>
+  </div>
+  </admin:row>
+  <admin:text name="college_id" type="hidden" value="{$info.college_id}" />
+
+</admin:form>
+<script type="text/javascript">
+
+var area_id = "{$info['area_id']}";
+var country_id = "{$info['country_id']}";
+var city_id = "{$info['city_id']}";
+get_area(country_id,area_id);
+get_city(area_id,city_id);
+
+
+Do.ready('base', function () {
+						   
+	//表单综合处理
+	$('#form').duxFormPage();
+	//上传缩略图
+	$('#upload').duxFileUpload({
+		type: 'jpg,png,gif,bmp',
+		complete: function (data) {
+			$('#content_image').attr('src', data.url);
+		}
+	});
+	//获取州信息
+	$('#class_id').change(function(){
+		$('#area_id').empty();
+		$('#city_id').empty();
+		$('#city_id').append('<option value="0">==请选择==</option>');
+		var country_id = $('#class_id').val();
+		get_area(country_id,0);
+	});
+	//获取城市信息
+	$('#area_id').change(function(){
+		$('#city_id').empty();
+		var area_id = $('#area_id').val();	
+		get_city(area_id,0);
+	});
+});
+
+/*获取地区 */
+function get_area(country_id,area_id)
+{
+	$.ajax({
+	   type: "POST",
+	   url: "{:U('Index/change_area')}",
+	   data: {country_id:country_id,area_id:area_id},
+	   dataType: "json",
+	   success: function(data){
+			if(data.status=='ok')
+			{
+				$("#area_id").empty();
+				$("#area_id").append(data.info);
+			}
+			else
+			{
+				return false;
+			}
+	   }
+   });
+}
+
+/* 获取城市*/
+function get_city(pid,city_id)
+{
+	$.ajax({
+	   type: "POST",
+	   url: "{:U('Index/change_city')}",
+	   data: {pid:pid,city_id:city_id},
+	   dataType: "json",
+	   success: function(data){
+			if(data.status=='ok')
+			{
+				$("#city_id").empty();
+				$("#city_id").append(data.info);
+			}
+			else
+			{
+				return false;
+			}
+	   }
+   });
+}
+</script>

@@ -1,0 +1,22 @@
+<h3>用户组列表</h3>
+<admin:panel >
+<admin:table id="table" show="编号|50,名称,状态,操作|190"  class="m-table-border">
+  <foreach name="list" item="vo">
+    <tr>
+      <td>{$vo.group_id}</td>
+      <td>{$vo.name}</td>
+      <td><if condition="$vo['status']"> <span class="u-badge u-badge-success">正常</span>
+          <else />
+          <span class="u-badge u-badge-danger">禁用</span> </if></td>
+      <td><a class="u-btn u-btn-primary u-btn-small" href="{:U('edit',array('group_id'=>$vo['group_id']))}">修改</a> <a class="u-btn u-btn-primary u-btn-small" href="{:U('purview',array('group_id'=>$vo['group_id']))}">权限</a> <a class="u-btn u-btn-danger u-btn-small del" href="javascript:;" data="{$vo.group_id}">删除</a></td>
+    </tr>
+  </foreach>
+</admin:table>
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#table').duxTable({
+		deleteUrl: "{:U('del')}"
+	});
+});
+</script> 

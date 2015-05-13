@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>查&nbsp;&nbsp;看--EZ4Agent</title>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/share.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/main.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/common.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/message.css">
+<!--[if lt IE 9]>
+    <script src="__PUBLIC__/js/html5.js"></script>
+<![endif]-->
+</head>
+<body>
+<section class="main_wrap main_wrap_inner" >
+	<include file="Public:menu" />
+    <section class="content_wrap clearfix">
+    <div class="con_item">
+    	<h2 class="con_item_tit clearfix">
+           <em class="font18 ffyh fl">查&nbsp;&nbsp;看</em>
+        </h2>
+        <div class="con_item_c">
+            <div class="write_message_con clearfix">
+                <div style='width:100%; padding-bottom:20px; padding-top:20px;'>
+                <div style="FONT-SIZE: 12px; border-bottom: 1px solid #a9c0df; background: none repeat scroll 0 0 #e7edf9; PADDING-BOTTOM: 8px; PADDING-TOP: 8px; PADDING-LEFT: 8px; PADDING-RIGHT:8px; margin-right:30px;">
+                	<div><b>发件人：</b>"{$info['from_username']}";</div>
+                    <div><b>发送时间：</b>{$info['date']|date='Y-m-d H:i:s',###}</div>
+                    <div><b>收件人：</b>"{$info['to_username']}"<wbr></wbr></div>
+                    <div><b>主题：</b>{$info['title']}</div>
+                </div>
+                <div style=" margin-top:20px; margin-left:10px; margin-bottom:20px; margin-right:20px;">
+                <!--正文-->
+                <div style="width:1050px; height:auto;word-break:break-all;overflow:auto;">{$info['content']}</div>
+                <!--正文-->
+                <if condition="$info['file'] neq '' ">
+                <div style="margin-top:15px;"><strong>查看附件：</strong>
+                	<volist name="info['file']" id="vo">
+                	{$vo['file_name']}: <a href="Uploads{$vo['file_path']}" class="file_a opacity8" target="_blank">查看/下载</a>&nbsp;&nbsp;
+                    </volist>
+                </div>
+                </if>
+                </div>
+                
+                <!--之前站内信记录-->
+                <if condition="$info['repay_email_info'] neq ''">
+                <volist name="info['repay_email_info']" id="vo1">
+                    <div style="FONT-SIZE: 12px; PADDING-BOTTOM: 2px; PADDING-TOP: 2px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; margin-right:20px;">
+                    ------------------ 原始站内信 ------------------
+                    </div>
+                    <div style="FONT-SIZE: 12px; BACKGROUND: #efefef; PADDING-BOTTOM: 8px; PADDING-TOP: 8px; PADDING-LEFT: 8px; PADDING-RIGHT:8px; margin-right:30px;">
+                        <div><b>发件人：</b>"{$vo1['from_username']}";</div>
+                        <div><b>发送时间：</b>{$vo1['date']|date="Y-m-d H:i:s",###}</div>
+                        <div><b>收件人：</b>"{$vo1['to_username']}"<wbr></wbr></div>
+                        <div><b>主题：</b>{$vo1['title']}</div>
+                    </div>
+                    <div style=" margin-top:20px; margin-left:10px; margin-bottom:20px">
+                     	<div style="width:1050px; height:auto;word-break:break-all;overflow:auto;">{$vo1['content']}</div>
+                    <!--正文-->
+                    <if condition="$vo1['file'] neq '' ">
+                    <div style="margin-top:15px;"><strong>查看附件：</strong>
+                        <volist name="vo1['file']" id="vo2">
+                        {$vo2['file_name']}: <a href="Uploads{$vo2['file_path']}" class="file_a opacity8" target="_blank">查看/下载</a>&nbsp;&nbsp;
+                        </volist>
+                    </div>
+                    </if>
+                    </div>
+                </volist>
+                </if>
+                <!--站内信-->
+                
+                </div>
+            </div>
+    	</div>
+    </div>
+    </section>
+    <include file="Public:footer" />
+</section>
+
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>用户登录-EZ4Agent</title>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/share.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/main.css">
+<script src="__PUBLIC__/js/jquery.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/common.js" type="text/javascript"></script>
+<!--[if lt IE 9]>
+    <script src="__PUBLIC__/js/html5.js"></script>
+<![endif]-->
+</head>
+<body>
+
+<section class="main_wrap">
+	<include file="Public:login-header" />				
+    <section class="login_con">
+      <div class="login_inner">
+          <div class="login_made">
+          <form id="form1">
+            <div class="login_made_inner">
+              <div class="input_wrap">
+                <input id="username" name="username" value="" type="text" class="login_input" autocomplete="off"/>
+                <span>用户名</span>
+              </div>
+              <div class="input_wrap">
+                <input id="pwd" name="pwd" value="" type="password" class="login_input"/>
+                <span>密码</span>
+              </div>
+              <p><label><input name="checkbox1" type="checkbox" id="check" value="1"> <em>记住我的登录状态</em></label></p>
+              <p class="login_btwrap">
+                <a href="javascript:void(0);" class="login_bt" id="submit_login">登录</a>
+                <a href="{:U('Home/Register/index')}" class="regsiter_bt">注册</a>
+              </p>
+              <p class="wj_pwd"><a href="#">忘记密码? </a></p>
+            </div>
+          </form>
+          </div>
+       </div>
+      </section>   
+	<include file="Public:footer" />		
+</section>
+<script type="text/javascript">
+
+$(document).ready(function(){
+						   
+	//验证登陆
+	$('#submit_login').click(function(){
+				
+		var username = $('#username').val();
+		var pwd = $('#pwd').val();
+		if(username=="" || pwd==""){
+			alert('请输入用户名或者密码！');
+			return false;
+		}
+		
+		//判断checkbox是否被选中
+		var checked =$("input[type=checkbox]:checked").val(); 
+		//ajax
+		$.ajax({
+             type: 'post',
+             url: "{:U('Home/Login/checkLogin')}",
+             data: {username:username,pwd:pwd,checked:checked},
+             dataType: "json",
+             success: function(data){
+				if(data.status=='yes')
+				{
+					window.location.href=data.url;
+				}
+				else
+				{
+					alert(data.msg);
+					return false;
+				}
+				
+             }
+         });
+	});
+})
+
+</script>
+</body>
+</html>

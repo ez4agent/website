@@ -1,0 +1,35 @@
+<h3>站点信息</h3>
+<admin:panel >
+  <admin:form url="{:U('site')}" method="post" id="form" class="m-form-horizontal" >
+    <admin:formrow title="站点标题" tip="网站标题栏处显示" >
+      <admin:text name="site_title"  value="{$info.site_title}" len="250" datatype="*"  />
+    </admin:formrow>
+    <admin:formrow title="站点副标题" tip="站点标题后面显示的副标题" >
+      <admin:text name="site_subtitle"  value="{$info.site_subtitle}" len="250" />
+    </admin:formrow>
+    <admin:formrow title="站点关键词" tip="搜索引擎所收录的关键词" >
+      <admin:text name="site_keywords"  value="{$info.site_keywords}" len="250" />
+    </admin:formrow>
+    <admin:formrow title="站点描述" tip="当前网站的描述信息" >
+      <admin:textarea name="site_description" rows="5" >{$info.site_description}</admin:textarea>
+    </admin:formrow>
+    <admin:formrow title="站点网址" tip="当前网站的域名" >
+      <admin:text name="site_url"  value="{$info.site_url}" len="250" />
+    </admin:formrow>
+    <admin:formrow title="站长邮箱" tip="站长邮箱方便联系" >
+      <admin:text name="site_email"  value="{$info.site_email}" len="250" />
+    </admin:formrow>
+    <admin:formrow title="站点版权" tip="版权信息或备案号" >
+      <admin:text name="site_copyright"  value="{$info.site_copyright}" len="250" />
+    </admin:formrow>
+    <admin:formrow title="站点统计" tip="用于统计代码调用" >
+      <admin:textarea name="site_statistics"  rows="5" >{$info.site_statistics}</admin:textarea>
+    </admin:formrow>
+    <admin:formsubmit/>
+  </admin:form>
+</admin:panel>
+<script>
+Do.ready('base', function() {
+	$('#form').duxForm();
+});
+</script> 

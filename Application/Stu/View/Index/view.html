@@ -1,0 +1,74 @@
+<h3>学生信息（标号：{$info.stu_id}）</h3>
+<admin:form url="{:U()}" method="post" id="form">
+	<div class="g-main-body">
+     	<div class="g-main-content m-form-horizontal">
+        <admin:panel title="基本信息" icon="list" padding="true">
+        	<admin:formrow title="学生姓名：" labelwidth="1" width="2" >
+    			{$info.stu_name}&nbsp;({$info.pinyin})
+  			</admin:formrow>
+            <admin:formrow title="性&nbsp;&nbsp;别：" labelwidth="1" width="2" >
+            <if condition="$info['sex'] eq 1"> 男 <else /> 女 </if>
+            </admin:formrow> 
+            <admin:formrow title="生&nbsp;&nbsp;日：" labelwidth="1" width="2" >
+            	{$info.birthday}
+            </admin:formrow> 
+            <admin:formrow title="{$info.messagetype}：" labelwidth="1" width="2" >
+            	{$info.message}
+            </admin:formrow> 
+            <admin:formrow title="移动电话：" labelwidth="1" width="2" >
+            	{$info.mobile}
+            </admin:formrow>
+            <admin:formrow title="固定电话：" labelwidth="1" width="2" >
+            	{$info.telephone}
+            </admin:formrow>
+            <admin:formrow title="邮&nbsp;&nbsp;箱：" labelwidth="1" width="2" >
+            	{$info.email}
+            </admin:formrow>
+            <admin:formrow title="父&nbsp;&nbsp;亲：" labelwidth="1" width="2" >
+            	{$info.father}&nbsp;<if condition="$info['father_telephone'] neq ''">({$info.father_telephone})</if>
+            </admin:formrow>
+            <admin:formrow title="母&nbsp;&nbsp;亲：" labelwidth="1" width="2" >
+            	{$info.mother}&nbsp;<if condition="$info['mother_telephone'] neq ''">({$info.father_telephone})</if>
+            </admin:formrow>
+            <admin:formrow title="所在地：" labelwidth="1" width="2" >
+            	{$info.country_name}&nbsp;{$info.area_name}&nbsp;{$info.city_name}
+            </admin:formrow>
+            <admin:formrow title="详细地址：" labelwidth="1" width="2" >
+            	{$info.address}
+            </admin:formrow>
+            <admin:formrow title="备&nbsp;&nbsp;注：" labelwidth="1" width="2" >
+            	{$info.remarks}
+            </admin:formrow>
+            <if condition="$info['cooperation_agency'] neq ''">
+            <admin:formrow title="合作中介：" labelwidth="1" width="2" >
+            	{$info.cooperation_agency}
+            </admin:formrow>
+            </if>
+        </admin:panel>
+        </div>
+	</div>
+	<div class="g-main-sidebar">
+    	 <admin:panel title="学历信息" icon="list" padding="true">
+         	<admin:formrow title="学&nbsp;&nbsp;历：" labelwidth="1" width="2" >
+            	{$info.xueli}&nbsp;&nbsp;<if condition="$info['is_complete'] eq 1">(<font color="#FF0000">已完成</font>) </if>
+            </admin:formrow>
+            <admin:formrow title="毕业院校：" labelwidth="1" width="2" >
+            	{$info.college}
+            </admin:formrow>
+            <admin:formrow title="目标专业：" labelwidth="1" width="2" >
+            	{$info.goal_professional}
+            </admin:formrow>
+            <admin:formrow title="目标院校：" labelwidth="1" width="2" >
+            	{$info.goal_college}
+            </admin:formrow>
+            <admin:formrow title="目标学历：" labelwidth="1" width="2" >
+            	{$info.goal_education}
+            </admin:formrow>
+            <admin:formrow title="目标目的地：" labelwidth="1" width="2" >
+            	{$info.goal_country}&nbsp;{$info.goal_city}
+            </admin:formrow>
+         </admin:panel>
+		 <admin:panel title="附件信息" icon="list" padding="true">
+         </admin:panel>
+	</div>
+</admin:form>

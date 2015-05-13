@@ -1,0 +1,22 @@
+<h3>院校类型列表</h3>
+<admin:panel >
+<admin:table id="table" show="编号|50,院校类型名称,状态,操作|190"  class="m-table-border">
+  <foreach name="type" item="vo">
+    <tr>
+      <td>{$vo.id}</td>
+      <td>{$vo.typename}</td>
+      <td><if condition="$vo['is_used']"> <span class="u-badge u-badge-success">启用</span>
+          <else />
+          <span class="u-badge u-badge-danger">关闭</span> </if></td>
+      <td><a class="u-btn u-btn-primary u-btn-small" href="{:U('edittype',array('id'=>$vo['id']))}">修改</a> <a class="u-btn u-btn-danger u-btn-small del" href="javascript:;" data="{$vo.id}">删除</a></td>
+    </tr>
+  </foreach>
+</admin:table>
+</admin:panel>
+<script type="text/javascript">
+Do.ready('base',function() {
+	$('#table').duxTable({
+		deleteUrl: "{:U('deltype')}"
+	});
+});
+</script>

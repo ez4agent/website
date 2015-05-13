@@ -1,0 +1,20 @@
+<h3>{$name}类别</h3>
+<admin:panel >
+<admin:form url="{:U()}" method="post" id="form"   class="m-form-horizontal">
+  <admin:formrow title="院校类别：" tip="院校类别名称" labelwidth="1" width="2" >
+    <admin:text name="typename"  value="{$info.typename}" len="250" datatype="*"  />
+  </admin:formrow>
+  <admin:formrow title="启用状态：" labelwidth="1" width="2" >
+    <admin:radio name="is_used"  item="启用,关闭" value="1,0" checked="$info['is_used']" isset="1" />
+  </admin:formrow>
+  <admin:formsubmit/>
+  <admin:text name="type_id" type="hidden"  value="{$info.id}"  />
+</admin:form>
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#form').duxForm();
+});
+
+
+</script> 

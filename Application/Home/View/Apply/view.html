@@ -1,0 +1,221 @@
+<html>
+<head>
+<title>查看标号({$apply_info['stu_apply_id']})申请记录--EZ4Agent</title>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/share.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/main.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/common.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/message.css">
+<link rel="stylesheet" href="__PUBLIC__/js/keditor/themes/default/default.css" />
+<link rel="stylesheet" href="__PUBLIC__/front/js/skin/layer.css" />
+
+<script src="__PUBLIC__/js/jquery.js" type="text/javascript"></script>
+<script type="text/javascript" src="__PUBLIC__/js/keditor/kindeditor.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/keditor/lang/zh_CN.js"></script>
+<script src="__PUBLIC__/front/js/stu.js" type="text/javascript"> </script>
+<script src="__PUBLIC__/front/js/gobal.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/layer.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+var stu_uplode_file_url = "{:U('Home/Student/upload_StuFile_info',array('type'=>'file'))}";
+var get_log_url = "{:U('Home/Apply/get_log_info')}";
+</script>
+</head>
+<body>
+<section class="main_wrap main_wrap_inner">
+	<!--公用方法-->
+    <include file="Public:menu" />
+    <section class="content_wrap1 clearfix">
+    	<div class="con_item">
+        	<h2 class="con_item_tit clearfix">
+               <em class="font18 ffyh fl">查看学生申请</em>
+               <div class="c_tem_text fr" style="padding-top:12px">
+             	<p><a href="{:U('Home/Student/index',array('stu'=>$stu_id3))}"><input class="updatabtn" value="返回" type="button" ></a> </p>
+               </div>
+            </h2>
+            <div class="con_item_c">
+            	<!--操作区-->
+                <include file="Public:apply_Operation" />
+                <!--操作区-->
+            	<div class="c_tem message_rc">
+                    <div class="c_tem_text fl">
+                        <span>申请信息</span>
+                    </div>
+                    
+                </div> 
+                <div class="baseInfor" >
+                    <table width="100%" style="font-size:12px;">
+                    <tbody>
+                    <tr>
+						<td width="50%" height="30px">院校名称：{$apply_info['college_name']}</td>
+						<td height="30px">学生姓名：{$apply_info['stu_info']['stu_name']}</td>
+					</tr>
+                    <tr>
+						<td height="30px">学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;历：<strong><span style="color:#F00">{$apply_info['apply_name']}</span></strong></td>
+						<td height="30px">申请专业：{$apply_info['profession']}</td>
+					</tr>
+                    <tr>
+						<td height="30px">分享比例：<strong><span style="color:#F00">{$apply_info['commission']['share_value']}</span></strong>
+                        </td>
+						<td height="30px">付款方式：<if condition="$apply_info['commission']['pay_type'] eq '1'">按年付
+                          <elseif condition="$apply_info['commission']['pay_type'] eq '2'" />按半年付
+                          <elseif condition="$apply_info['commission']['pay_type'] eq '3'" />按课程长度付
+                          </if> / {$apply_info['commission']['pay_cycle']}{$apply_info['commission']['unit']}
+                        </td>
+					</tr>
+                    <tr>
+						<td height="30px">入学时间：{$apply_info['start_time']|date='Y/m/d',###}</td>
+						<td height="30px">申请时间：{$apply_info['add_time']|date='Y/m/d',###}</td>
+					</tr>
+                    <if condition="$apply_info['apply_type'] eq 2">
+                    <tr>
+						<td height="30px">输送中介：<strong>{$apply_info['intermediary_name']}</strong></td>
+						<td height="30px">接收中介：<strong><font color="#FF0000">{$apply_info['receive_member_name']}</font></strong></td>
+					</tr>
+                    <else />
+                    	<tr>
+						<td height="30px">输送中介：<strong>{$apply_info['intermediary_name']}</strong></td>
+						<td height="30px">&nbsp;</td>
+					</tr>
+                    </if>
+                    </tbody>
+                    </table>
+                </div>
+                <div class="c_tem message_rc">
+                    <div class="c_tem_text fl">
+                        <span>文档资料</span>
+                    </div>  
+                </div>
+                <div class="baseInfor" >
+                    <ul class="clearfix wendang_down">
+                        <volist name="apply_info['file']" id="vo">
+                        <li>{$vo['file_name']}： <a class="file_a opacity8" href="{$vo['file_path']}"><span>查看/下载</span></a></li>
+                        </volist>
+                    </ul>
+                </div> 
+                <div class="c_tem message_rc">
+                    <div class="c_tem_text fl">
+                        <span>操作日志</span>
+                    </div>  
+                </div> 
+                <div class="baseInfor" >
+                	<div class="div_inTab">
+                    	<table width="100%" style="font-size:12px;">
+                        <thead>
+                        <tr>
+                        <th height="25px" width="15%"><strong>操作人</strong></th>
+                        <td height="25px" width="20%"><strong>操作时间</strong></td>
+                        <td height="25px" width="20%"><strong>更新状态</strong></td>
+                        <td height="25px" width="20%"><strong>留言</strong></td>
+                        <td height="25px" width="25%"><strong>上传附件</strong></td>
+                        </tr>
+                        </thead>
+                        <volist name="log" id="vo3">
+                        <tr>
+                        <td height="25px" width="15%">{$vo3['member_name']}</td>
+                        <td height="25px" width="20%">{$vo3['operate_time']|date='Y/m/d H:i:s',###}</td>
+                        <td height="25px" width="15%">
+                        <if condition="$vo3['type'] eq 0">
+                        	<font color="#FF0000"><strong>{$vo3['update_status_name']}</strong></font>
+                        <else />
+                        <font color="#FF0000"><strong>交流</strong></font>
+                        </if>
+                        </td>
+                        <td height="25px" width="20%">
+                        <if condition="$vo3['type'] eq 1">
+                        <span style="font-size:12px">{$vo3['title']}</span>：
+                        </if>
+                        <if condition="$vo3['operate_content'] neq ''">
+                        <a class="file_a opacity8" style="margin-left:0px; margin-top:5px;"  href="javascript:;" onClick="get_message({$vo3['log_id']});"><span>查看留言</span></a>
+                        <else />
+                        --
+                        </if>
+                        </td>
+                        <td height="25px" width="30%">
+                        <if condition="$vo3['file'] neq ''"> 
+                            <volist name="vo3['file']" id="vo4">
+                            	{$vo4['file_name']}：&nbsp;<a class="file_a opacity8" href="{$vo4['file_path']}" title="{$vo4['file_name']}" style="margin-left:0px;" target="_blank"><span>查看</span></a> <br />
+                            </volist>
+                        <else />
+                        --
+                        </if>
+                        </td>
+                        </tr>
+                        </volist>
+                        </table>
+                    </div>
+                </div>
+        	</div>
+        </div> 
+        
+        <!--留言-->
+        <div id="message_form" style="display:none;">
+        	<include file="Public:message_form" />
+        </div>
+        <!--留言-->
+        <!--申请结果-->
+        <div id="apply_result_form" style="display:none;">
+        	<include file="Public:apply_result_form" />
+        </div>
+        <!--申请结果-->
+        <!--更新offer-->
+        <div id="update_offer_form" style="display:none;">
+        	<include file="Public:update_offer_form" />
+        </div>
+        <!--更新offer-->
+        <!--签证结果-->
+        <div id="visa_results_form" style="display:none;">
+        	<include file="Public:visa_results_form" />
+        </div>
+        <!--签证结果-->
+        <!--终止-->
+        <div id="apply_end_form" style="display:none;">
+        	<include file="Public:apply_end_form" />
+        </div>
+        <!--终止-->
+        
+        <!--查看留言-->
+        <div id="see_message" style="display:none">
+            <div style="margin:20px 10px 0 30px;  width:330px;"> 
+            	<label>留言内容：</label>
+                <p id="see_content" style="word-break:break-all; width:100%; margin-top:5px;"> 
+                </p>
+            </div>
+        </div>
+        <!--查看留言-->
+	</section>
+    <include file="Public:footer" />
+</section>
+<script type="text/javascript">
+/**
+ *  文档上传
+ */
+KindEditor.ready(function(K) {
+	var editor = K.editor({
+		allowFileManager : false,
+		uploadJson:stu_uplode_file_url,
+	});
+	
+	K('.file_a1').click(function() {
+		var attr =$(this).attr('data_attr');
+		editor.loadPlugin('insertfile', function() {
+			editor.plugin.fileDialog({
+				fileUrl : K('#url').val(),
+				clickFn : function(url, title) {
+					if(!title){ 
+						alert('请输入文档标题！');
+						return false;
+					}
+					else
+					{
+						var str=title+"|"+url;
+						$("#"+attr+'_form').append("<label>"+title+"</label><input name='apply_results[]' type='hidden' value='"+str+"' />&nbsp;&nbsp;");
+						editor.hideDialog();
+					}
+				}
+			});
+		});
+	});
+});
+
+</script>
+</body>
+</html>

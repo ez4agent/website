@@ -1,0 +1,36 @@
+<!--签证-->
+<form id="visa_result_form">
+<div class="add_school baseInfor" style="margin-top:5px;">
+  <table width="100%" style="font-size:12px">
+  <tbody>
+      <tr>
+          <td>
+          类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型：
+          <input name="visa_status" type="radio" value="60" /> 成 功&nbsp;&nbsp;
+          <input name="visa_status" type="radio" value="70" /> 失 败&nbsp;&nbsp;
+          </td>
+      </tr>
+      <tr>
+		<td><p style="padding-top:5px;">留　　言：</p>
+			<textarea class="baseInfor_input textarea_js"  name="content"></textarea>
+		</td>
+	  </tr>
+      <tr>
+      	<td>
+        <div style="margin-top:15px;">文&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;档：
+        	<a href="javascript:;" class="file_a1 opacity8" data_attr='visa_results1' style="margin-left:0px;" ><span>上传文档</span></a>
+        </div>
+        <!--文档-->
+        <div id="visa_results1_form" style="margin-top:5px;">
+        </div>
+        </td>
+      </tr>
+  </tbody>
+  </table>
+</div>
+<div class="blod_js">
+<input name="stu_apply_id" type="hidden" value="{$apply_info['stu_apply_id']}" />
+<input id="visa_form_url" type="hidden" value="{:U('Home/apply/visa')}" />
+<a href="javascript:;" id="visa_form_sub">提　　交</a>
+</div>
+</form>

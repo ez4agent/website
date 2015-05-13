@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>站内信--EZ4Agent</title>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/share.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/main.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/common.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/message.css">
+<script src="__PUBLIC__/js/jquery.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/gobal.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/letter.js" type="text/javascript"></script>
+<script type="text/javascript">
+var type="{$type}";
+</script>
+<!--[if lt IE 9]>
+    <script src="__PUBLIC__/js/html5.js"></script>
+<![endif]-->
+</head>
+
+<body>
+<section class="main_wrap main_wrap_inner">
+	<!--公用方法-->
+    <include file="Public:menu" />
+    <section class="content_wrap clearfix">
+    <div class="con_item">
+      <h2 class="con_item_tit clearfix">
+          <em class="font18 ffyh fl"> 站内信</em>
+      </h2>
+      <div class="con_item_c">
+          <div class="message_table">
+              <ul class="clearfix">
+                  <li><a href="{:U('Home/Letter/sentLetter')}" <if condition="$type eq 'send'"> class="active" </if>>写   信</a></li>
+                  <li><a href="{:U('Home/Letter/index')}" <if condition="$type eq 'inbox'"> class="active" </if>>收信箱</a></li> 
+                  <li><a href="{:U('Home/Letter/index',array('type'=>'outbox'))}" <if condition="$type eq 'outbox'"> class="active" </if>>已发送</a></li>
+              </ul>
+          </div>
+          <div class="message_con">
+              <div class="con_cz_bt">
+               <a href="javascript:void(0);" class="file_a message_bt" id="Batch_del">
+               <span>删 除<input id="batch_del_url" type="hidden" value="{:U('Home/Letter/Batch_del')}" /> </span>
+               </a>
+              </div>
+              <if condition="$type eq 'inbox'">
+              <div class="con_me_hd">
+                  <table width="100%">
+                      <tbody><tr>
+                          <td class="algin_center" width="20"><input type="checkbox" class='checkall' /></td>
+                          <td class="algin_center" width="40"><i class="icon message_icon1"></i></td>
+                          <td width="110">发件人</td>
+                          <td>标题</td>
+                          <td width="40">附件</td>
+                          <td width="100">时间</td>
+                      </tr>
+                  </tbody></table>
+              </div>
+              <div class="con_me_bd">
+                  <empty name='list'>
+                      <div style=" height:20px; text-align:center; padding-top:20px"><span style="font-weight:bold;">暂无站内信！</span></div>
+                  <else />
+                      <table width="100%">
+                      <tbody>
+                          <volist name="list" id="vo">
+                          <tr>
+                              <td width="20" class="algin_center"><input type="checkbox" class="checkitem" value="{$vo['rid']}"></td>
+                              <td width="40" class="algin_center">
+                              	<if condition="$vo['is_readed'] eq 0">
+                                <i class="icon message_icon1"></i> 
+                              	<else />
+                                <i class="icon message_icon2"></i> 
+                                </if>
+                              </td>
+                              <td width="110">{$vo.from_username}</td>
+                              <td><a href="{:U('Home/Letter/reply',array('email'=>$vo['mid']))}">{$vo.title}</a></td>
+                              <td width="40"><if condition="$vo['is_file'] eq 1"> <div class="cij Ju"></div><else />--</if></td>
+                              <td width="100">{$vo.date|date='Y年m月d日',###}</td>
+                          </tr>
+                          </volist>
+                      </tbody>
+                      </table>
+                  </empty> 
+                   <div style="float:right; padding-top:10px; height:20px;">{$page}</div>	
+              </div>
+              <elseif condition="$type eq 'outbox'" />
+              <div class="con_me_hd">
+                  <table width="100%">
+                      <tbody><tr>
+                          <td class="algin_center" width="20"><input type="checkbox" class='checkall' /></td>
+                          <td class="algin_center" width="40"><i class="icon message_icon1"></i></td>
+                          <td width="110">收件人</td>
+                          <td>标题</td>
+                          <td width="40">附件</td>
+                          <td width="100">时间</td>
+                      </tr>
+                  </tbody></table>
+              </div>
+              <div class="con_me_bd">
+                  <empty name='list'>
+                      <div style=" height:20px; text-align:center; padding-top:20px"><span style="font-weight:bold;">暂无站内信！</span></div>
+                  <else />
+                      <table width="100%">
+                      <tbody>
+                          <volist name="list" id="vo">
+                          <tr>
+                              <td width="20" class="algin_center"><input type="checkbox" class="checkitem" value="{$vo.mid}"></td>
+                              <td width="40" class="algin_center">
+                              	<if condition="$vo['is_read'] eq 0">
+                                <i class="icon message_icon1"></i> 
+                              	<else />
+                                <i class="icon message_icon2"></i> 
+                                </if>
+                              </td>
+                              <td width="110">{$vo.to_member_name}</td>
+                              <td><a href="{:U('Home/Letter/view',array('email'=>$vo['mid']))}">{$vo.title}</a></td>
+                              <td width="40"><if condition="$vo['is_file'] eq 1"> <div class="cij Ju"></div><else />--</if></td>
+                              <td width="100">{$vo.date|date='Y年m月d日',###}</td>
+                          </tr>
+                          </volist>
+                      </tbody>
+                      </table>
+                  </empty> 
+                   <div style="float:right; padding-top:10px; height:20px;">{$page}</div>	
+              </div>
+              </if>  						
+          </div>
+      </div>
+  	</div>
+  	
+    </section>
+    <include file="Public:footer" />
+</section>
+
+</body>
+</html>

@@ -1,0 +1,238 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>申请{$college_info.ename}--EZ4Agent</title>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/share.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/main.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/common.css">
+<link rel="stylesheet" href="__PUBLIC__/js/keditor/themes/default/default.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/js/time/jquery.datetimepicker.css">
+<link rel="stylesheet" href="__PUBLIC__/front/js/skin/layer.css" />
+<script src="__PUBLIC__/js/jquery.js" type="text/javascript"></script>
+<script type="text/javascript" src="__PUBLIC__/js/keditor/kindeditor.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/keditor/lang/zh_CN.js"></script>
+<script src="__PUBLIC__/front/js/gobal.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/common.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/school.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/stu.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/layer.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="__PUBLIC__/js/time/jquery.datetimepicker.js"></script>
+<!--[if lt IE 9]>
+    <script src="__PUBLIC__/js/html5.js"></script>
+<![endif]-->
+</head>
+<body>
+<section class="main_wrap main_wrap_inner">
+	<!--公用方法-->
+    <include file="Public:menu" />
+    <section class="content_wrap clearfix">
+    <!--左边-->
+    <div class="content_left fl">
+	<include file="Public:college_left" />
+	</div>
+    <!--右边-->
+    <div class="content_right fr">
+       <div class="con_item">
+         <h2 class="con_item_tit clearfix"><em class="font18 ffyh">申请{$college_info.ename}</em></h2>
+         <div class="con_item_c clearfix">
+         	<div class=" message_rc">
+                <div class="c_tem_text fl">
+                    <span>申请学历</span>
+                </div>
+                <div class="c_tem_text fr" style="padding-top:12px;">
+                    <p><input class="updatabtn" value="返回修改" type="button" onClick="history.go(-1)"> </p>
+                </div>						
+            </div>
+            <div class="">
+            	<div class="newPa">
+            	<table width="100%">
+                <tbody>
+                <tr>
+                    <th height="30px;" width="50%"><span style="font-size:12px;">院校名称：{$college_info.ename}</span></th>
+                    <th height="30px;" width="50%"><span style="font-size:12px;">学历名称：<strong>
+                    <font color="#FF0000">{$commission_info.education}</font>
+                    </strong></span></th>  
+                </tr>
+                <if condition="$Cooperation eq 0">
+                <tr>
+                	<th height="30px" width="50%"><span style="font-size:12px;">分享比例：<strong>{$commission_info['share_value']}</strong></span></th>
+                    <th height="30px" width="50%"><span style="font-size:12px;">付款方式：
+                     <if condition="$commission_info['pay_type'] eq 1">
+                    按年付
+                    <elseif condition="$commission_info['pay_type'] eq 2" />
+                    按半年付
+                    <elseif condition="$commission_info['pay_type'] eq 4" />
+                    按课程长度付
+                    <else />
+                    一次性付清
+                    </if>/ {$commission_info['pay_cycle']}{$commission_info['unit']}</span>
+                    </span></th>
+                </tr>
+                <tr>
+                	<th height="30px" width="50%"><span style="font-size:12px;">接收中介： <strong><font color="#FF0000">{$commission_info['username']}</font></strong>
+                    <input name="member_id" id="member_id" type="hidden" value="{$commission_info['member_id']}"/></span>
+                    </th>
+                    
+                    <th height="30px" width="50%">
+                    <if condition="$stu neq 0">
+                    	<span style="font-size:12px;">输送中介： <strong><font color="#FF0000">{$stu_info['transportation_name']}</font></strong></span>
+                    <else />
+                    	&nbsp;
+                    </if>
+                    </th>
+                </tr>	
+                <else />
+                <tr>
+                	<th height="30px" width="50%">
+                    <span style="font-size:12px;">中介名称： <strong><font color="#FF0000">{$stu_info['transportation_name']}</font></strong>
+                    <input name="member_id" id="member_id" type="hidden" value="{$commission_info['member_id']}"/></span>
+                    </th>
+                    <th height="30px" width="50%"></th> 
+                </tr>
+                </if>
+                </tbody>
+                </table>
+                </div>
+            </div>
+            <div class="message_rc">
+                <div class="c_tem_text fl">
+                    <span>申请信息</span>
+                </div>					
+            </div>
+            <div class="">
+                <div class="newPa">
+                <form id="apply_form">
+                <table width="100%">
+                <tbody>
+                    <tr>
+                        <th width="10%" height="30px;"><span style="font-size:12px;">学生姓名：</span></th>
+                        <td width="90%" height="30px;">
+                        <select id="stu_info1" name="stu_id">{$stu_option}</select>
+                        <input name="apply_get_stu_file"  id="apply_get_stu_file" type="hidden" value="{:U('Home/Student/get_file')}"  />
+                        &nbsp;&nbsp;&nbsp;<input type="button" onClick="add_stu(0,'/index.php?m=Home&c=Student&a=get_infoBystu_id');"  value="添加新生" class="updatabtn">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th width="10%" height="30px;"><span style="font-size:12px;">申请专业：</span></th>
+                        <td width="90%" height="30px;"><input class="baseInfor_input birthday_input" type="text" id="profession" name="profession" value="" ></td>
+                    </tr>
+                    <tr>
+                        <th width="10%" height="30px;"><span style="font-size:12px;">入学时间：</span></th>
+                        <td width="90%" height="30px;"><input class="baseInfor_input birthday_input" type="text" id="start_time" name="start_time" value="年/月/日" ></td>
+                    </tr>
+                    <tr>
+						<td colspan="2">
+						<p><span style="font-size:12px;">备　　注：</span></p>
+						<textarea class="baseInfor_input textarea_js birthday_input_stt" id="content"></textarea>
+					</td>
+					</tr>
+                </tbody>
+                </table>
+                </form>
+                </div>
+            </div>	
+            <div class=" c_tem message_rc">
+                <div class="c_tem_text fl">
+					<span>文档资料</span>
+				</div>
+                <div class="c_tem_text fr" style="padding-top:12px;">
+                	<input id='upload_info' class="updatabtn" type="button" stu_id="{$stu}" value="上 传">
+                </div>				
+            </div>
+            <div class="baseInfor">
+            	<ul class="clearfix wendang_down" id="stu_file" style="padding-left:10px; padding:15px;">
+                	<empty name="file">
+             			<li><span style="font-size:14px; color:#999">暂无附件,请上传!</span></li>
+             		<else />
+                		<volist name="file" id="vo">
+                		<li style="width:150px;"><input name="checkbox[]" class="checkitem" type="checkbox" value="{$vo['id']}">&nbsp;&nbsp;
+                        	<a href="Uploads{$vo['file_path']}" target="_blank">
+                            <span style='text-align:left' class="title" title="{$vo['file_name']}">{$vo['file_name']}</span></a>
+                        </li>
+                		</volist>
+             		</empty>
+                </ul>
+            </div>
+            <div class="blod_js"> 
+      			<input id="commission_id" name="commission_id" type="hidden" value="{$commission_info['commission_id']}" />
+                <input id="college_id" name="college_id" type="hidden" value="{$commission_info['college_id']}" />
+      			<input id="submit_url1" type="hidden" value="{:U('Home/Apply/apply_act')}"/>
+      			<a href="javascript:void(0);" id="apply_act">提交申请</a> 
+  			</div>		
+         </div>
+       </div> 
+    </div>
+    </section>
+
+    <script type="text/javascript">
+	var stu_uplode_file_url = "{:U('Home/Student/upload_StuFile_info',array('type'=>'file'))}";
+	var stu_file_submit_url = "{:U('Home/Student/ajax_stufile_submit1')}";
+	
+	//时间
+	$('#start_time').datetimepicker({
+		timepicker:false,
+		format:'Y/m/d',
+		formatDate:'Y/m/d',
+	});
+	
+	KindEditor.ready(function(K) {
+	var editor = K.editor({
+		allowFileManager : false,
+		uploadJson:stu_uplode_file_url,
+	});
+	
+	K('#upload_info').click(function() {
+		editor.loadPlugin('insertfile', function() {
+			editor.plugin.fileDialog({
+				fileUrl : K('#url').val(),
+				clickFn : function(url, title) {
+					//点确定ajax提交
+					if(!title || title=='')
+					{
+						alert('请输入文件名称！');
+						return false;
+					}
+					else
+					{
+						$.post(stu_file_submit_url, {fileurl:url,title:title,stu_id:$("#upload_info").attr('stu_id')},function(data){
+							if(data.status=='yes')
+							{
+								html='';
+								path = "Uploads"+url;
+								html+="<li style='width:150px;'><input name='checkbox[]' class='checkitem' type='checkbox' value="+data.id+">&nbsp;&nbsp;";
+								html+="<a href='"+path+"' target='_blank'><span style='text-align:left' class='title' title="+title+">"+title+"</span></a></li>";
+								$("#stu_file").append(html);
+								editor.hideDialog();
+							}
+							else if(data.status=='yes1')
+							{
+								alert('附件更新成功！');
+								window.location.reload();
+								editor.hideDialog();
+							}
+							else if(data.status=='yes2')
+							{ 
+								window.location.reload();
+								editor.hideDialog();
+							}
+							else
+							{
+								alert(data.msg);
+								return false;
+							}
+						},'json');
+					}
+				}
+			});
+		});
+	});
+});
+    
+    </script>
+    <include file="Public:footer" />
+</section>
+	<div id="stu_form" style="display:none;">
+ 		<include file="Public:stu_info" />
+	</div>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!--操作区-->
+
+<if condition="$apply_info['apply_type'] eq 2" > <!--他人合作院校-->
+
+
+	<!--接收方（他人合作院校）-->
+    <if condition="($apply_info['receive_member'] eq $session) AND ($apply_info['status'] eq 5 ) AND ($apply_info['is_stop'] eq 0 )">
+    	<div class="c_tem message_rc">
+        	<div class="c_tem_text fl">
+            <span>当前状态：<strong><font color="#FF0000">{$apply_info['status_name']}</font></strong></span>
+        	</div>
+            
+    	</div>
+        <div class="baseInfor">
+        	<div class="yj_bt" >
+              <div class="blod_js"> 
+              <a href="{:U('Home/Letter/sentEmail',array('apply_id'=>$apply_info['stu_apply_id']))}"/>提交申请</a>
+              <a href="javascript:;" onclick="apply_result('{:U('Home/Apply/check_is_email')}',{$apply_info['receive_member']},{$apply_info['stu_apply_id']})">申请结果</a>
+              <a href="javascript:;" onclick="visa_results({$apply_info['receive_member']},{$apply_info['stu_apply_id']})">签证结果</a>
+              <a href="javascript:;" onclick="apply_end({$apply_info['receive_member']},{$apply_info['stu_apply_id']})">终   止</a>
+              <a href="javascript:;" onclick="message_info({$apply_info['receive_member']},{$apply_info['stu_apply_id']})">交   流</a>
+              </div>   
+           </div>
+        </div>
+     <elseif condition="($apply_info['receive_member'] eq $session) AND ($apply_info['status'] GT 19 ) AND ($apply_info['is_stop'] eq 0) AND ($apply_info['status'] neq 99)" />
+      	<div class="c_tem message_rc">
+        	<div class="c_tem_text fl">
+            <span>当前状态：<strong><font color="#FF0000">{$apply_info['status_name']}</font></strong></span>
+        	</div>
+            
+    	</div>
+        <div class="baseInfor">
+        	<div class="yj_bt" >
+              <div class="blod_js">
+              <a href="{:U('Home/Letter/sentEmail',array('apply_id'=>$apply_info['stu_apply_id']))}"/>offer更新</a> 
+              <a href="javascript:;" onclick="apply_result('{:U('Home/Apply/check_is_email')}',{$apply_info['receive_member']},{$apply_info['stu_apply_id']})">申请结果</a>
+              <a href="javascript:;" onclick="visa_results({$apply_info['receive_member']},{$apply_info['stu_apply_id']})">签证结果</a>
+              <a href="javascript:;" onclick="apply_end({$apply_info['receive_member']},{$apply_info['stu_apply_id']})">终   止</a>
+              <a href="javascript:;" onclick="message_info({$apply_info['receive_member']},{$apply_info['stu_apply_id']})">交   流</a>
+              </div>  
+           </div>
+        </div>
+        <elseif condition="($apply_info['receive_member'] eq $session) AND (($apply_info['is_stop'] eq 1) OR ($apply_info['status'] eq 99))" />
+        	<div class="c_tem message_rc">
+                <div class="c_tem_text fl">
+                <span>当前状态：<strong><font color="#FF0000">{$apply_info['status_name']}</font></strong></span>
+                </div>
+               
+    		</div>
+            <div class="baseInfor">
+        	<div class="yj_bt" >
+              <div class="blod_js">             
+              <a href="javascript:;" onclick="message_info({$apply_info['receive_member']},{$apply_info['stu_apply_id']})">交   流</a>
+              </div>  
+           </div>
+        </div>
+        </if>
+     
+    <!--输送方-->
+	<if condition="($apply_info['member_id'] eq $session) AND ($apply_info['status'] eq 8)"> <!--拒绝接收-->
+		<div class="c_tem message_rc">
+        	<div class="c_tem_text fl">
+            <span>当前状态：<strong><font color="#FF0000">{$apply_info['status_name']}</font></strong></span>
+        	</div>
+
+    	</div>
+        <div class="baseInfor" >
+            <div style="font-size:14px;">
+        	拒绝接收原因：<strong><font color="#FF0000">{$apply_info['reason']}</font></strong>
+        	</div>
+        </div>     
+    <elseif condition="($apply_info['member_id'] eq $session) AND (($apply_info['status'] GT 19) AND ($apply_info['status'] neq 99) AND ($apply_info['is_stop'] eq 0))" />
+    	<div class="c_tem message_rc">
+        	<div class="c_tem_text fl">
+            <span>当前状态：<strong><font color="#FF0000">{$apply_info['status_name']}</font></strong></span>
+        	</div> 
+
+    	</div>
+        <div class="baseInfor" >
+            <div class="yj_bt">
+                <div class="blod_js">
+                <a href="javascript:;" onclick="visa_results({$apply_info['member_id']},{$apply_info['stu_apply_id']})">签证结果</a>
+              	<a href="javascript:;" onclick="apply_end({$apply_info['member_id']},{$apply_info['stu_apply_id']})">终   止</a>
+                <a href="javascript:;" onclick="message_info({$apply_info['member_id']},{$apply_info['stu_apply_id']})">交   流</a>
+                </div>
+            </div>
+        </div>
+     <elseif  condition="($apply_info['member_id'] eq $session) AND (($apply_info['status'] LT 10) AND ($apply_info['status'] neq 99) AND ($apply_info['is_stop'] eq 0))"/>
+     	<div class="c_tem message_rc">
+        	<div class="c_tem_text fl">
+            <span>当前状态：<strong><font color="#FF0000">{$apply_info['status_name']}</font></strong></span>
+        	</div> 
+            
+    	</div>
+        <div class="baseInfor" >
+            <div class="yj_bt">
+                <div class="blod_js">
+                	<a href="javascript:;" onclick="apply_end({$apply_info['member_id']},{$apply_info['stu_apply_id']})">终   止</a>
+             		<a href="javascript:;" onclick="message_info({$apply_info['member_id']},{$apply_info['stu_apply_id']})">交   流</a>
+                </div>
+            </div>
+        </div>
+        <elseif condition="($apply_info['member_id'] eq $session) AND (($apply_info['is_stop'] eq 1) OR ($apply_info['status'] eq 99))" />
+        <div class="c_tem message_rc">
+        	<div class="c_tem_text fl">
+            <span>当前状态：<strong><font color="#FF0000">{$apply_info['status_name']}</font></strong></span>
+        	</div> 
+            
+    	</div>
+        <div class="baseInfor" >
+            <div class="yj_bt">
+                <div class="blod_js">
+             		<a href="javascript:;" onclick="message_info({$apply_info['member_id']},{$apply_info['stu_apply_id']})">交   流</a>
+                </div>
+            </div>
+        </div>
+     </if>
+
+
+<elseif condition="$apply_info['apply_type'] eq 1"/> <!--自己的合作院校-->
+
+
+</if>
+

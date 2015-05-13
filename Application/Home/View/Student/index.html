@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>学生管理--EZ4Agent</title>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/share.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/main.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/common.css">
+<link rel="stylesheet" href="__PUBLIC__/js/keditor/themes/default/default.css" />
+<link rel="stylesheet" href="__PUBLIC__/front/js/skin/layer.css" />
+
+<script type="text/javascript" src="__PUBLIC__/js/jquery.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/keditor/kindeditor.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/keditor/lang/zh_CN.js"></script>
+<script src="__PUBLIC__/front/js/gobal.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/layer.min.js" type="text/javascript"></script>
+
+<!--[if lt IE 9]>
+    <script src="__PUBLIC__/js/html5.js"></script>
+<![endif]-->
+
+<style type="text/css">
+
+.suggest_input{
+	padding:0 0 0 5px ;
+	width:400px;
+	height:28px;
+	margin:0px;
+	font-size:14px;
+}
+#suggest_ul{
+	width:403px;
+	height:auto;
+	margin:0px;
+	margin-left:63px;
+	padding:0px;
+	border:1px solid #ccc;
+	background:#FFF;
+	list-style-type:none;
+	position:absolute;
+	z-index:99999;
+}
+
+#suggest_ul li{
+	padding-left:5px;
+	line-height:22px;
+	font-size:13px;
+	width:399px;
+	height:22px;
+	cursor:default;
+}
+.suggest_submit{
+	width:90px;
+	height:30px;
+}
+
+{display:block;float:left;}
+</style>
+</head>
+<body>
+<section class="main_wrap main_wrap_inner">
+	<!--公用方法-->
+    <include file="Public:menu" />
+    <section class="content_wrap clearfix">
+    <!--左侧-->
+    <div class="content_left fl">
+      <include file="Public:stu_left" />
+    </div>
+    <!--右侧-->
+    <div class="content_right fr">
+      <div class="con_item">
+        <h2 class="con_item_tit clearfix"><em class="font18 ffyh">学生信息</em><em class="font18 ffyh fr">
+        <if condition="$info['stu_id'] neq ''">学生ID：{$info.stu_id} </if></em></h2>
+        
+        <div class="con_item_c clearfix">
+          <!--基本信息-->
+          <div class="c_tem message_rc">
+            <div class="c_tem_text fl"> <span>基本信息</span> </div> 
+          </div>
+          <div class="baseInfor">
+            <table width="100%" border="0">
+              <tbody><tr>
+                <td width="50%">姓　　名：<if condition="$info.stu_name neq ''">{$info.stu_name}<else /> -- </if></td>
+                <td width="50%">姓名拼音：<if condition="$info.pinyin neq ''">{$info.pinyin}<else /> -- </if> </td>
+              </tr>
+              <tr>
+                <td width="50%">生　　日：<if condition="$info.birthday neq ''">{$info.birthday}<else /> -- </if></td>
+                <td width="50%">性　　别：
+                <if condition="$info.sex neq ''">
+                	<if condition='$info.sex eq 1'>男<else /> 女</if>
+                <else />
+                --
+                </if>
+                </td>
+              </tr>
+              <tr>
+              	<td width="50%">所 &nbsp;在 &nbsp;地：<label><if condition="$info.location neq '' ">{$info.location}<else /> -- </if></label></td> 
+              	<td width="50%">&nbsp;</td>
+              </tr>
+              <tr>
+				<td colspan="2">
+				<p style="padding-top:5px;">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</p>
+				<if condition="$info.remark neq ''">
+                <p style="font-size:12px;width:100%;height:auto; word-break:break-all; word-wrap:break-word ; line-height:15px; padding-top:5px;">{$info.remark}</p>
+				<else />
+                 --
+                </if>
+                </td>
+			  </tr>
+              
+            </tbody>
+            </table>
+          </div>
+          <!--基本信息-->
+          <div class="c_tem message_rc">
+            <div class="c_tem_text fl"> <span>院校申请</span> &nbsp;&nbsp;
+             <if condition="($info.type eq 1) or ($info.type eq '')"> 
+            <font color="#FF0000">(每个学生共有5次申请机会，其中大学专业课程申请次数不得超过2次)</font> 
+             </if>
+            </div>
+          </div>
+          <div class="baseInfor">
+            <!--院校申请text框-->
+            <if condition="($info.type eq 1) or ($info.type eq '')">
+            <div class="" style=" width:690px; height:50px;">
+              <div style=" margin:15px; z-index:999;">
+                <label>院校名称</label>： <input id="suggest_input" type="text" class="suggest_input baseInfor_input" autocomplete="off" />
+                <input id="apply" type="button" value="申 请" class="suggest_submit updatabtn" />
+                <input id="apply_url" type="hidden" value="{:U('Home/Apply/get_college_id')}" />
+                <ul id="suggest_ul">
+				</ul>
+              </div>
+            </div>
+            </if>
+            <!---->
+            <h4 class="sq_yx">已申请院校</h4>
+            <table class="sq_yx_infor" width="100%">
+              <tbody>
+              <tr>
+                <th width="5%" >编号</th>
+                <th width="25%">院校名称</th>
+                <th width="20%">学历名称</th>
+                <th width="15%">中介名称</th>
+                <th width="20%">申请状态</th>
+                <th width="15%">操作</th>
+              </tr>
+              <empty name='apply_list'>
+              <tr><td colspan="6" align="center" style="padding-bottom:0px;"><span style="font-size:12px; font-weight:bold;">暂无申请记录！</span></td></tr>
+              <else />
+              <volist name='apply_list' id="vo1">
+              <tr>
+              	 <td align="center" style="padding-bottom:0px;">{$vo1.stu_apply_id}</td>
+              	 <td align="center" style="padding-bottom:0px;">{$vo1.college_name}</td>
+                 <td align="center" style="padding-bottom:0px;"><strong>{$vo1.apply_name}</strong></td>
+                 <td align="center" style="padding-bottom:0px;"><strong><if condition="$vo1.intermediary_name neq ''">{$vo1.intermediary_name}<else />----</if></strong></td>
+                 <td align="center" style="padding-bottom:0px;">
+                 <font color="#FF0000">{$vo1.status_name}</font>
+                 </td>
+                 <td align="center" style="padding-bottom:0px;">
+                 <a href="{:U('Home/Apply/view',array('apply_id'=>$vo1['stu_apply_id']))}" class="file_a opacity8" ><span>查看申请</span></a>
+                 </td>
+              </tr>
+              </volist>
+              </empty>
+            </tbody>
+            </table>
+          </div>
+          <if condition="($info.type eq 1) or ($info.type eq '')"> 
+          <div class="c_tem message_rc">
+            <div class="c_tem_text fl"> <span>文档资料</span> </div>
+             
+            <div class="c_tem_text" style="float:right">
+				<p><input class="updatabtn" value="上 传" type="button" id='upload_info'> </p>
+			</div>
+          </div>
+          <div class="baseInfor">
+            <ul class="clearfix wendang_down">
+             <empty name="info['file']">
+             <li><span style="font-size:14px; color:#999">暂无附件,请上传!</span></li>
+             <else />
+                <volist name="info[file]" id="vo">
+                <li><span class="title" title="{$vo['file_name']}">{$vo['file_name']}</span>：<a href="Uploads{$vo['file_path']}" class="file_a opacity8" target="_blank"><span>查看/下载</span></a>
+                	<if condition="$info.type eq 1">       
+                    <a href="javascript:void(0);" class="file_a opacity8" style="margin-left:0px;" onClick="del_file_stu('{:U('Home/Student/del_file_stu')}',{$vo['id']});">
+                    <span>删除</span></a>
+                    </if>
+                </li>
+                </volist>
+             </empty>
+            </ul>
+          </div>
+          </if>
+        </div>
+      </div>
+    </div>
+    </section>
+	<include file="Public:footer" />
+</section>
+
+<div id="stu_form" style="display:none;">
+ <include file="Public:stu_info" />
+</div>
+<script src="__PUBLIC__/front/js/stu.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/searchSuggest.js" type="text/javascript"></script>
+<script type="text/javascript">
+var Search_url = "{:U('Home/Apply/search_college')}";
+var get_Professional_url = "{:U('Home/Apply/get_Professional')}";
+var stu_uplode_file_url = "{:U('Home/Student/upload_StuFile_info',array('type'=>'file'))}";
+var stu_file_submit_url = "{:U('Home/Student/ajax_stufile_submit')}";
+var add_stu_url = "{:U('Home/Student/get_infoBystu_id')}";
+var stu_id="{$stu_id}";
+
+//学生附件上传
+KindEditor.ready(function(K) {
+	var editor = K.editor({
+		allowFileManager : false,
+		uploadJson:stu_uplode_file_url,
+	});
+	
+	K('#upload_info').click(function() {
+		
+		if(stu_id ==0)
+		{ 
+			alert('您还没有添加学生,请先添加学生！');
+			add_stu(0,add_stu_url);
+			return false;
+		}
+		else
+		{
+			editor.loadPlugin('insertfile', function() {
+				editor.plugin.fileDialog({
+					fileUrl : K('#url').val(),
+					clickFn : function(url, title) {
+						//点确定ajax提交
+						if(!title || title=='' || title==url)
+						{
+							alert('请输入文件名称！');
+							return false;
+						}
+						else
+						{
+							$.post(stu_file_submit_url, {fileurl:url,title:title,stu_id:stu_id},function(data){
+								if(data.status=='yes')
+								{
+									//alert('上传成功！');
+									editor.hideDialog();
+									window.location.reload();
+								}
+								else
+								{
+									alert(data.msg);
+									return false;
+								}
+							},'json');
+						}
+					}
+				});
+			});
+		}
+	});
+});
+</script>
+</body>
+</html>

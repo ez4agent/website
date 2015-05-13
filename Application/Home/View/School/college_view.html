@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>{$info.cname}--EZ4Agent</title>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/share.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/main.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/common.css">
+<!--kindeditor-->
+<link rel="stylesheet" href="__PUBLIC__/front/js/skin/layer.css" />
+<script src="__PUBLIC__/js/jquery.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/common.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/gobal.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/school.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/layer.min.js" type="text/javascript"></script>
+<!--[if lt IE 9]>
+    <script src="__PUBLIC__/js/html5.js"></script>
+<![endif]-->
+<script type="text/javascript" >
+var member_view_url = "{:U('Home/School/get_user_info')}";
+var stu_id = '{$stu_id}';
+</script>
+</head>
+<body>
+<section class="main_wrap main_wrap_inner">
+	<!--公用方法-->
+    <include file="Public:menu" />
+    <section class="content_wrap clearfix">
+    <!--左边-->
+    <div class="content_left fl">
+	<include file="Public:college_left" />
+	</div>
+	<!--右边-->
+    <div class="content_right fr">
+      <div class="con_item">
+                  <h2 class="con_item_tit clearfix"><em class="font18 ffyh">{$info.ename}</em></h2> 
+                  <div class="con_item_c clearfix">
+
+                      <div class=" message_rc">
+                          <div class="c_tem_text fl">
+                              <span>基本信息</span>
+                          </div>
+                          <if condition="($add eq 0) and ($flag neq 'apply')">
+                          	<div class="c_tem_text fl" style="float:right">
+							 	<p><input class="updatabtn" value="添加合作院校" type="button" onClick="add_partner({$info.college_id},'{:U('school/add_partner')}');"> </p>
+						  	</div>
+                          </if>							
+                      </div>
+                      <div class="">
+                          <div class="newPa">
+                              <table width="100%">
+                              <tbody>
+                                  <tr>
+                                  	<td width="50%" height="25px;">中文名称：{$info.cname}</td>
+                                    <td width="50%" height="25px;">英文名称：{$info.ename}</td>
+                                  </tr>
+                                  <tr>
+                                  	<th height="25px;" colspan="2">所&nbsp;&nbsp;在&nbsp;&nbsp;地：{$info.city_name} , {$info.area_name} , {$info.country_name}</th>
+                                  </tr>
+                                  <tr>
+                                      <th height="25px;" colspan="2">
+                                      官&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;网：<a href="{$info.website}" target="_blank">{$info.website}</a></th>
+                                  </tr>
+                                  <tr>
+                                      <th colspan="2">简&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;介：<p>{$info.introduction}</p></th>
+                                  </tr>
+                              </tbody>
+                              </table>
+                          </div>
+                      </div>
+                      <div class=" message_rc">
+                          <div class="c_tem_text fl">
+                              <span>学历选项</span>
+                          </div>							
+                      </div>
+                      <div class="baseInfor">
+                          <div style="width:680px; height:40px; margin-left:8px; ">
+                          <div style=" margin:22px 0px 0px 4px;">
+                          <volist name='edu_info' id="vo">
+                           	<input class="apply_id" name="edu" type="radio" value="{$vo['id']}"> <span style=" font-weight:bold">{$vo['name']}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                           </volist>
+                           </div>
+                            <input id="college_id" type="hidden" value="{$info.college_id}" />
+                            <input id="select_share_url" type="hidden" value="{:U('Home/School/share_info_byselect')}" />
+                            <input id="total" type="hidden" value="" />
+                          </div>
+                      </div>
+                      <div class=" message_rc">
+                          <div class="c_tem_text fl">
+                              <span>佣金分享</span>
+                          </div>							
+                      </div>
+                      <div class="baseInfor">
+                      	 <div class="div_inTab">
+                         	<div id="share_div">
+                                <if condition="$share eq 0"> 
+                                <div style="text-align:center">
+                            		<strong><span style="color:#F00">目前没有中介分享该院校,如需支持请点击下方"帮助"</span></strong>
+                                </div>		
+                                <div class="blod_js">
+                                	<a href="javascript:void(0);" onClick="college_help({$info['college_id']});">帮 助</a>
+                                    <if condition="$flag eq 'apply'">
+                                    <a href="{:U('Home/Student/index',array('stu'=>$stu_id))}" >返 回</a>
+                                    <else />
+                                    <a href="{:U('Home/Student/index')}" >返 回</a>
+                                    </if>
+                                </div>
+                                <else />
+                                	<div style="text-align:center">
+                            		<strong><span style="color:#F00">请选择学历来查看分享信息！</span></strong>
+                                	</div>
+                                </if>
+                                
+                            </div>
+                            <input id="reg_from_url" type="hidden" value="{:U('Home/Apply/get_header_apply_url')}" >
+                            <input id="stu" type="hidden" value="{$stu_id}" />
+                         </div>
+                      </div>
+                      
+                  	  </empty>
+                </div>
+            </div>
+        
+    </div>
+    <!--中介信息-->  
+    <div class="user_infos" id="college_help" style="display:none; width:560px">
+      <form id="post_form">
+      <table width="100%">
+        <tbody>
+        <tr>
+        	<td height="30px">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <em style="font-size:14px;">标 题：</em>
+            <select class="address_zhu" name="title">
+            <option value="合作中介需求">合作中介需求</option>
+            <option value="更高佣金寻求">更高佣金寻求</option>
+            <option value="其他">其他</option>
+            </select>
+            </td>
+        </tr>
+        <tr>
+         	<td colspan="2" align="center">
+            	<div class="bz_p">
+				<em style="font-size:14px;">内 容：</em>
+				<textarea class="baseInfor_input textarea" style="width:460px; height:100px;" name="remark" id="remark"></textarea>
+  				</div>
+  			</td>
+        </tr>
+      </tbody>
+      </table>
+      <div class="blod_js">
+        <input id="help_url" type="hidden" value="{:U('Home/School/college_help')}" />
+        <input name="college_id" id="help_college_id" type="hidden" value="" />
+        <a id="help_college" href="javascript:void(0);" >提  交</a>
+	 </div>
+     </form>
+    </div>
+    <!--查看中介信息-->
+    <div id="member_info" style="display:none;">
+      <div class="user_infos" id='member_info1'>
+          
+      </div>
+    </div>
+    <!--查看中介信息--> 					
+    </section>
+    <include file="Public:footer" />
+</section>
+</body>
+</html>

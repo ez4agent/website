@@ -1,0 +1,36 @@
+<!--添加申请信息-->
+<div class="con_item">
+	<h2 class="con_item_tit clearfix">
+		<em class="font18 ffyh">{$info.cname}--申请信息添加</em>
+	</h2>
+    <div class="con_item_c clearfix">
+    	<div class="">
+        	<div class="add_school baseInfor">
+        	<form id="apply_form">
+            <table width="100%">
+              <tr>
+                <td>学　　历：&nbsp;<select id="education" name="education" class="address_gj">
+								     <option value="">==选择学历==</option>
+                			       </select>
+                </td>
+              </tr>
+              <tr id="profession" style="display:none;">
+                <td>申请专业：&nbsp;<input type="text" class="baseInfor_input school_name"  style="width:300px;" name="profession" id="profession1" /></td>
+              </tr>
+              <tr>
+                <td>申请邮箱：&nbsp;<input type="text" class="baseInfor_input school_name"  style="width:300px;" name="apply_email" id="apply_email" /></td>
+              </tr>
+            </table>
+            <input name="token" type="hidden" value="{$_TK['token']}" />
+            <input name="timeKey" type="hidden" value="{$_TK['timeKey']}" />
+            <input name="partner_id" type="hidden" value="{$info.partner_id}" />
+            <input name="college_id" type="hidden" value="{$info.college_id}" />
+            </form>
+            <div class="blod_js"> 
+            	<input id="apply_url" type="hidden" value="{:U('Home/School/add_apply')}" />
+                <a href="javascript:void(0);" id="add_apply_act" >提  交</a> 
+            </div>           
+          </div>  
+        </div>
+	</div>
+</div>

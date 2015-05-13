@@ -1,0 +1,56 @@
+<h3>用户组权限</h3>
+<admin:panel >
+<admin:form url="{:U()}" method="post" id="form" >
+  <admin:row>
+  	<admin:grid item="2-1">
+      <legend>操作权限</legend>
+      <foreach name="AdminPurvew" key="key"  item="app" >
+        <foreach name="app" key="listMode"  item="list" >
+          <admin:formrow title="{$list.name}" tip=" " >
+            <label class="radio-inline"> <input name="base_purview[]" class="AdminPurvew" type="checkbox" 
+              
+          
+              <if condition="in_array($key.'_'.$listMode,(array)$AdminPurvewArray)"> checked </if>
+              value="{$key}_{$listMode}">
+              模块 </label>
+            <foreach name="list['auth']" key="action"  item="vo" >
+              <label class="radio-inline"> <input name="base_purview[]" class="AdminPurvew" type="checkbox" 
+                
+            
+                <if condition="in_array($key.'_'.$listMode.'_'.$action,(array)$AdminPurvewArray)"> checked </if>
+                value="{$key}_{$listMode}_{$action}">
+                {$vo} </label>
+            </foreach>
+          </admin:formrow>
+        </foreach>
+      </foreach>
+    </admin:grid>
+    
+    <admin:grid item="2-1">
+      <legend>菜单权限</legend>
+      <foreach name="AdminMenu" item="top" key="topLabel" >
+        <admin:formrow title="{$top.name}" tip=" " >
+          <foreach name="top['menu']" item="parent" key="parentLabel" >
+            <label class="radio-inline"> <input name="menu_purview[]" class="AdminMenu" type="checkbox" 
+                
+          
+              <if condition="in_array($top['name'].'_'.$parent['name'],(array)$AdminMenuArray) "> checked </if>
+              value="{$top.name}_{$parent.name}">
+              {$parent.name} </label>
+          </foreach>
+        </admin:formrow>
+      </foreach>
+    </admin:grid>
+    
+  </admin:row>
+  <admin:formsubmit/>
+  <admin:text name="group_id" type="hidden"  value="{$info.group_id}"  />
+</admin:form>
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#form').duxForm();
+});
+
+
+</script> 

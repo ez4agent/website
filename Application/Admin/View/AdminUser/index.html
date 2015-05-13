@@ -1,0 +1,35 @@
+<h3>用户列表</h3>
+<admin:panel >
+<admin:tabletool filter="true" keyword="{$keyword}">
+  <select name="group_id" class="form-element">
+    <option value="0">=用户组=</option>
+    <foreach name="groupList" item="vo"> <option value="{$vo.group_id}" 
+      <if condition="$groupId == $vo['group_id']"> selected="selected" </if>
+      >{$vo.name}
+      </option>
+    </foreach>
+  </select>
+</admin:tabletool>
+
+<admin:table id="table" show="编号|80,用户名,用户组,状态,操作|130">
+  <foreach name="list" item="vo">
+    <tr>
+      <td>{$vo.user_id}</td>
+      <td>{$vo.username}</td>
+      <td>{$vo.group_name}</td>
+      <td><if condition="$vo['status']"> <span class="u-badge u-badge-success">正常</span>
+          <else />
+          <span class="u-badge u-badge-danger">禁用</span> </if></td>
+      <td><a class="u-btn u-btn-primary u-btn-small" href="{:U('edit',array('user_id'=>$vo['user_id']))}">修改</a> <a class="u-btn u-btn-danger u-btn-small del" href="javascript:;" data="{$vo.user_id}">删除</a></td>
+    </tr>
+  </foreach>
+</admin:table>
+<admin:tablefoot action="false" />
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#table').duxTable({
+		deleteUrl: "{:U('del')}"
+	});
+});
+</script>

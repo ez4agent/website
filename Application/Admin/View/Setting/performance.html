@@ -1,0 +1,29 @@
+<h3>性能设置</h3>
+<admin:panel >
+  <admin:form url="{:U('performance')}" method="post" id="form" class="m-form-horizontal" >
+    <admin:formrow title="模板缓存" tip="网站上线后建议开启">
+      <admin:radio name="TMPL_CACHE_ON"  item="开启,关闭" value="true,false" checked="$info['TMPL_CACHE_ON']" />
+    </admin:formrow>
+    <admin:formrow title="静态缓存" tip="网站上线后建议开启">
+      <admin:radio name="HTML_CACHE_ON"  item="开启,关闭" value="true,false" checked="$info['HTML_CACHE_ON']" />
+    </admin:formrow>
+    <admin:formrow title="SQL查询缓存" tip="网站上线后建议开启">
+      <admin:radio name="DB_SQL_BUILD_CACHE"  item="开启,关闭" value="true,false" checked="$info['DB_SQL_BUILD_CACHE']" />
+    </admin:formrow>
+    <admin:formrow title="URL访问模式" tip="请确认已放置伪静态规则">
+      <admin:select name="URL_MODEL"  item="普通模式,PATHINFO模式,伪静态模式,兼容模式" value="0,1,2,3" selected="$info['URL_MODEL']" />
+    </admin:formrow>
+    <admin:formrow title="URL路由" tip="根据URL设置规则进行URL优化">
+      <admin:radio name="URL_ROUTER_ON"  item="开启,关闭" value="true,false" checked="$info['URL_ROUTER_ON']" />
+    </admin:formrow>
+    <admin:formrow title="伪静态后缀" tip="设置后URL后缀将会改变">
+      <admin:text name="URL_HTML_SUFFIX" value="{$info.URL_HTML_SUFFIX}" len="250" datatype="s" width="mini" />
+    </admin:formrow>
+    <admin:formsubmit/>
+  </admin:form>
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#form').duxForm();
+});
+</script>

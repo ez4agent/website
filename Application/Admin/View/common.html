@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>留学中介CRM系统</title>
+<meta name="keywords" content=""/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="__PUBLIC__/admin/css/base.css"/>
+<link rel="stylesheet" href="__PUBLIC__/admin/css/style.css"/>
+<link rel="stylesheet" href="__PUBLIC__/admin/css/grid.css"/>
+<link rel="stylesheet" href="__PUBLIC__/admin/css/font-awesome.min.css"/>
+<!--[if lt IE 9]>
+<script src="__PUBLIC__/js/html5.js"></script>
+<![endif]-->
+<script>
+var baseDir='__PUBLIC__/js/';
+var rootUrl="__ROOT__/";
+var sessId='{:session_id()}';
+</script>
+<script src="__PUBLIC__/js/jquery.js"></script>
+<script src="__PUBLIC__/admin/js/admin.js"></script>
+<script src="__PUBLIC__/js/do.js"></script>
+<script src="__PUBLIC__/js/config.js"></script>
+</head>
+<body>
+<div class="g-head"> <a class="m-logo">留学中介CRM系统</a>
+  <?php $list = D('Admin/Menu')->getMenu($loginUserInfo); ?>
+  <ul class="m-nav f-fl u-menu-mobile" id="main-nav">
+    <foreach name="list" item="vo" >
+      <li><a href="javascript:;">{$vo.name} <i class="u-icon-caret-down"></i></a>
+        <ul class="m-pulldown">
+          <foreach name="vo['menu']" item="menu"> 
+            <!--
+        <li class="u-divider"></li>
+        -->
+            <li><a href="{$menu.url}">{$menu.name}</a> </li>
+          </foreach>
+        </ul>
+      </li>
+    </foreach>
+  </ul>
+  <ul class="m-nav f-fr u-menu-mobile" id="tool-nav">
+    <li><a href="javascript:;">{$loginUserInfo.nicename} <i class="u-icon-caret-down"></i></a>
+      <ul class="m-pulldown">
+        <li><a href="{:U('Admin/AdminUser/edit',array('user_id'=>$loginUserInfo['user_id']))}">修改资料</a></li>
+        <li class="u-divider"></li>
+        <li><a href="{:U('Admin/Login/logout')}">安全退出</a></li>
+      </ul>
+    </li>
+    <li><a href="http://<php>echo $_SERVER['HTTP_HOST'];</php>" target="_blank">网站首页</a></li>
+  </ul>
+  <button type="button" class="u-nav-mobile" target="#sd-nav"><i class="u-icon-th"></i> </button>
+  <button type="button" class="u-nav-mobile" target="#main-nav"><i class="u-icon-th"></i> </button>
+  <button type="button" class="u-nav-mobile" target="#tool-nav"><i class="u-icon-th"></i> </button>
+</div>
+<div class="g-sidebar u-menu-mobile" id="sd-nav">
+  <ul>
+    <foreach name="infoModule['menu']" item="menu">
+      <li><a href="{$menu.url}"><i class="u-icon-{$menu.icon}"></i> <span>{$menu.name}</span></a></li>
+    </foreach>
+  </ul>
+</div>
+<div class="g-page-head">
+  <h2><i class="u-icon-{$infoModule.info.icon}"></i> {$infoModule.info.name} <span>{$infoModule.info.description}</span></h2>
+  <ul>
+    <li>当前位置 </li>
+    <li><a href="{:U('Admin/Index/index')}">系统首页</a></li>
+    <foreach name="breadCrumb"  key="k" item="v" >
+      <li><a href="{$v}">{$k}</a></li>
+    </foreach>
+  </ul>
+</div>
+<div class="g-main">
+  <!--common-->
+</div>
+</body>
+</html>

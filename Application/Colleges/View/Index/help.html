@@ -1,0 +1,25 @@
+<h3>学院求助</h3>
+<admin:panel >
+  <admin:table id="table" show="编号|30,院校名称|150,会员名称|100,求助标题|100,求助内容|150,状态|80,求助时间|100,操作|80" class="m-table-border">
+     <foreach name="list" item="vo">
+     <tr>
+        <td>{$vo.id}</td>
+        <td>{$vo.college_name}</td>
+        <td>{$vo.member_name}</td>
+        <td><font color="#FF0000">{$vo.title}</font></td>
+        <td>{$vo.content}</td>
+        <td>
+        <if condition="$vo.is_read eq 0"> 
+           <span class="u-badge u-badge-danger">未读</span>
+        <else /> 
+          <span class="u-badge u-badge-success"> 已读</span> 
+        </if>
+        </td>
+        <td>{$vo.addtime|date='Y-m-d H:i:s',###}</td>
+        <td>
+        <a class="u-btn u-btn-primary  u-btn-small" href="{:U('reply',array('id'=>$vo['id']))}">操作</a>
+        </td>
+     </tr>
+     </foreach>
+  </admin:table>
+</admin:panel>

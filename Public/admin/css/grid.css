@@ -1,0 +1,23 @@
+.g-grid:after {clear:both; content:"."; display:block; font-size:0; height:0; line-height:0;  min-height:0; visibility:hidden; *zoom:1;}
+.g-grid {width:100%; margin-bottom: 20px;}
+.g-grid [class*="g-col-"] {  float:left; margin-right:3%;}
+.g-grid .g-col-2-1 {width: 48.5%; }
+.g-grid .g-col-3-1 {width: 31.3333%; }
+.g-grid .g-col-4-1 {width: 22.75%; }
+.g-grid .g-col-5-1 {width: 17.6%; }
+.g-grid .g-col-3-2 {width: 65.6666%; }
+.g-grid .g-col-4-2 {width: 48.5%; }
+.g-grid .g-col-4-3 {width: 74.25%; }
+.g-grid .g-col-5-2 {width: 38.2%; }
+.g-grid .g-col-5-3 {width: 58.8%; }
+.g-grid .g-col-5-4 {width: 79.4%; }
+
+.g-grid [class*="g-col-"]:last-child {margin-right:0; *float:right; *clear:right;} 
+.g-grid .g-col-last{margin-right:0; *float:right; *clear:right;}
+@media (max-width: 1200px) {
+.g-grid { margin-bottom: 20px; }
+}
+@media (max-width: 960px) {
+.g-grid [class*="g-col-"] { display: block; float: none; width: 100%; margin-left: 0; margin-bottom: 20px; }
+.g-grid [class*="g-col-"]:last-child { margin-bottom: 0px; }
+}

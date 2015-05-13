@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>发站内信--EZ4Agent</title>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/share.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/main.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/common.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/message.css">
+<link rel="stylesheet" href="__PUBLIC__/js/keditor/themes/default/default.css" />
+
+<script src="__PUBLIC__/js/jquery.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/keditor/kindeditor.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/keditor/lang/zh_CN.js"></script>
+<script src="__PUBLIC__/front/js/common.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/gobal.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/letter.js" type="text/javascript"></script>
+<!--[if lt IE 9]>
+    <script src="__PUBLIC__/js/html5.js"></script>
+<![endif]-->
+</head>
+<body>
+	<section class="main_wrap main_wrap_inner" >
+		<include file="Public:menu" />
+		<section class="content_wrap clearfix">
+          <div class="con_item">
+              <h2 class="con_item_tit clearfix">
+                  <em class="font18 ffyh fl">发&nbsp;&nbsp;信</em>
+                  <div class="c_tem_text fr">
+             		<p><a href="{:U('Home/Letter/index')}"><input class="updatabtn" value="返回" type="button" ></a> </p>
+                  </div>
+              </h2>
+              <div class="con_item_c">
+                  <div class="write_message_con clearfix">
+                      <div class="fl write_message_left">
+                          <form id="send_letter">
+                          <div class="write_table">
+                              <table width="100%">
+                                <tbody>
+                                  <tr>
+                                      <th valign="top">收&nbsp; 信 &nbsp;人：</th>
+                                      <td>
+                                      	<input class="baseInfor_input mess_write" type="text" name="to" id="to" value="{$member_name}" />
+                                      	<input id="to_id" type="hidden" value="" />
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <th valign="top">主　　题：</th>
+                                      <td>
+                                          <input class="baseInfor_input mess_write" type="text" name="email_title" id="email_title">
+                                          <div class="fj_con">
+                                              <p class="fj_bt">
+                                              <a class="file_a message_bt fj_file_bt" id="upload_file">
+                                              	<span>附件上传</span>
+                                                <input id="file_del" type="hidden" value="{:U('Home/Letter/del_file')}" />
+                                              </a>
+                                              </p>
+                                          </div>
+                                          <div style="display:none;width:610px;" id="fj_con_file">
+                                          	<ul class="clearfix wendang_down" id="file_from" style="padding-bottom:0px;"></ul>
+                                          </div>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <th valign="top">正　　文：</th>
+                                      <td><textarea class="baseInfor_input mess_write_con" name="content"></textarea></td>
+                                  </tr>
+                              </tbody>
+                             </table>
+                          </div>
+                          <div class="blod_js" style=" text-align:left; margin-left:65px;">
+                          	   <input id="send_letter_url" type="hidden" value="{:U('Home/Letter/send_letter_act')}" /> 
+                               <a class="znsq_bt" href="javascript:void(0);" id="send_act">发 送</a> 
+                          </div>
+                          </form>
+                      </div>	
+                      <div class="fr write_message_right">
+                          <div class="me_right_hd clearfix search_mes_name">
+                              <div class="fl ">
+                                  <div class="c_tem_text stuInfo_text">
+                                      <div class="c_tem_text_inner clearfix">									
+                                          <span class="fl">全部联系人</span><i class="icon fr"></i>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="c_tem_search  fr">
+                                  <i class="icon"></i>
+                                  <input class="search_text" value="联系人..." onFocus="if(this.value=='联系人...')this.value='';" type="text">
+                              </div>
+                          </div>
+                          <div class="me_right_hb me_right_hbContact">
+                              <ul>
+                              	  <volist name='contact' id="vo">
+                                  <li>
+                                      <a href="javascript:void(0);" class="select1" member_id="{$vo['contact_id']}" member_name="{$vo['contact_name']}">{$vo['contact_name']}</a>								
+                                  </li>
+                                  </volist>
+                              </ul>
+                          </div>
+                      </div>	
+                  </div>
+              </div>
+          </div>			
+		</section>
+        <include file="Public:footer" />
+	</section >
+<script type="text/javascript">
+var stu_uplode_file_url = "{:U('Home/Student/upload_StuFile_info',array('type'=>'file'))}";
+//附件上传
+KindEditor.ready(function(K) {
+	var editor = K.editor({
+		allowFileManager : false,
+		uploadJson:stu_uplode_file_url,
+	});
+	
+	K('#upload_file').click(function() {
+		editor.loadPlugin('insertfile', function() {
+			editor.plugin.fileDialog({
+				fileUrl : K('#url').val(),
+				clickFn : function(url, title) {
+					//点确定ajax提交
+					if(!title || title=='')
+					{
+						alert('请输入文件名称！');
+						return false;
+					}
+					else
+					{
+						var html='';
+						var url = url;
+						html+="<li>"+title+"：<input name='file_name[]' type='hidden' value='"+title+"'/><input name='file_path[]' type='hidden' value='"+url+"'/>";
+						html+="<a href='javascript:void(0);' class='file_a opacity8' style='margin-left:0px;' onclick=del_file('"+url+"');><span>删除</span></a>";
+						html+="</li>";
+						$("#file_from").append(html);
+						$("#fj_con_file").show();
+						editor.hideDialog();
+					}
+				}
+			});
+		});
+	});
+});
+
+$(".select1").click(function(){
+	 
+	var contact_id = $(this).attr('member_id');
+	var contact_name = $(this).attr('member_name');
+	
+	//给赋值
+	$("#to").val(contact_name);
+	$("#to_id").val(contact_id);
+	
+})
+
+</script>
+
+</body>
+</html>

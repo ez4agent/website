@@ -1,0 +1,39 @@
+<h3>{$name}用户</h3>
+<admin:panel >
+  <admin:form url="{:U()}" method="post" id="form"  class="m-form-horizontal" >
+    <admin:formrow title="用户组" tip="请选择用户组"  >
+      <select name="group_id" class="form-element">
+        <foreach name="groupList" item="vo"> <option value="{$vo.group_id}" 
+          <if condition="$groupId == $vo['group_id']"> selected="selected" </if>
+          >{$vo.name}
+          </option>
+        </foreach>
+      </select>
+    </admin:formrow>
+    <admin:formrow title="用户名/登录名" tip="用户登录帐号"  >
+      <admin:text name="username"  value="{$info.username}" len="20" datatype="*"  />
+    </admin:formrow>
+    <admin:formrow title="昵称" tip="用户姓名或昵称"  >
+      <admin:text name="nicename"  value="{$info.nicename}" len="20" datatype="*"  />
+    </admin:formrow>
+    <admin:formrow title="邮箱" tip="用于接受邮件通知"  >
+      <admin:text name="email"  value="{$info.email}" len="250" datatype="e"  />
+    </admin:formrow>
+    <admin:formrow title="密码" tip="请输入密码，不修改请留空"  >
+      <admin:text name="password" type="password" value="" len="250" />
+    </admin:formrow>
+    <admin:formrow title="重复密码" tip="重复刚才输入的密码"  >
+      <admin:text name="password2" type="password"  value="" len="250" />
+    </admin:formrow>
+    <admin:formrow title="用户状态" tip="禁用后该用户将无法登录"  >
+      <admin:radio name="status"  item="正常,禁用" value="1,0" checked="$info['status']" isset="1" />
+    </admin:formrow>
+    <admin:formsubmit/>
+    <admin:text name="user_id" type="hidden"  value="{$info.user_id}"  />
+  </admin:form>
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#form').duxForm();
+});
+</script> 

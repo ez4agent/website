@@ -1,0 +1,41 @@
+<h3>上传设置</h3>
+<admin:panel >
+  <admin:form url="{:U('upload')}" method="post" type="1" id="form" class="m-form-horizontal" >
+    <admin:formrow title="最大文件大小" tip="单位：M">
+      <admin:text name="upload_size" value="{$info.upload_size}" len="250" datatype="n"  width="small" />
+    </admin:formrow>
+    <admin:formrow title="上传文件格式" tip="请使用英文逗号分割格式" >
+      <admin:text name="upload_exts" value="{$info.upload_exts}" len="250" datatype="*" />
+    </admin:formrow>
+    <admin:formrow title="覆盖同名文件" tip="只对比文件名称">
+      <admin:radio name="upload_replace"  item="覆盖,不覆盖" value="1,0" checked="$info['upload_replace']" />
+    </admin:formrow>
+    <admin:formrow title="缩图开关" tip="开启后缩略图设置才会生效">
+      <admin:radio name="thumb_status"  item="开启,关闭" value="1,0" checked="$info['thumb_status']" />
+    </admin:formrow>
+    <admin:formrow title="水印开关" tip="开启后水印设置才会生效">
+      <admin:radio name="water_status"  item="开启,关闭" value="1,0" checked="$info['water_status']" />
+    </admin:formrow>
+    <admin:formrow title="缩图方式" tip="选择开启缩图后有效" >
+      <admin:select name="thumb_type" item="等比例缩放,缩放后填充,居中裁剪,左上角裁剪,右下角裁剪,固定尺寸缩放" value="1,2,3,4,5,6" selected="$info['thumb_type']" />
+    </admin:formrow>
+    <admin:formrow title="缩图宽度" tip="单位：像素" >
+      <admin:text name="thumb_width" value="{$info.thumb_width}" len="250" datatype="n" width="small"  />
+    </admin:formrow>
+    <admin:formrow title="缩图高度" tip="单位：像素">
+      <admin:text name="thumb_height"  value="{$info.thumb_height}" len="250" datatype="n" width="small" />
+    </admin:formrow>
+    <admin:formrow title="水印图片" tip="位于public/watermark下的图片文件">
+      <admin:text name="water_image"  value="{$info.water_image}" len="250"  datatype="*" />
+    </admin:formrow>
+    <admin:formrow title="水印位置" tip="选择开启缩图后有效">
+      <admin:select name="water_position"  item="左上角水印,上居中水印,右上角水印,左居中水印,居中水印,右居中水印,左下角水印,下居中水印,右下角水印" value="1,2,3,4,5,6,7,8,9" selected="$info['water_position']" />
+    </admin:formrow>
+    <admin:formsubmit/>
+  </admin:form>
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#form').duxForm();
+});
+</script>

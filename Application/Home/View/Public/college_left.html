@@ -1,0 +1,82 @@
+<!-- 院校左边 -->
+<div class="con_item">
+					<h2 class="con_item_tit clearfix">
+						<em class="font18 ffyh fl">院校分类</em>
+					</h2>
+					<div class="con_item_c">
+						
+						<div class="c_tem school_type">
+							<div class="c_tem_text stuInfo_text ">
+								<div class="c_tem_text_inner clearfix">									
+									<span class="fl">合作院校 </span><i class="icon fr active"></i>
+									
+								</div>								
+							</div>							
+						</div>
+						<div class="school_list_left school_left_ac" style=" display:block;">
+							<ul>
+                                <volist name="partner" id="vo">
+								<li>
+									<span>
+										<i><img src="{$vo['schoolbadge']}" alt="" height="30" width="30"></i>
+										<em>
+											<b class="font14">{$vo['cname']}</b>
+											<b class="font12">{$vo['ename']}</b>
+										</em>
+									</span>
+									<a href="{:U('Home/School/partner',array('partner_id'=>$vo['partner_id']))}" target="_blank">查	看</a>
+								</li>
+                                </volist>
+							</ul>
+						</div>
+                        <if condition="$flag neq 'apply'">
+						<div class="c_tem school_type">
+							<div class="c_tem_text stuInfo_text">
+								<div class="c_tem_text_inner clearfix">									
+									<span class="fl">已申请院校</span><i class="icon fr"></i>
+								</div>								
+							</div>							
+						</div>
+						<div class="school_list_left school_left_ac">
+							<ul>
+                            	<volist name="apply" id="vo">
+								<li>
+									<span>
+										<i><img src="{$vo['schoolbadge']}" alt="" height="30" width="30"></i>
+										<em>
+											<b class="font14">{$vo['cname']}</b>
+											<b>{$vo['ename']}</b>
+										</em>
+									</span>
+									<a href="{:U('Home/School/college_view',array('id'=>$vo['college_id']))}" target="_blank">查	看</a>
+								</li>
+								</volist>
+							</ul>
+						</div>
+						<div class="c_tem school_type">
+							<div class="c_tem_text stuInfo_text">
+								<div class="c_tem_text_inner clearfix">									
+									<span class="fl">查看过的院校</span><i class="icon fr"></i>
+								</div>								
+							</div>							
+						</div>
+						<div class="school_list_left school_left_ac">
+							<ul>
+								 <volist name="view" id="vo">
+								<li>
+									<span>
+										<i><img src="{$vo['schoolbadge']}" alt="" height="30" width="30"></i>
+										<em>
+											<b class="font14">{$vo['cname']}</b>
+											<b class="font12">{$vo['ename']}</b>
+										</em>
+									</span>
+									<a href="{:U('Home/School/college_view',array('id'=>$vo['college_id']))}" target="_blank">查	看</a>
+								</li>
+                                </volist>
+							</ul>
+						</div>
+                        </if>
+					</div>
+				</div>
+			</div>

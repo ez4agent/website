@@ -1,0 +1,42 @@
+<h3>回复</h3>
+<admin:panel >
+<admin:form url="{:U()}" method="post" id="form">
+  <admin:formrow title="院校名称："  >
+    {$info.college_name}
+  </admin:formrow>
+  <admin:formrow title="求助人："  >
+    {$info.member_name}
+  </admin:formrow>
+  <admin:formrow title="求助标题："  >
+    {$info.title}
+  </admin:formrow>
+  <admin:formrow title="详细内容："  >
+    {$info.content}
+  </admin:formrow>
+  <admin:formrow title="求助时间："  >
+    {$info.addtime|date="Y-m-d H:i:s",###}
+  </admin:formrow>
+  <if condition="$info['reply'] neq ''">
+      <admin:formrow title="回复内容："  >
+        {$info.reply}
+      </admin:formrow>
+       <admin:formrow title="回复时间："  >
+        {$info.reply_time|date="Y-m-d H:i:s",###}
+      </admin:formrow>
+  <else />
+   <admin:formrow title="回复："  >
+     <admin:textarea name="content" class="u-width-large1" rows="7"></admin:textarea>
+   </admin:formrow>
+   <admin:text name="id" type="hidden"  value="{$info.id}"  />
+  <admin:formsubmit/>
+  </if>
+</admin:form>
+</admin:panel>
+
+<script>
+Do.ready('base',function() {
+	$('#form').duxForm();
+});
+
+
+</script> 

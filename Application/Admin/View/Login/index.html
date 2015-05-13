@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>留学中介CRM系统</title>
+<meta name="keywords" content=""/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width"/>
+<link rel="stylesheet" href="__PUBLIC__/admin/css/base.css"/>
+<link rel="stylesheet" href="__PUBLIC__/admin/css/login.css"/>
+
+<style>
+body,html { background-image:url('__PUBLIC__/admin/images/m-login-bg.jpg'); background-size:cover;}
+</style>
+</head>
+<body>
+<div class="m-login">
+	<div class="login-head">留学中介CRM系统</div>
+	<form action="{:U('Admin/Login/index')}" method="post" id="form">
+		<div class="login-model">
+			<div class="row">
+				<input name="username"  type="text" class="login-user" id="username" value="" maxlength="30">
+			</div>
+			<div class="row row-b1">
+				<input class="login-pwd" name="password" id="password" type="password" value="" maxlength="30">
+			</div>
+		</div>
+		<div class="login-status"></div>
+		<div class="login-button">
+			<button class="u-login-btn" type="submit">登录</button>
+		</div>
+	</form>
+</div>
+</body>
+</html>

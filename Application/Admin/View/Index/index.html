@@ -1,0 +1,157 @@
+<div class="g-grid">
+  <div class="g-col-4-1">
+    <div class="m-panel s-panel-info">
+      <div class="panel-header">
+        <div class="f-cb">
+          <div class="f-fl"><i class="u-icon-th-list u-font-5x"></i></div>
+          <div class="f-fr f-tar">
+            <h3><?php echo D('Member/Member')->get_count(); ?></h3>
+            <p>会员总数</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="g-col-4-1">
+    <div class="m-panel s-panel-danger">
+      <div class="panel-header">
+        <div class="f-cb">
+          <div class="f-fl"> <i class="u-icon-file-text u-font-5x"></i> </div>
+          <div class="f-fr f-tar">
+            <h3><?php echo D('Stu/Stu')->get_count(); ?></h3>
+            <p>学员总数</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="g-col-4-1">
+    <div class="m-panel s-panel-success">
+      <div class="panel-header">
+        <div class="f-cb">
+          <div class="f-fl"> <i class="u-icon-tags u-font-5x"></i> </div>
+          <div class="f-fr f-tar">
+             <h3><?php echo D('Colleges/Colleges')->get_count(); ?></h3>
+            <p>院校总数</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--
+  <div class="g-col-4-1 g-col-last">
+    <div class="m-panel s-panel-warning">
+      <div class="panel-header">
+        <div class="f-cb">
+          <div class="f-fl"> <i class="u-icon-comments u-font-5x"></i> </div>
+          <div class="f-fr f-tar">
+            <h3></h3>
+            <p>碎片总数</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  -->
+</div>
+<div class="g-grid">
+  <div class="g-col-2-1">
+    <div class="m-panel">
+      <div class="panel-header"> <i class="u-icon-bars"></i> 环境信息 </div>
+      <div class="m-table-mobile">
+        <table class="m-table">
+          <tbody>
+            <tr>
+              <td>系统环境</td>
+              <td>{:PHP_OS}/<?php echo $_SERVER['SERVER_SOFTWARE'] ; ?></td>
+            </tr>
+            <tr>
+              <td>服务器地址:</td>
+              <td>{$_SERVER.SERVER_ADDR}:{$_SERVER.SERVER_PORT}</td>
+            </tr>
+            <tr>
+              <td>服务器时间</td>
+              <td>{:date('Y-m-d H:i:s')} {:date_default_timezone_get()}</td>
+            </tr>
+            <tr>
+              <td>脚本超时时间</td>
+              <td><?php echo get_cfg_var("max_execution_time") ; ?> 秒</td>
+            </tr>
+            <tr>
+              <td>上传大小</td>
+              <td><?php echo get_cfg_var("upload_max_filesize")?get_cfg_var("upload_max_filesize"):"不允许上传文件" ; ?></td>
+            </tr>
+            <tr>
+              <td>被屏蔽的函数:</td>
+              <td><?php echo get_cfg_var("disable_functions")?get_cfg_var("disable_functions"):"无" ; ?></td>
+            </tr>
+            <tr>
+              <td>URL路径：</td>
+              <td>__ROOT__/</td>
+            </tr>
+          <td>物理路径：</td>
+            <td>{:dirname(THINK_PATH)}</td>
+          </tr>
+            </tbody>
+          
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="g-col-2-1  g-col-last">
+    <div class="m-panel">
+      <div class="panel-header"> <i class="u-icon-bar-chart-o"></i> 程序信息 </div>
+      <div class="m-table-mobile">
+        <table class="m-table">
+          <tbody>
+            <tr>
+              <td>站点名称</td>
+              <td>{:C('SITE_TITLE')}</td>
+            </tr>
+            <tr>
+              <td>网站域名：</td>
+              <td><a href="http://<php>echo $_SERVER['HTTP_HOST'];</php>" target="_blank">http://<php>echo $_SERVER['HTTP_HOST'];</php></a></td>
+            </tr>
+            <tr>
+              <td>程序版本</td>
+              <td>1.0</td>
+            </tr>
+            <tr>
+              <td>最新版本</td>
+              <td>1.0</td>
+            </tr>
+            <tr>
+              <td>PHP版本</td>
+              <td>{:phpversion()}</td>
+            </tr>
+            <tr>
+              <td>数据驱动</td>
+              <td>{:C('DB_TYPE')}</td>
+            </tr>
+            <tr>
+              <td>附件上传目录：</td>
+              <td>{:APP_PATH}upload</td>
+            </tr>
+            <tr>
+              <td>站点工具</td>
+              <td><a href="javajscript:;" id="bom">清除BOM</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="m-panel">
+  <div class="panel-header"> <i class="u-icon-bar-chart-o"></i> 程序支持 </div>
+  <div class="m-table-mobile">
+    <table class="m-table">
+      <tbody>
+        <tr>
+          <td>开发者：邵玉龙</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+</div>

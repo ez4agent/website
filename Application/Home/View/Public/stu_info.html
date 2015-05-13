@@ -1,0 +1,67 @@
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/js/time/jquery.datetimepicker.css">
+<script type="text/javascript" src="__PUBLIC__/front/js/area.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/time/jquery.datetimepicker.js"></script>
+
+<div class="baseInfor" style="padding:20px 45px;">
+  <form id="stu_info">
+  <table width="100%" border="0" style=" border-collapse: collapse;">
+    <tbody>
+    <tr height="30px;">
+      <td width="50%" style=" font-size:12px"><span style="color:#F00">*</span>&nbsp;姓　　名：
+         <input class="baseInfor_input" id="xin" name="xin" value="姓氏" type="text" onFocus="if(this.value=='姓氏')this.value='';" onblur="if(this.value=='')this.value='姓氏';"/>
+         <input class="baseInfor_input" id="mingzi" name="mingzi" value="名字" type="text" onFocus="if(this.value=='名字')this.value='';" onblur="if(this.value=='')this.value='名字';"/>
+     </td>
+      <td width="50%"  style=" font-size:12px">&nbsp;&nbsp;姓名拼音：
+        <input class="baseInfor_input" id="xin_pinyin" name="xin_pinyin" type="text" value="" />
+        <input class="baseInfor_input" id="mingzi_pinyin" name="mingzi_pinyin" type="text" value="" />
+      </td>
+    </tr>
+    <tr height="30px;">
+      <td width="50%"  style=" font-size:12px"><span style="color:#F00">*</span>&nbsp;生　　日：
+      <input  name="birthday" type="text" id="birthday" class="baseInfor_input birthday_input" value="年/月/日" onFocus="if(this.value=='年/月/日')this.value='';"  />
+      </td>
+      <td width="50%"  style=" font-size:12px"><span style="color:#F00">*</span>&nbsp;性　　别：
+         <label><input name="sex" type="radio" checked value="1">&nbsp;男</label>&nbsp;
+         &nbsp;<label><input name="sex" type="radio" value="2">&nbsp;女</label>
+      </td>
+    </tr>
+    <tr height="30px;">
+      <td colspan="2"  style=" font-size:12px"><span style="color:#F00">*</span>&nbsp;所 &nbsp;在 &nbsp;地：
+        <select name="countryid" class="address_zhu" id="country_id">
+              <option value="">===请选择国家===</option>
+              <volist name='country' id="vo">
+                  <option value="{$vo['countryid']}" <if condition="$info['countryid'] eq $vo['countryid']">selected</if>>{$vo['name']}</option>
+              </volist>
+        </select>
+        <select name="areaid" class="address_zhu" id="area_id">
+              <option value="">===请选择省\州===</option>
+        </select>
+        <select name="cityid" class="address_zhu" id="city_id">
+              <option value="">===请选择城市===</option>
+        </select></td>
+    </tr>
+  </tbody>
+  </table>
+  <div class="bz_p" style="margin:5px 0 0 8px;">
+	<em>备　　注：</em>
+	<textarea class="baseInfor_input textarea" name="remark" id="remark"></textarea>
+  </div>
+  <div class="blod_js"> 
+      <input id="stu_id2" name="stu_id" type="hidden" value="" />
+      <input id="submit_url" type="hidden" value="{:U('Home/Student/save_Stuinfo')}"/>
+      <a href="javascript:void(0);" id="stu_submit" >添&nbsp;&nbsp;加</a> 
+  </div>
+  </form>
+</div>
+<script type="text/javascript">
+var area_url='/index.php?m=Home&c=Area&a=get_area';
+var city_url='/index.php?m=Home&c=Area&a=get_city';
+//时间
+$('#birthday').datetimepicker({
+	timepicker:false,
+	format:'Y/m/d',
+	formatDate:'Y/m/d',
+});
+</script>
+
+          

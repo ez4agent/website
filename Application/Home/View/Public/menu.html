@@ -1,0 +1,22 @@
+<!--公用栏目-->
+
+<section class="divMade head_wrap">
+    <div class="divMadeInner clearfix"> <a href="#">EZ4Agent</a> </div>
+</section>
+<nav class="nav_wrap">
+  <div class="nav_wrap_inner clearfix">
+    <ul class="clearfix">
+      <volist name="meun" id="vo">
+      <li <if condition="$vo['select'] eq 1"> class="active" </if>><a href="{$vo.url}" class="firstA">{$vo.name}</a> 
+           <notempty name="vo['child']">
+            <dl class="nav_dl4">
+                <volist name="vo['child']" id="vo1">
+                    <dd><a href="{$vo1.url}"><span>{$vo1.name}</span></a></dd>
+                </volist>
+            </dl>
+          </notempty>
+      </li>
+      </volist>
+    </ul>
+  </div>
+</nav>

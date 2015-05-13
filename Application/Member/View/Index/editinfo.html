@@ -1,0 +1,29 @@
+<h3>{$name}会员信息</h3>
+<admin:panel >
+<admin:form url="{:U()}" method="post" id="form"   class="m-form-horizontal">
+  <admin:formrow title="会员名称：" labelwidth="1" width="2" >
+    {$info.username}
+  </admin:formrow>
+  <admin:formrow title="密&nbsp;&nbsp;码：" tip="请输入密码，不修改请留空"  >
+      <admin:text name="pwd" type="password" value="" len="250" />
+  </admin:formrow>
+  <admin:formrow title="会员等级：" labelwidth="1" width="2" >
+       <select name="grade" class="form-element">
+          <option value="0">==请选择==</option>
+          <volist name='grade' id="vo">
+          <option value="{$vo.id}" <if condition="$info['grade'] eq $vo['id']">selected="selected" </if>>{$vo.gradename}</option>
+          </volist>
+       </select>
+  </admin:formrow>
+  <admin:formrow title="启用状态：" labelwidth="1" width="2" >
+    <admin:radio name="is_open"  item="启用,关闭" value="1,0" checked="$info['is_open']" isset="1" />
+  </admin:formrow>
+  <admin:formsubmit/>
+  <admin:text name="member_id" type="hidden"  value="{$info.member_id}"  />
+</admin:form>
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#form').duxForm();
+});
+</script> 

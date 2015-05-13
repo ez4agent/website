@@ -1,0 +1,115 @@
+﻿
+
+/*---------------------------*/
+body{ color:#444;}
+.icon{ background:url("../images/icon.png") no-repeat; display:inline-block;}
+.main_wrap{ width:100%; margin:0 auto; font-size:12px; position:relative; } 
+.divMade{ width:100%;}
+.divMadeInner{  margin:0 auto;}
+.head_top{ background:url("../images/login_head.png") repeat-x 0 0; height:99px; position:absolute; z-index:10;}
+.login_nav{ height:40px;  margin-top:16px; padding-left:34px; float:right;}
+.login_nav a{ display:inline-block; margin-right:34px; line-height:40px;}
+.login_nav a:hover,
+.login_nav a.active{ line-height:37px; border-bottom:3px solid #444444;}
+
+.banner_wrap{ width:100%; overflow:hidden; height:704px; position:relative;}
+.banner_wrap a{ display:block; position:absolute; z-index:2; left:50%; margin-left:-840px; top:0px;}
+.login_con{ width:500px;margin:0 auto; height:190px; position:relative; z-index:5;}
+.login_inner{  background:url("../images/p_login.gif") no-repeat center bottom; padding-bottom:35px; position:absolute; bottom:34px; z-index:10; width:500px; }
+.login_made{ background:url("../images/login_bg.png") repeat;  padding:1px; border-radius:5px;}
+.login_made_inner{background:#f9f9f9;background: -moz-linear-gradient(top,#f9f9f9,#f0f0f0); background:-webkit-linear-gradient(top,#f9f9f9,#f0f0f0);background:-o-linear-gradient(top,#f9f9f9,#f0f0f0);border-radius:5px; padding:40px 124px 40px; }
+.input_wrap{ width:250px; height:40px; background-color:#d3d3d3; border-radius:2px; box-shadow:1px 2px 2px #888888 inset; margin-bottom:14px; position:relative; }
+.input_wrap .login_input{ width:230px; height:40px; line-height:40px; padding:0 10px; border:none; background:none; position:absolute; z-index:15;}
+.input_wrap span{ display:block; position:absolute; z-index:14; font-family:"微软雅黑"; line-height:40px; font-size:14px; padding-left:10px; color:#666;}
+
+.regsiter_con{ width:616px;}
+.regsiter_con .login_inner{ width:616px;}
+.regsiter_con .login_made_inner{ padding:40px 78px 40px; font-size:14px; }
+.regsiter_con .login_made_inner h2{ background:url("../images/regsiter_line.gif") repeat-x 0 bottom; padding-bottom:6px;}
+.regsiter_con .login_made_inner ul{ padding-top:10px;}
+.regsiter_con .login_made_inner li{ padding-bottom:6px; line-height:30px;}
+.regsiter_con .login_made_inner .regsiter_input{ width:140px;line-height:22px; height:22px; background-color:#efefef; border-radius:2px; box-shadow:1px 2px 2px #888888 inset; border:none; padding:0 6px;}
+.regsiter_con .login_made_inner .input_name{ margin-left:2px;}
+.regsiter_con .login_made_inner em{ margin-right:2px; width:100px; float: left; text-align:right;}
+.regsiter_con .login_made_inner .reg_siter{background-color:#efefef; border-radius:2px; box-shadow:1px 2px 2px #888888 inset; border:none; width:105px;}
+.regsiter_con .login_made_inner .address{ width:290px;}
+.regsiter_con .login_made_inner .info{ height:46px; font-size:12px;}
+.regsiter_con .login_made_inner .info_text{ vertical-align:top;}
+.emailWrap h3{ 
+	background: -moz-linear-gradient(top,#ffffff,#dddddd); 
+	background:-webkit-linear-gradient(top,#ffffff,#dddddd);
+	background:-o-linear-gradient(top,#ffffff,#dddddd);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#dddddd', GradientType='1');
+    background: -ms-linear-gradient(top,#ffffff 0%,#dddddd 100%); /*IE*/
+	height:25px; 
+	border-radius:2px; 
+	line-height:25px; 
+	padding:0 6px;
+}
+.emailWrap{ padding-top:6px;}
+.emailWrap h3 em{ vertical-align:middle; }
+.emailWrap h3 .icon1{ background-position:0 -82px; width:14px; height:16px; vertical-align:middle;}
+.emailWrap h3 .icon2{ background-position:0 -105px; width:12px; height:7px; margin-top:8px; margin-right:10px; _display:inline; cursor:pointer;}
+.emailWrap ul{ padding:0 6px;}
+.regsiter_bt_wrap{ text-align:center; padding-top:16px;}
+
+.authen_tit{ background:url("../images/regsiter_line.gif") repeat-x 0 bottom; padding-bottom:10px; text-align:center;}
+.authen_con{ padding-top:18px;}
+.authen_con b{ font-size:12px; color:#999; display:block; padding-top:16px;}
+.authen_bt_wrap{ padding-top:80px; text-align:center;}
+.authen_bt_wrap a{ display:inline-block; border:1px solid #c2c2c2; background: -moz-linear-gradient(top,#ffffff,#dddddd); background:-webkit-linear-gradient(top,#ffffff,#dddddd);background:-o-linear-gradient(top,#ffffff,#dddddd); border-radius:2px; line-height:22px; padding:0 7px; box-shadow: 0 0 4px #d6d6d6; margin:0 6px;}
+.authen_bt_wrap a:hover{background: -moz-linear-gradient(top,#dddddd,#ffffff); background:-webkit-linear-gradient(top,#dddddd,#ffffff);background:-o-linear-gradient(top,#dddddd,#ffffff);}
+.authen_ts{background:url("../images/regsiter_line.gif") repeat-x 0 bottom; padding-bottom:10px; text-align:center; font-size:12px; padding-top:70px;}
+.authen_ts span{ color:#999;}
+.login_btwrap{ padding-top:38px;}
+.login_bt{ 
+	display:inline-block;
+	background: -moz-linear-gradient(top,#696969,#3a3a3a); 
+	background:-webkit-linear-gradient(top,#696969,#3a3a3a);
+	background:-o-linear-gradient(top,#696969,#3a3a3a);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#696969', endColorstr='#3a3a3a', GradientType='1');
+    background: -ms-linear-gradient(top,#696969 0%,#3a3a3a 100%); /*IE*/
+	color:#ccc; font-family:"微软雅黑";
+	font-size:16px; 
+	height:40px; 
+	line-height:40px; 
+	padding:0 40px; 
+	border:1px solid #a6a6a6; 
+	border-radius:4px; 
+	box-shadow:0 0 2px #d6d6d6;
+	cursor:pointer;
+}
+.login_bt:hover{background: -moz-linear-gradient(top,#3a3a3a,#696969); background:-webkit-linear-gradient(top,#3a3a3a,#696969);background:-o-linear-gradient(top,#3a3a3a,#696969); color:#ccc; }
+.regsiter_bt{  
+	display:inline-block; 
+	background: -moz-linear-gradient(top,#ffffff,#d7d7d7);
+	box-shadow:0 0 2px #d6d6d6;
+	background:-webkit-linear-gradient(top,#ffffff,#d7d7d7)
+	;background:-o-linear-gradient(top,#696969,#d7d7d7); 
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#d7d7d7', GradientType='1');
+    background: -ms-linear-gradient(top,#ffffff 0%,#d7d7d7 100%); /*IE*/
+	color:#4a4a4a; 
+	font-family:"微软雅黑"; 
+	font-size:16px; 
+	height:40px; 
+	line-height:40px; 
+	padding:0 40px; 
+	border:1px solid #c2c2c2; 
+	border-radius:4px;
+	margin-left:18px;
+}
+.regsiter_bt:hover{  background: -moz-linear-gradient(top,#d7d7d7,#ffffff); 
+background:-webkit-linear-gradient(top,#d7d7d7,#ffffff);background:-o-linear-gradient(top,#d7d7d7,#ffffff); color:#4a4a4a;}
+.wj_pwd{ text-align:right; padding-top:10px; }
+.wj_pwd a{ text-decoration:underline;}
+.bottom{ border-top:1px solid #cccccc; text-align:center; padding-top:24px; padding-bottom:52px;}
+.bottom em{ display:inline-block; vertical-align:middle; margin-right:26px;}
+.bottom .icon1 i{ background-position:0 0; width:32px; height:32px; vertical-align:middle;}
+.bottom em b{ vertical-align:middle; display:inline-block;}
+.bottom .icon2{ background:url("../images/foot_line.gif") no-repeat 0 center; padding-left:26px;}
+.bottom .icon2 i{ background-position:0 -38px; width:32px; height:32px; vertical-align:middle;}
+.copy{ padding-top:32px; color:#888;}
+
+
+
+

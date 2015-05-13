@@ -1,0 +1,24 @@
+<h3>会员等级列表</h3>
+<admin:panel >
+<admin:table id="table" show="编号|50,会员等级,免费学员位,子账户,状态,操作|190"  class="m-table-border">
+  <foreach name="list" item="vo">
+    <tr>
+      <td>{$vo.id}</td>
+      <td>{$vo.gradename}</td>
+      <td><font color="#FF0000">{$vo.free_stu}个</font></td>
+      <td><font color="#FF0000">{$vo.child_account}个</font></td>
+      <td><if condition="$vo['is_used']"> <span class="u-badge u-badge-success">启用</span>
+          <else />
+          <span class="u-badge u-badge-danger">关闭</span> </if></td>
+      <td><a class="u-btn u-btn-primary u-btn-small" href="{:U('editgrade',array('id'=>$vo['id']))}">修改</a> <a class="u-btn u-btn-danger u-btn-small del" href="javascript:;" data="{$vo.id}">删除</a></td>
+    </tr>
+  </foreach>
+</admin:table>
+</admin:panel>
+<script type="text/javascript">
+Do.ready('base',function() {
+	$('#table').duxTable({
+		deleteUrl: "{:U('delgrade')}"
+	});
+});
+</script>

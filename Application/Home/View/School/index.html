@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>院校管理--EZ4Agent</title>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/share.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/main.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/common.css">
+<script src="__PUBLIC__/js/jquery.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/common.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/gobal.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/school.js" type="text/javascript"></script>
+
+<!--[if lt IE 9]>
+    <script src="__PUBLIC__/js/html5.js"></script>
+<![endif]-->
+<style type="text/css">
+.page{
+ font-size:18px;
+}
+.page .current{
+ width:10px;
+ font-size:16px;
+ margin-left:5px;
+ padding:2px;
+ border:1px solid #000;
+}
+.page a{
+ min-width:10px;
+ font-size:16px;
+ margin-left:5px;
+ border:1px solid #d4d4d4;
+ 
+}
+</style>
+</head>
+
+<body>
+<section class="main_wrap main_wrap_inner">
+	<!--公用方法-->
+    <include file="Public:menu" />
+    <section class="content_wrap clearfix">
+    <!--左边-->
+    <div class="content_left fl">
+	<include file="Public:college_left" />
+	</div>			
+    <!--右边-->
+    <div class="content_right fr">
+				<div class="con_item">
+					<h2 class="con_item_tit clearfix"><em class="font18 ffyh">院校搜索</em>
+                    	<div class="c_tem_search school_search fr">
+                            <a href="javascript:void(0);" ><i class="icon" id='icon_search'></i></a>
+                            <input type="text" class="search_text" id="search_college_name" value="院校名称..." onFocus="if(this.value=='院校名称...')this.value='';"/>
+                        </div>
+                    </h2>                    
+					<div class="con_item_c clearfix">
+                    	<div class="select_school">
+							<ul>
+                            	<notempty name="select">
+								<li class="select_active">
+									<div>
+										<span>已&nbsp;&nbsp;选&nbsp;&nbsp;择：</span>
+										<volist name='select' id="vo">
+                                        <a href="javascript:void(0)"><em>{$vo['name']}</em><b onClick="del_search('{$vo['type']}');">x</b></a>&nbsp;
+										</volist>
+                                    </div>
+								</li>
+                                </notempty>
+                                <notempty name="country">
+								<li class="select_item2">
+									<div class="select_item">
+										<span>国&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;家：</span>
+                                        <foreach name="country" item="vo" key="k" >
+										<a href="javascript:void(0)" zimu="{$vo}" type="country"><span></span><b>{$vo}</b></a>
+                                        </foreach>
+									</div>
+								</li>
+                                </notempty>
+                                <notempty name="area">
+								<li class="select_item2">
+									<div class="select_item">
+										<span>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;区：</span>
+                                        <foreach name="area" item="vo" key="k" >
+                                        <a href="javascript:void(0)" zimu="{$vo}" type="area" country="{$country_id}"><span></span><b>{$vo}</b></a>
+										</foreach>
+                                    </div>
+								</li>
+                                </notempty>
+                                <notempty name='city'>
+								<li class="select_item2">
+									<div class="select_item">
+										<span>城&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;市：</span>
+                                        <foreach name="city" item="vo" key="k">
+										<a href="javascript:void(0)" zimu="{$vo}" type="city" area="{$area_id}" country="{$country_id}"><span></span><b>{$vo}</b></a>
+										</foreach>
+                                    </div>
+								</li>
+                                </notempty>
+                                <notempty name='education'>
+								<li>
+									<div class="select_item">
+										<span>学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;历：</span>
+										<foreach name="education" item="vo" key="k">
+                                        <a href="javascript:void(0)" education="{$vo['id']}" class="education" ><span></span><b>{$vo['name']}</b></a>
+                                        </foreach>
+									</div>
+								</li>
+                                 </notempty>
+							</ul>
+							<div class="select_ac_list">
+								<div class="select_ac_list_inner">
+								</div>								
+							</div>
+						</div>
+                        <div class="school_list_con school_list_consearch">
+							<ul class="clearfix">
+                            	<volist name='list' id="vo">
+                                <li>
+									<a href="{:U('Home/School/college_view',array('id'=>$vo['college_id']))}" title="查看" >
+										<if condition="$vo['schoolbadge'] neq ''">
+                                            <i class="sc_logo"> 
+                                            	<img src="{$vo['schoolbadge']}" width="56" height="56" alt="" />
+                                            </i>
+                                        <else />
+                                        	<i class="sc_logo"> 
+                                        		<img src="__PUBLIC__/front/images/schoolLogo.jpg" width="56" height="56" alt="" />
+                                        	</i>
+                                        </if>
+										<span>
+											<b class="font12">{$vo['cname']}</b>
+											<b class="s_en">{$vo['ename']}</b>
+										</span>
+									</a>
+								</li>
+                                </volist>
+							</ul>
+                            <div style="float:right; margin-right:38px; margin-bottom:20px;">{$page}</div>
+						</div>												
+					</div>					
+				</div>			
+			</div>
+    </section>
+    <include file="Public:footer" />
+</section>
+</body>
+</html>

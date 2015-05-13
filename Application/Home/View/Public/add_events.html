@@ -1,0 +1,118 @@
+<!--事件添加-->
+<div class="con_item">
+      <h2 class="con_item_tit clearfix"><em class="font18 ffyh">事件添加</em> </h2>
+      <div class="con_item_c clearfix">
+        <div class="">
+          <div class="add_school baseInfor">
+            <form id="events">
+            <table width="100%">
+              <tr>
+                <td>主　　题：<input type="text" class="baseInfor_input school_name"  style="width:510px;" name="title" id="title" />
+                <select name="communicate">
+					<option value="1">打电话</option>
+					<option value="2">面谈</option>
+					<option value="3">发短信</option>
+				</select>
+                </td>
+              </tr>
+              <tr>
+                <td>日　　期：<input name="date" id="date" type="text" class="baseInfor_input school_name"  style="width:112px;" 
+                			 onclick="new Calendar().show(this);" readonly="readonly"/>
+                    &nbsp;&nbsp;
+                    时　　间：<input id="time3" name="time" type="text" class="baseInfor_input school_name"  style="width:112px;" value="" />
+                  </td>
+              </tr>
+              <tr>
+                <td>学　　生：<select id="stu_id" name="stu_id" class="address_gj">
+                    			<option value="">==请选择==</option>
+                                <volist name='stu_list' id="vo">
+                                <option value='{$vo.stu_id}'>{$vo.stu_name}</option>
+                                </volist>			
+                  			</select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;优秀等级：<select id="" class="address_gj">
+                    			<option value="1">优秀</option> 
+                  			</select>
+               </td>
+              </tr>
+              <tr>
+                <td><p>内　　容：</p>
+                  <textarea id="content" name="content" class="baseInfor_input textarea_js" ></textarea></td>
+              </tr>
+            </table>
+            <input name="token" type="hidden" value="{$_TK['token']}" />
+            <input name="timeKey" type="hidden" value="{$_TK['timeKey']}" />
+            <input name="type" type="hidden" value="1" />
+            </form>
+            <div class="blod_js"> 
+            	<input id="events_url" type="hidden" value="{:U('Home/Schedule/add_events')}" />
+                <a href="javascript:void(0);" id="sub_events_act" >提  交</a> 
+            </div>
+            
+          </div>
+          <div class="c_tem message_rc">
+            <div class="c_tem_text fl"> <span>设置提醒</span> </div>
+            <i class="icon email_bt fr"></i> </div>
+          <div class="baseInfor">
+            <form id="set_reminder">
+            <table width="100%">
+              <tr>
+                <td>主　　题：<input id="title1" type="text" class="baseInfor_input school_name" style="width:510px;" name="title" />
+                  <select name="communicate">
+					<option value="1">打电话</option>
+					<option value="2">面谈</option>
+					<option value="3">发短信</option>
+				</select>
+                </td>
+              </tr>
+              <tr>
+                <td>日　　期：<input name="date" id="date1" type="text" class="baseInfor_input school_name"  style="width:112px;" 
+                			 onclick="new Calendar().show(this);" readonly="readonly" />
+                    &nbsp;&nbsp;
+                    时　　间：<input name="time" id="time2" type="text" class="baseInfor_input school_name"  style="width:112px;" value="" />
+                    </td>
+              </tr>
+              <tr>
+                <td>学　　生：<select id="stu_id1" name="stu_id" class="address_gj">
+                    <option value="" >==请选择==</option>
+                    <volist name='stu_list' id="vo">
+                    <option value='{$vo.stu_id}'>{$vo.stu_name}</option>
+                    </volist>
+                  </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;优秀等级：<select id="" class="address_gj">
+                    	<option value="1">优秀</option>
+                  </select></td>
+              </tr>
+              <tr>
+                <td><p>内　　容：</p>
+                  <textarea class="baseInfor_input textarea_js" name="content" ></textarea></td>
+              </tr>
+            </table>
+            <input name="token" type="hidden" value="{$_TK['token']}" />
+            <input name="timeKey" type="hidden" value="{$_TK['timeKey']}" />
+            <input name="type" type="hidden" value="2" />
+            </form> 
+            <div class="blod_js"> 
+            <input id="reminder_url" type="hidden" value="{:U('Home/Schedule/add_events')}" />
+            <a href="javascript:void(0);" id="sub_reminder_act">提  交</a> 
+            </div>
+            
+          </div>
+           
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+    //显示时间
+	window.onload = function () {
+		var datetime = $("#time2");
+		setInterval(function () {
+		var date = new Date();
+		datetime.val( date.getHours() + ':' + date.getMinutes());
+		}, 1000);
+		
+		var datetime1 = $("#time3");
+		setInterval(function () {
+		var date = new Date();
+		datetime1.val( date.getHours() + ':' + date.getMinutes());
+		}, 1000);
+    }
+    </script>
+<!--事件添加-->

@@ -1,0 +1,33 @@
+<h3>{$name}省/州</h3>
+<admin:panel >
+  <admin:form url="{:U()}" method="post" id="form"  class="m-form-horizontal" >
+    <admin:formrow title="所在国家：" tip="请选择国家"  >
+      <select name="countryid" class="form-element" id="countryid">
+        <foreach name="country" item="vo"> <option value="{$vo.countryid}" 
+          <if condition="$countryid == $vo['countryid']"> selected="selected" </if>
+          >{$vo.cname}({$vo.ename})
+          </option>
+        </foreach>
+      </select>
+    </admin:formrow>
+    <admin:formrow title="省/州中文名称：" tip="省/州中文名称"  >
+      <admin:text name="cname"  value="{$info.cname}" len="50" datatype="*"  />
+    </admin:formrow>
+    <admin:formrow title="省/州英文名称：" tip="省/州英文名称"  >
+      <admin:text name="ename"  value="{$info.ename}" len="50" datatype="*"  />
+    </admin:formrow>
+    <admin:formrow title="省/州首字母：" tip="省/州首字母"  >
+      <admin:text name="zimu"  value="{$info.zimu}" len="50" datatype="*"  />
+    </admin:formrow>
+    <admin:formsubmit/>
+    <admin:text name="aid" type="hidden"  value="{$info.aid}"  />
+  </admin:form>
+</admin:panel>
+<script type="text/javascript">
+Do.ready('base',function() {
+	$('#form').duxForm();
+});
+
+
+
+</script>

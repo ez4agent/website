@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>会员信息--EZ4Agent</title>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/share.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/main.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/common.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/message.css">
+<link rel="stylesheet" href="__PUBLIC__/js/keditor/themes/default/default.css" />
+<script src="__PUBLIC__/js/jquery.js" type="text/javascript"></script>
+<script type="text/javascript" src="__PUBLIC__/js/keditor/kindeditor.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/keditor/lang/zh_CN.js"></script>
+<script src="__PUBLIC__/front/js/common.js" type="text/javascript"></script>
+<!--地区三级联动-->
+<script src="__PUBLIC__/front/js/area.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/gobal.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/member.js" type="text/javascript"></script>
+<script type="text/javascript">
+	var area_url = "{:U('Home/area/get_area')}";
+	var city_url = "{:U('Home/area/get_city')}";
+	var email_url = "{:U('Home/Register/check_unique_Email')}";
+	var select_area_id = "{$info.area_id}";
+	var country_id = "{$info.country_id}";
+	var select_city_id="{$info.city_id}";
+	get_area(country_id,select_area_id);
+	get_city(select_area_id,select_city_id);
+</script>
+<!--[if lt IE 9]>
+    <script src="__PUBLIC__/js/html5.js"></script>
+<![endif]-->
+</head>
+
+<body>
+<section class="main_wrap main_wrap_inner">
+	<!--公用方法-->
+    <include file="Public:menu" />
+    <section class="content_wrap clearfix">
+    	<div class="con_item">
+    	<h2 class="con_item_tit clearfix">
+            <em class="font18 ffyh fl">用户信息</em>
+        </h2>
+        <div class="con_item_c">
+            <div class="c_tem message_rc">
+                <div class="c_tem_text fl">
+                    <span>基本信息</span>
+                </div>
+                <div class="c_tem_text fr" >
+                <p>
+                	<input id="upload_info" class="updatabtn" type="button" value="修 改">
+                </p>
+                </div>
+            </div>
+            <!--基本内容-->
+            <div class="baseInfor">
+            	<div id="view" style="display: block;" >
+                <table width="100%">
+                      <tbody>
+                      <tr>
+                        <td width="50%">类　　别：
+                            <strong><if condition="$info['member_type'] eq 1"> 企业 <elseif condition="$info['member_type'] eq 2" /> 个人 </if></strong>
+                        </td>
+                        <td>用 &nbsp;户&nbsp; 名：<strong>{$info['username']}</strong></td>
+                      </tr>
+                      <tr>
+                      	<td>地　　区：{$info['city_name']} , {$info['area_name']} , {$info['country_name']} </td>
+                        <td>&nbsp;</td>
+                      </tr>
+                      <tr>
+                      	<td>显　　示：<strong>
+                            <if condition="$info['is_show'] eq 1"> 
+                            <font color="#FF0000">对所有人显示</font>
+                            <elseif condition="$info['is_show'] eq 2" /> 
+                            <font color="#FF0000">对合作方显示</font>
+                            <else />
+                            <font color="#FF0000">不显示</font>
+                            </if>
+                            </strong>
+                        </td>
+                      </tr>
+                      <tr>
+                      	<td>企业名称：<strong><font color="#999999">{$info['company']}</font></strong></td>
+                        <td>联 &nbsp;系&nbsp; 人：<strong>{$info['contact']}</strong></td>
+                      </tr>
+                      <tr>
+                      	<td>固定电话：<if condition="$info['telephone'] neq ''"><strong>+</strong>{$info['telephone']}<else />--</if></td>
+                        <td>移动电话：<if condition="$info['mobile'] neq ''"><strong>+</strong>{$info['mobile']}<else />--</if></td>
+                      </tr>
+                      <tr>
+                      	<td>邮　　箱：{$info['email1']}</td>
+                        <td>地　　址：{$info['address']}</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2"><p>介　　绍：</p>
+                          <p style="font-size:12px; width:1050px; height:auto;word-break:break-all;overflow:auto;">{$info['introduction']}</p>
+                        </td>
+                      </tr>
+                    </tbody>
+                </table>
+                </div>
+                <div id="update"  style=" display:none;">
+                  <form id="member_info">
+                   <table width="100%">
+                    <tbody>
+                    <tr>
+                      <td width="50%">类　　别： <if condition="$info['member_type'] eq 1"> <strong>企业</strong> 
+                      <elseif condition="$info['member_type'] eq 2" /> <strong>个人</strong> </if>
+                      <input id="type" type="hidden" value="$info['member_type']" />
+                      </td>
+                      <td>用 &nbsp;户&nbsp; 名：<strong>{$info.username}</strong></td>
+                    </tr>
+                    <tr>
+                      <td>新 &nbsp;密&nbsp; 码：
+                        <input class="baseInfor_input birthday_input_stc" type="password" id="newpwd" name="newpwd">
+                      </td>
+                      <td>确认密码：
+                        <input class="baseInfor_input birthday_input_stc" type="password" id="confirmpwd" name="confirmpwd">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" height="60px">地　　区：
+                        <select name="country_id" class="address_gj" id="country_id">
+                          <option value="0">==请选择国家==</option>
+                          <volist name='country' id="vo">
+                              <option value="{$vo['countryid']}" <if condition="$info['country_id'] eq $vo['countryid']">selected</if> >{$vo['name']}</option>
+                          </volist>
+                        </select>
+                        &nbsp;省（州）：
+                        <select name="area_id" class="address_gj" id="area_id"><option value="0">==请选择省（州）==</option></select>
+                        &nbsp;城市：
+                        <select name="city_id" class="address_gj" id="city_id"><option value="0">==请选择城市==</option></select>
+                     </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" height="30px">显　　示：
+                      	<input name="is_show" type="radio" value="0" <if condition="$info['is_show'] eq 0"> checked </if> /> 不公开&nbsp;
+                        <input name="is_show" type="radio" value="1" <if condition="$info['is_show'] eq 1"> checked </if> /> 对所有人显示&nbsp;
+                        <input name="is_show" type="radio" value="2" <if condition="$info['is_show'] eq 2"> checked </if> /> 对合作方显示&nbsp;
+                      </td>
+                    </tr>
+                    <tr>
+                    	<td>企业名称： <strong><font color="#999999">{$info['company']}</font></strong></td>
+                        <td>联 &nbsp;系&nbsp; 人：<input class="baseInfor_input birthday_input_stc" type="text" id="contact" name="contact" value="{$info['contact']}" /></td>
+                    </tr>
+                    <tr>
+                      <td> 固定电话：<strong>+</strong>
+                        <if condition="$info['telephone'] neq ''">
+                        <input id="country_num_qiye" type="text" class="baseInfor_input birthday_input_stc" style="width:50px" name="country_num_qiye" value="{$info['telephone1'][0]}"/>-<input id="qu_num_qiye" type="text" class="baseInfor_input birthday_input_stc" style="width:50px" name="qu_num_qiye" value="{$info['telephone1'][1]}"/>-<input id="phone_qiye" type="text" class="baseInfor_input birthday_input_stc" style="width:150px" name="phone_qiye" value="{$info['telephone1'][2]}"/>
+                        <else />
+                        <input id="country_num_qiye" type="text" class="baseInfor_input birthday_input_stc" style="width:50px" name="country_num_qiye" value="国家编号"/>-
+                   		<input id="qu_num_qiye" type="text" class="baseInfor_input birthday_input_stc" style="width:50px" name="qu_num_qiye" value="区号"/>-
+                   		<input id="phone_qiye" type="text" class="baseInfor_input birthday_input_stc" style="width:150px" name="phone_qiye"/>
+                        </if>
+                      <td>移动电话：<strong>+</strong>
+                        <if condition="$info['mobile'] neq ''">
+                        <input id="country_num_qiye1" type="text" class="baseInfor_input birthday_input_stc" style="width:50px" name="country_num_qiye1" value="{$info['mobile1'][0]}"/>-<input id="moblie_num_qiye1" type="text"  class="baseInfor_input birthday_input_stc" style="width:220px" name="moblie_num_qiye1" value="{$info['mobile1'][1]}"/>
+                        <else />
+                        <input id="country_num_qiye1" type="text" class="baseInfor_input birthday_input_stc" style="width:50px" name="country_num_qiye1" value="国家编号"/>-
+                   		<input id="moblie_num_qiye1" type="text"  class="baseInfor_input birthday_input_stc" style="width:220px" name="moblie_num_qiye1"/>
+                        </if>
+                        </td>
+                    </tr>
+                    <tr>
+                    	<td>邮　　箱：<input class="baseInfor_input birthday_input_stc" type="text" id="email" name="email" value="{$info['email1']}"></td>
+                        <td>地　　址：<input class="baseInfor_input birthday_input_stc" type="text" id="address" name="address" value="{$info['address']}"></td>
+                    </tr>
+                    <tr>
+                      <td colspan="2"><p>介　　绍：</p>
+                        <textarea class="baseInfor_input textarea_js birthday_input_stt" name="introduction">{$info['introduction']}</textarea>
+                      </td>
+                    </tr>
+                    </tbody>
+                   </table>
+                   <div class="blod_js" style=" width:1025px;">
+                   <input id="set_info_url" type="hidden" value="{:U('Home/Member/save_MembeData',array('act'=>'info','member_id'=>$info['member_id']))}" />
+                   <a href="javascript:void(0);" id='set_info_act'>编&nbsp;&nbsp;&nbsp;&nbsp;辑</a>
+                   </div>
+                   </form>
+                  </div> 
+            </div>
+            <div class="c_tem message_rc">
+                <div class="c_tem_text fl">
+                    <span>实名认证</span>
+                </div>
+            	<div class="c_tem_text fr" >
+                <p style="padding-right:3px;">
+                	<input id="upload_file" class="updatabtn" type="button" value="上 传">
+                </p>
+                </div>       
+            </div>
+            <div class="baseInfor">
+            	<div class="yh_mp">
+                	<empty name="info['file']" >
+                	<div style="text-align:center"><strong>暂无附件请上传！</strong></div>
+                	<else />
+                	<ul class="clearfix">
+                      <volist name="info['file']" id="vo">
+                      <if condition="$vo['houzui'] neq 'pdf'">
+                      <li>
+                        <p class="mp_name">{$vo.filename}</p>
+                        <div class="mp_pic">
+                        	<div style="width:250px; height:150px; margin-top:46px;">
+                            <img src="Uploads{$vo.filepath}" width="250px" height="150px"/>
+                            </div>
+                        </div>
+                        <p class="mp_bt">
+                        	<a href="Uploads{$vo.filepath}" target="_blank" class="file_a message_bt"><span>查 看</span></a>　
+                        </p>
+                      </li>
+                      <else />
+                      <li>
+                        <p class="mp_name">{$vo.filename}</p>
+                        <div class="mp_pic">
+                        	<div style="width:200px; height:200px; margin: 25px 25px 25px 25px;">
+                            <img src="__PUBLIC__/front/images/1.png" width="220px" height="220px"/>
+                            </div>
+                        </div>
+                        <p class="mp_bt">
+                        	<a href="Uploads{$vo.filepath}" target="_blank" class="file_a message_bt"><span>查 看</span></a>　
+                        </p>
+                      </li>
+                      </if>
+                      </volist>
+                    </ul>
+                	</empty>
+                </div>
+            </div>
+        </div>
+    	</div>
+    </section>
+    <include file="Public:footer" />
+</section>
+<script type="text/javascript">
+//附件上传
+var stu_uplode_file_url = "{:U('Home/Member/upload_MemberFile',array('type'=>'file1'))}";
+//附件保存
+var mem_submit_file_url = "{:U('Home/Member/submit_file_url')}";
+var member_id ="{$info['member_id']}";
+//附件上传
+KindEditor.ready(function(K) {
+	var editor = K.editor({
+		allowFileManager : false,
+		uploadJson:stu_uplode_file_url,
+	});
+	
+	K('#upload_file').click(function() {
+		editor.loadPlugin('insertfile1', function() {
+			editor.plugin.fileDialog({
+				fileUrl : K('#url').val(),
+				clickFn : function(url, title) {
+					//点确定ajax提交
+					if(!title || title=='' || title==url)
+					{
+						alert('请输入文件名称！');
+						return false;
+					}
+					else
+					{
+						$.post(mem_submit_file_url,{url:url,title:title,member_id:member_id},function(data){
+							if(data.status=='yes')
+							{
+								editor.hideDialog();
+								window.location.reload();
+							}
+							else
+							{
+								alert(data.msg);
+								
+							}
+						},'json');	
+					}
+				}
+			});
+		});
+	});
+});
+
+
+
+</script>
+</body>
+</html>

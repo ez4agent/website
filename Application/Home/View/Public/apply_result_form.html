@@ -1,0 +1,37 @@
+<form id="result_form">
+<div class="add_school baseInfor" style="margin-top:5px;">
+  <table width="100%" style="font-size:12px">
+  <tbody>
+      <tr>
+          <td>
+          类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型：
+          <input name="status" type="radio" value="30" /> 有条件录取&nbsp;&nbsp;
+          <input name="status" type="radio" value="40" /> 无条件录取&nbsp;&nbsp;
+          <input name="status" type="radio" value="50" /> Offer更新&nbsp;&nbsp;
+          <input name="status" type="radio" value="99" /> 申请失败&nbsp;&nbsp;
+          </td>
+      </tr>
+      <tr>
+		<td><p style="padding-top:5px;">留　　言：</p>
+			<textarea class="baseInfor_input textarea_js" name="content"></textarea>
+		</td>
+	  </tr>
+      <tr>
+      	<td>
+        	<div style="margin-top:15px;">文&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;档：
+        		<a href="javascript:;" class="file_a1 opacity8" data_attr='apply_results' style="margin-left:0px;" ><span>上传文档</span></a>
+            </div>
+            <!--文档-->
+            <div id="apply_results_form" style="margin-top:5px;">
+            </div>
+        </td>
+      </tr>
+  </tbody>
+  </table>
+</div>
+<div class="blod_js">
+<input name="stu_apply_id" type="hidden" value="{$apply_info['stu_apply_id']}" />
+<input id="apply_result_url" type="hidden" value="{:U('Home/apply/apply_result')}" />
+<a href="javascript:;" id="apply_result_sub">提　　交</a>
+</div>
+</form>

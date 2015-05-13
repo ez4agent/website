@@ -1,0 +1,26 @@
+<h3>安全设置</h3>
+<admin:panel >
+  <admin:form url="{:U('shield')}" method="post" type="1" id="form" class="m-form-horizontal" >
+    <admin:formrow title="出错信息" tip="网站上线后建议关闭">
+      <admin:radio name="SHOW_ERROR_MSG"  item="开启,关闭" value="true,false" checked="$info['SHOW_ERROR_MSG']" />
+    </admin:formrow>
+    <admin:formrow title="日志记录" tip="记录网站出错日志">
+      <admin:radio name="LOG_RECORD"  item="开启,关闭" value="true,false" checked="$info['LOG_RECORD']" />
+    </admin:formrow>
+    <admin:formrow title="SQL执行日志" tip="用于性能调试与安全记录，一般不建议开启">
+      <admin:radio name="DB_SQL_LOG"  item="开启,关闭" value="true,false" checked="$info['DB_SQL_LOG']" />
+    </admin:formrow>
+    <admin:formrow title="加密KEY" tip="用户外部通讯的加密基准">
+      <admin:text name="SAFE_KEY" value="{$info.SAFE_KEY}" len="250" datatype="s" />
+    </admin:formrow>
+    <admin:formrow title="COOKIE前缀" tip="避免多个站点冲突">
+      <admin:text name="COOKIE_PREFIX" value="{$info.COOKIE_PREFIX}" len="250" datatype="s" />
+    </admin:formrow>
+    <admin:formsubmit/>
+  </admin:form>
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#form').duxForm();
+});
+</script>

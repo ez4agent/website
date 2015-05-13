@@ -1,0 +1,24 @@
+<h3>国家列表</h3>
+<admin:panel >
+<admin:table id="table" show="编号|50,中文名称,英文名称,首字母,操作|190"  class="m-table-border">
+  <foreach name="countryList" item="vo">
+    <tr>
+      <td>{$vo.countryid}</td>
+      <td>{$vo.cname}</td>
+      <td>{$vo.ename}</td>
+      <td>{$vo.zimu}</td>
+      <td>
+      	<a class="u-btn u-btn-primary u-btn-small" href="{:U('editcountry',array('countryid'=>$vo['countryid']))}">修改</a> 
+      	<a class="u-btn u-btn-primary u-btn-small" href="{:U('address',array('countryid'=>$vo['countryid']))}">查看省（州）</a> 
+      </td>
+    </tr>
+  </foreach>
+</admin:table>
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#table').duxTable({
+		
+	});
+});
+</script> 

@@ -1,0 +1,107 @@
+<h3>学院列表</h3>
+<admin:panel >
+  <admin:tabletool filter="true" keyword="{$keyword}">
+  		<select name="country_id" id="country_id" class="form-element">
+          	<option value="0">==国家==</option>
+            <volist name='country' id='vo'>
+            <option value="{$vo['countryid']}" >{$vo['name']}</option>
+           </volist>
+        </select>
+        <select name="area_id" id="area_id" class="form-element" >
+          	<option value="0">==州==</option>
+        </select>
+        <select name="city_id" id="city_id" class="form-element" >
+          	<option value="0">==城市==</option>
+        </select>
+  	<admin: />
+  </admin:tabletool>
+  <admin:table id="table" show="选择|30,编号|30,院校名称|150,所在地|80,院校类型|80,官网|150,求助|60,操作|80">
+     <foreach name="list" item="vo">
+     <tr>
+        <td><input type="checkbox" name="id[]" value="{$vo.college_id}" /></td>
+        <td>{$vo.college_id}</td>
+        <td>{$vo.cname}<br /><font color="#CCCCCC">{$vo.ename}</font></td>
+        <td>{$vo.city}<br /><font color="#CCCCCC">{$vo.country}</font></td>
+        <td><font color="#FF0000">{$vo.type_str}</font></td>
+        <td><a href="{$vo.website}" target="_blank">{$vo.website}</a></td>
+        <td><a href="{:U('help',array('college_id'=>$vo['college_id']))}"><font color="#FF0000">{$vo.num}</font></a></td>
+        <td>
+        <a class="u-btn u-btn-primary  u-btn-small" href="{:U('edit',array('college_id'=>$vo['college_id']))}">修改</a>
+        <a class="u-btn u-btn-danger  u-btn-small del" href="javascript:;" data="{$vo.college_id}">删除</a>
+        </td>
+     </tr>
+     </foreach>
+  </admin:table>
+  <admin:tablefoot action="true" item="删除" value="4" />
+</admin:panel>
+
+<script type="text/javascript" charset="utf-8">
+	Do.ready('base',function() {
+		
+		//表格处理
+		$('#table').duxTable({
+			actionUrl : "{:U('batchAction')}",
+			deleteUrl: "{:U('del')}",
+			actionParameter : function(){
+				return {'class_id' : $('#selectAction').next('#class_id').val()};
+			}
+		});
+		
+		//获取州信息
+	$('#country_id').change(function(){
+		$('#area_id').empty();
+		$('#city_id').empty();
+		$('#city_id').append('<option value="0">==请选择==</option>');
+		var country_id = $('#country_id').val();
+		get_area(country_id,0);
+	});
+	//获取城市信息
+	$('#area_id').change(function(){
+		$('#city_id').empty();
+		var area_id = $('#area_id').val();	
+		get_city(area_id,0);
+	});
+});
+
+/*获取地区 */
+function get_area(country_id,level,area_id)
+{
+	$.ajax({
+	   type: "POST",
+	   url: "{:U('Index/change_area')}",
+	   data: {country_id:country_id,area_id:area_id},
+	   dataType: "json",
+	   success: function(data){
+			if(data.status=='ok')
+			{
+				$("#area_id").append(data.info);
+			}
+			else
+			{
+				return false;
+			}
+	   }
+   });
+}
+
+/* 获取城市*/
+function get_city(pid,level,city_id)
+{
+	$.ajax({
+	   type: "POST",
+	   url: "{:U('Index/change_city')}",
+	   data: {pid:pid,city_id:city_id},
+	   dataType: "json",
+	   success: function(data){
+			if(data.status=='ok')
+			{
+				$("#city_id").append(data.info);
+			}
+			else
+			{
+				return false;
+			}
+	   }
+   });
+}
+</script>

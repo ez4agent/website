@@ -1,0 +1,32 @@
+<h3>学历列表</h3>
+<admin:panel >
+<admin:tabletool filter="true" keyword="{$keyword}">
+  <select name="country_id" class="form-element">
+    <option value="0">==国家==</option>
+    <foreach name="country" item="vo"> <option value="{$vo.countryid}" 
+      <if condition="$countyid == $vo['countryid']"> selected="selected" </if>
+      >{$vo.cname}
+      </option>
+    </foreach>
+  </select>
+</admin:tabletool>
+
+<admin:table id="table" show="编号|80,学历名称,所属国家,操作|130">
+  <foreach name="list" item="vo">
+    <tr>
+      <td>{$vo.id}</td>
+      <td>{$vo.ename}</td>
+      <td>{$vo.countryname}</td>
+      <td><a class="u-btn u-btn-primary u-btn-small" href="{:U('edit',array('id'=>$vo['id']))}">修改</a> <a class="u-btn u-btn-danger u-btn-small del" href="javascript:;" data="{$vo.id}">删除</a></td>
+    </tr>
+  </foreach>
+</admin:table>
+<admin:tablefoot action="false" />
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#table').duxTable({
+		deleteUrl: "{:U('del')}"
+	});
+});
+</script>

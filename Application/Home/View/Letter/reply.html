@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>查&nbsp;&nbsp;看--EZ4Agent</title>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/share.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/main.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/common.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/message.css">
+<link rel="stylesheet" href="__PUBLIC__/js/keditor/themes/default/default.css" />
+
+<script src="__PUBLIC__/js/jquery.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/keditor/kindeditor.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/keditor/lang/zh_CN.js"></script>
+<script src="__PUBLIC__/front/js/common.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/gobal.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/letter.js" type="text/javascript"></script>
+<!--[if lt IE 9]>
+    <script src="__PUBLIC__/js/html5.js"></script>
+<![endif]-->
+</head>
+<body>
+<section class="main_wrap main_wrap_inner" >
+	<include file="Public:menu" />
+    <section class="content_wrap clearfix">
+    <div class="con_item">
+    	<h2 class="con_item_tit clearfix">
+           <em class="font18 ffyh fl">查&nbsp;&nbsp;看/回&nbsp;&nbsp;复</em>
+        </h2>
+        <div class="con_item_c">
+            <div class="write_message_con clearfix">
+                <div style='width:100%; padding-bottom:20px;'>
+                <if condition="$info['from_uid'] neq 0">
+                 <form id="send_letter">
+                    <div class="write_table">
+                        <table width="100%">
+                          <tbody>
+                            <tr>
+                                <th valign="top">收&nbsp; 信 &nbsp;人：</th>
+                                <td>
+                                  <input class="baseInfor_input mess_write" type="text" name="to" id="to" value="{$info['from_username']}" />
+                                  <input id="to_id" type="hidden" value="{$info['from_uid']}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th valign="top">主　　题：</th>
+                                <td>
+                                	<if condition="$info['repay_id'] eq 0">
+                                    <input class="baseInfor_input mess_write" type="text" name="email_title" id="email_title" value="回复：{$info['title']}">
+                                    <else />
+                                    <input class="baseInfor_input mess_write" type="text" name="email_title" id="email_title" value="{$info['title']}">
+                                    </if>
+                                    <div class="fj_con">
+                                        <p class="fj_bt">
+                                        <a class="file_a message_bt fj_file_bt" id="upload_file">
+                                          <span>附件上传</span>
+                                        </a>
+                                        <input id="file_del" type="hidden" value="{:U('Home/Letter/del_file')}" />
+                                        </p>
+                                    </div>
+                                    <div style="display:none;width:610px;" id="fj_con_file">
+                                        <ul class="clearfix wendang_down" id="file_from" style="padding-bottom:0px;"></ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th valign="top">正　　文：</th>
+                                <td><textarea class="baseInfor_input mess_write_con" name="content" style="height:200px;"></textarea></td>
+                            </tr>
+                        </tbody>
+                       </table>
+                    </div>
+                    <div class="blod_js" style=" text-align:left; margin-left:65px;">
+                         <input id="send_letter_url" type="hidden" value="{:U('Home/Letter/send_letter_act')}" />
+                         <input name="status" type="hidden" value="2" />
+                         
+                         <if condition="$info['repay_id'] eq 0">
+                         <input name="repay_id" type="hidden" value="{$info['mid']}" /> 
+                         <else />
+                         <input name="repay_id" type="hidden" value="{$info['repay_id']}" /> 
+                         </if>
+                         <a class="znsq_bt" href="javascript:void(0);" id="send_act">回 复</a> 
+                    </div>
+                </form>
+                </if>
+                <div style="FONT-SIZE: 12px; border-bottom: 1px solid #a9c0df; background: none repeat scroll 0 0 #e7edf9; PADDING-BOTTOM: 8px; PADDING-TOP: 8px; PADDING-LEFT: 8px; PADDING-RIGHT:8px; margin-right:30px;">
+                	<div><b>发件人：</b>"{$info['from_username']}";</div>
+                    <div><b>发送时间：</b>{$info['date']|date='Y-m-d H:i:s',###}</div>
+                    <div><b>收件人：</b>"{$info['to_username']}"<wbr></wbr></div>
+                    <div><b>主题：</b>{$info['title']}</div>
+                </div>
+                <div style=" margin-top:20px; margin-left:10px; margin-bottom:20px; margin-right:20px;">
+                <!--正文-->
+                <div style="width:1050px; height:auto;word-break:break-all;overflow:auto;">{$info['content']}</div>
+                <!--正文-->
+                <if condition="$info['file'] neq '' ">
+                <div style="margin-top:15px;"><strong>查看附件：</strong>
+                	<volist name="info['file']" id="vo">
+                	{$vo['file_name']}: <a href="Uploads{$vo['file_path']}" class="file_a opacity8" target="_blank">查看/下载</a>&nbsp;&nbsp;
+                    </volist>
+                </div>
+                </if>
+                </div>
+                
+                <!--之前站内信记录-->
+                <if condition="$info['repay_email_info'] neq ''">
+                <volist name="info['repay_email_info']" id="vo1">
+                    <div style="FONT-SIZE: 12px; PADDING-BOTTOM: 2px; PADDING-TOP: 2px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; margin-right:20px;">
+                    ------------------ 原始站内信 ------------------
+                    </div>
+                    <div style="FONT-SIZE: 12px; BACKGROUND: #efefef; PADDING-BOTTOM: 8px; PADDING-TOP: 8px; PADDING-LEFT: 8px; PADDING-RIGHT:8px; margin-right:30px;">
+                        <div><b>发件人：</b>"{$vo1['from_username']}";</div>
+                        <div><b>发送时间：</b>{$vo1['date']|date="Y-m-d H:i:s",###}</div>
+                        <div><b>收件人：</b>"{$vo1['to_username']}"<wbr></wbr></div>
+                        <div><b>主题：</b>{$vo1['title']}</div>
+                    </div>
+                    <div style=" margin-top:20px; margin-left:10px; margin-bottom:20px">
+                     	<div style="width:1050px; height:auto;word-break:break-all;overflow:auto;">{$vo1['content']}</div>
+                    <!--正文-->
+                    <if condition="$vo1['file'] neq '' ">
+                    <div style="margin-top:15px;"><strong>查看附件：</strong>
+                        <volist name="vo1['file']" id="vo2">
+                        {$vo2['file_name']}: <a href="Uploads{$vo2['file_path']}" class="file_a opacity8" target="_blank">查看/下载</a>&nbsp;&nbsp;
+                        </volist>
+                    </div>
+                    </if>
+                    </div>
+                </volist>
+                </if>
+                <!--站内信-->
+                
+                </div>
+            </div>
+    	</div>
+    </div>
+    </section>
+    <include file="Public:footer" />
+</section>
+<script type="text/javascript">
+var stu_uplode_file_url = "{:U('Home/Student/upload_StuFile_info',array('type'=>'file'))}";
+//附件上传
+KindEditor.ready(function(K) {
+	var editor = K.editor({
+		allowFileManager : false,
+		uploadJson:stu_uplode_file_url,
+	});
+	
+	K('#upload_file').click(function() {
+		editor.loadPlugin('insertfile', function() {
+			editor.plugin.fileDialog({
+				fileUrl : K('#url').val(),
+				clickFn : function(url, title) {
+					//点确定ajax提交
+					if(!title || title=='')
+					{
+						alert('请输入文件名称！');
+						return false;
+					}
+					else
+					{
+						var html='';
+						var url = url;
+						html+="<li>"+title+"：<input name='file_name[]' type='hidden' value='"+title+"'/><input name='file_path[]' type='hidden' value='"+url+"'/>";
+						html+="<a href='javascript:void(0);' class='file_a opacity8' style='margin-left:0px;' onclick=del_file('"+url+"');><span>删除</span></a>";
+						html+="</li>";
+						$("#file_from").append(html);
+						$("#fj_con_file").show();
+						editor.hideDialog();
+					}
+				}
+			});
+		});
+	});
+});
+
+
+</script>
+</body>
+</html>

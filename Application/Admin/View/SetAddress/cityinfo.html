@@ -1,0 +1,66 @@
+<h3>{$name}城市</h3>
+<admin:panel >
+  <admin:form url="{:U()}" method="post" id="form"  class="m-form-horizontal" >
+    <admin:formrow title="所在国家：" tip="请选择国家"  >
+      <select name="countryid" class="form-element" id="countryid">
+        <foreach name="country" item="vo"> <option value="{$vo.countryid}" 
+          <if condition="$countryid == $vo['countryid']"> selected="selected" </if>
+          >{$vo.cname}({$vo.ename})
+          </option>
+        </foreach>
+      </select>
+    </admin:formrow>
+    <admin:formrow title="所在州/省：" tip="请选择州/省"  >
+      <select name="area_id" class="form-element" id="areaid">
+        <option value="0">===请选择省（州）===</option>
+      </select>
+    </admin:formrow>
+    <admin:formrow title="城市中文名称：" tip="城市中文名称"  >
+      <admin:text name="cname"  value="{$info.cname}" len="50" datatype="*"  />
+    </admin:formrow>
+    <admin:formrow title="城市英文名称：" tip="城市英文名称"  >
+      <admin:text name="ename"  value="{$info.ename}" len="50" datatype="*"  />
+    </admin:formrow>
+    <admin:formrow title="城市首字母：" tip="城市首字母"  >
+      <admin:text name="zimu"  value="{$info.zimu}" len="50" datatype="*"  />
+    </admin:formrow>
+    <admin:formsubmit/>
+    <admin:text name="cid" type="hidden"  value="{$info.cid}"  />
+  </admin:form>
+</admin:panel>
+<script type="text/javascript">
+Do.ready('base',function() {
+	var countryid = "{$info['countryid']}";
+	var areaid = "{$info['area_id']}";
+	get_option(countryid,areaid);
+	
+	$("#countryid").change(function(){
+		var country_id = $("#countryid").val();							
+		get_option(country_id,0);								
+	});					 
+						 
+	$('#form').duxForm();
+});
+
+
+function get_option(country_id,area_id)
+{
+	if(country_id)
+	{
+		$.post("{:U('SetAddress/getArea')}", { country_id: country_id, area_id: area_id },function(data){
+   		
+			if(data.status='ok')
+			{
+				$("#areaid").empty();
+				$("#areaid").append(data.info);
+			}
+			else
+			{
+				return false;
+			}
+		}, "json");
+	}
+}
+
+
+</script>

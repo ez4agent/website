@@ -1,0 +1,23 @@
+<h3>{$name}国家</h3>
+<admin:panel >
+<admin:form url="{:U()}" method="post" id="form"   class="m-form-horizontal">
+  <admin:formrow title="国家中文名称" tip="国家中文名称" labelwidth="1" width="2" >
+    <admin:text name="cname"  value="{$info.cname}" len="250" datatype="*"  />
+  </admin:formrow>
+  <admin:formrow title="首字母" tip="国家首字母" labelwidth="1" width="2" >
+    <admin:text name="zimu"  value="{$info.zimu}" len="250" datatype="*"  />
+  </admin:formrow>
+ <admin:formrow title="国家英文名称" tip="国家英文名称" labelwidth="1" width="2" >
+    <admin:text name="ename"  value="{$info.ename}" len="250" datatype="*"  />
+  </admin:formrow>
+  <admin:formsubmit/>
+  <admin:text name="countryid" type="hidden"  value="{$info.countryid}"  />
+</admin:form>
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#form').duxForm();
+});
+
+
+</script> 

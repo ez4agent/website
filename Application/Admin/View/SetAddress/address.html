@@ -1,0 +1,35 @@
+<h3>州/省列表</h3>
+<admin:panel >
+<admin:tabletool filter="true" keyword="{$keyword}">
+  <select name="countryid" class="form-element">
+    <option value="0">==国家==</option>
+    <foreach name="country" item="vo"> <option value="{$vo.countryid}" 
+      <if condition="$countryid == $vo['countryid']"> selected="selected" </if>
+      >{$vo.cname}({$vo.ename})
+      </option>
+    </foreach>
+  </select>
+</admin:tabletool>
+
+  <admin:table id="table" show="编号|80,中文名称,英文名称,首字母,所在国家,操作|130"  class="m-table-border">
+    <foreach name="list" item="vo">
+      <tr>
+      	<td>{$vo.aid}</td>
+        <td>{$vo.cname} </td>
+        <td>{$vo.ename}</td>
+        <td>{$vo.zimu}</td>
+        <td>{$vo.countryname}</td>
+        <td>
+        <a class="u-btn u-btn-primary u-btn-small" href="{:U('SetAddress/edit',array('aid'=>$vo['aid']))}">修改</a>
+        <a class="u-btn u-btn-primary u-btn-small" href="{:U('city',array('area_id'=>$vo['aid']))}">查看城市</a>
+        </td>
+      </tr>
+    </foreach>
+  </admin:table>
+   <admin:tablefoot />
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#table').duxTable({});
+});
+</script>
