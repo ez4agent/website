@@ -6,23 +6,49 @@ body{ color:#444;}
 .main_wrap{ width:100%; margin:0 auto; font-size:12px; position:relative; } 
 .divMade{ width:100%;}
 .divMadeInner{  margin:0 auto;}
-.head_top{ background:url("../images/login_head.png") repeat-x 0 0; height:99px; position:absolute; z-index:10;}
-.login_nav{ height:40px;  margin-top:16px; padding-left:34px; float:right;}
+.head_top{ background:url("../images/login_head.png") repeat-x 0 -25px; height:60px; position:absolute; z-index:10;}
+.login_nav{ line-height: 58px; padding-left:34px; float:right;}
 .login_nav a{ display:inline-block; margin-right:34px; line-height:40px;}
 .login_nav a:hover,
 .login_nav a.active{ line-height:37px; border-bottom:3px solid #444444;}
 
-.banner_wrap{ width:100%; overflow:hidden; height:704px; position:relative;}
-.banner_wrap a{ display:block; position:absolute; z-index:2; left:50%; margin-left:-840px; top:0px;}
-.login_con{ width:500px;margin:0 auto; height:190px; position:relative; z-index:5;}
-.login_inner{  background:url("../images/p_login.gif") no-repeat center bottom; padding-bottom:35px; position:absolute; bottom:34px; z-index:10; width:500px; }
+.banner_wrap{ width:100%; overflow:hidden;  height: 675px;position:relative;}
+.banner_wrap .banner_inner{ display:block; position:absolute; z-index:2; left:50%; margin-left:-840px; top:0px;}
+
+.banner_box{  background: url("../images/p_login.gif") no-repeat scroll center bottom rgba(0, 0, 0, 0);
+    position: absolute;
+    top: 20%;
+    width: 600px;
+    z-index: 10;left: 50%;
+    margin-left: -300px;}
+.banner_box_inner{
+	background:#f9f9f9;background: -moz-linear-gradient(top,#f9f9f9,#f0f0f0); 
+	background:-webkit-linear-gradient(top,#f9f9f9,#f0f0f0);background:-o-linear-gradient(top,#f9f9f9,#f0f0f0);
+	border-radius:5px;  padding: 40px 20px;
+}
+.banner_box_inner h2{ background:url("../images/regsiter_line.gif") repeat-x 0 bottom; padding-bottom:6px;font-size: 16px;}
+.banner_box_inner p{
+margin: 0px auto; padding: 5px; line-height: 25px; text-indent: 2em; font-size: 14px;
+}
+.banner_box_inner p label{
+	float: left; 
+	width: 100px; display: block;text-align: right; 
+}
+.login_con{ width:500px;margin:0 auto; /*height:190px; position:absolute; z-index:5;*/}
+.login_inner{  background:url("../images/p_login.gif") no-repeat center bottom; /*padding-bottom:35px;*/ position:absolute; top:30%; z-index:10; width:500px; }
 .login_made{ background:url("../images/login_bg.png") repeat;  padding:1px; border-radius:5px;}
 .login_made_inner{background:#f9f9f9;background: -moz-linear-gradient(top,#f9f9f9,#f0f0f0); background:-webkit-linear-gradient(top,#f9f9f9,#f0f0f0);background:-o-linear-gradient(top,#f9f9f9,#f0f0f0);border-radius:5px; padding:40px 124px 40px; }
 .input_wrap{ width:250px; height:40px; background-color:#d3d3d3; border-radius:2px; box-shadow:1px 2px 2px #888888 inset; margin-bottom:14px; position:relative; }
 .input_wrap .login_input{ width:230px; height:40px; line-height:40px; padding:0 10px; border:none; background:none; position:absolute; z-index:15;}
 .input_wrap span{ display:block; position:absolute; z-index:14; font-family:"微软雅黑"; line-height:40px; font-size:14px; padding-left:10px; color:#666;}
 
-.regsiter_con{ width:616px;}
+.regsiter_con{ height: 100px; position: relative; }
+.register_inner{    left: 50%;
+    margin-left: -300px;
+    position: absolute;
+    top: -570px;
+    width: 600px;
+    z-index: 11;}
 .regsiter_con .login_inner{ width:616px;}
 .regsiter_con .login_made_inner{ padding:40px 78px 40px; font-size:14px; }
 .regsiter_con .login_made_inner h2{ background:url("../images/regsiter_line.gif") repeat-x 0 bottom; padding-bottom:6px;}
@@ -102,13 +128,14 @@ body{ color:#444;}
 background:-webkit-linear-gradient(top,#d7d7d7,#ffffff);background:-o-linear-gradient(top,#d7d7d7,#ffffff); color:#4a4a4a;}
 .wj_pwd{ text-align:right; padding-top:10px; }
 .wj_pwd a{ text-decoration:underline;}
-.bottom{ border-top:1px solid #cccccc; text-align:center; padding-top:24px; padding-bottom:52px;}
+.bottom{ border-top:1px solid #cccccc; text-align:center; }
+.bottom .inner{  padding:15px 0; }
 .bottom em{ display:inline-block; vertical-align:middle; margin-right:26px;}
 .bottom .icon1 i{ background-position:0 0; width:32px; height:32px; vertical-align:middle;}
 .bottom em b{ vertical-align:middle; display:inline-block;}
 .bottom .icon2{ background:url("../images/foot_line.gif") no-repeat 0 center; padding-left:26px;}
 .bottom .icon2 i{ background-position:0 -38px; width:32px; height:32px; vertical-align:middle;}
-.copy{ padding-top:32px; color:#888;}
+.copy{ padding-top:15px; color:#888;}
 
 
 

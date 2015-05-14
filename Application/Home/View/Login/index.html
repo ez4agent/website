@@ -14,11 +14,12 @@
 <body>
 
 <section class="main_wrap">
-	<include file="Public:login-header" />				
-    <section class="login_con">
+	<include file="Public:login-header" />	
+  <section class="banner_wrap">
+    <div class="login_con">
       <div class="login_inner">
           <div class="login_made">
-          <form id="form1">
+          <form id="login_form">
             <div class="login_made_inner">
               <div class="input_wrap">
                 <input id="username" name="username" value="" type="text" class="login_input" autocomplete="off"/>
@@ -38,13 +39,24 @@
           </form>
           </div>
        </div>
-      </section>   
+      </div>
+      <div class="banner_inner"><img src="__PUBLIC__/front/images/bannerImg.jpg" width="1680" height="704" alt="" /></div>
+    </section>      
 	<include file="Public:footer" />		
 </section>
 <script type="text/javascript">
 
 $(document).ready(function(){
-						   
+
+
+ $("#login_form").keydown(function(e){
+   var e = e || event,
+   keycode = e.which || e.keyCode;
+   if (keycode==13) {
+      $("#submit_login").trigger("click");
+   }
+});
+				   
 	//验证登陆
 	$('#submit_login').click(function(){
 				

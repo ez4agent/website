@@ -16,8 +16,11 @@
 <body>
 <section class="main_wrap">
 	<include file="Public:login-header" />
-    <section class="login_con regsiter_con">
-    <div class="login_inner">
+  <section class="banner_wrap">
+    <div class="banner_inner"><img src="__PUBLIC__/front/images/bannerImg.jpg" width="1680" height="704" alt="" /></div>
+  </section>
+  <section class="regsiter_con">
+    <div class="register_inner">
         <div class="login_made">
             <div class="login_made_inner">
                 <h2>用户信息</h2>
@@ -52,8 +55,8 @@
                         </select>
                 </li>
                 <li class="clearfix">
-                	<em><span style="color:#ff0000; margin-right:3px;">*</span>以下信息：</em>
-					<label><input type="radio" name="is_show"  value="0" />&nbsp;不公开</label> &nbsp;&nbsp;                  
+                  <em><span style="color:#ff0000; margin-right:3px;">*</span>以下信息：</em>
+          <label><input type="radio" name="is_show"  value="0" />&nbsp;不公开</label> &nbsp;&nbsp;                  
                     <label><input type="radio" name="is_show"  value="2" checked />&nbsp;仅对合作方显示</label> &nbsp;&nbsp;
                     <label><input type="radio" name="is_show"  value="1" />&nbsp;对所有人显示</label>　
                       
@@ -118,7 +121,7 @@
             </div>
         </div>
     </div>
-    </section>
+  </section>
 	<include file="Public:footer" />
 </section>
 <script type="text/javascript">
