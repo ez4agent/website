@@ -4,9 +4,9 @@
  *  CRM注册页面 
  */
 namespace Home\Controller;
-use Think\Controller;
+use Common\Controller\BaseController;
 
-class RegisterController extends Controller
+class RegisterController extends BaseController
 {
     var $member_mod;
     
@@ -37,14 +37,83 @@ class RegisterController extends Controller
     {
         if(IS_AJAX)
         {
+            $username = isset($_POST['username']) ? trim($_POST['username']): '';
+            $pwd = isset($_POST['username']) ? trim($_POST['pwd']): '';
+            $pwd_confirm = isset($_POST['pwd_confirm']) ? trim($_POST['pwd_confirm']): '';
+            $company = isset($_POST['company']) ? trim($_POST['company']): '';
+            $contact = isset($_POST['contact']) ? trim($_POST['contact']): '';
+            $email = isset($_POST['email']) ? trim($_POST['email']): '';
+
+            $member_type = isset($_POST['member_type']) && $_POST['member_type'] == 2 ? intval($_POST['member_type']): 1;
+            $country_id = isset($_POST['country_id']) ? intval($_POST['country_id']): 0;
+            $area_id = isset($_POST['area_id']) ? intval($_POST['area_id']): 0;
+            $city_id = isset($_POST['city_id']) ? intval($_POST['city_id']): 0;
+            $is_show = isset($_POST['is_show']) && in_array($_POST['is_show'],array(0,1,2)) ? intval($_POST['is_show']): 0;
+
+            $country_num = isset($_POST['country_num']) ? trim($_POST['country_num']): '';
+            $qu_num = isset($_POST['qu_num']) ? trim($_POST['qu_num']): '';
+            $phone = isset($_POST['phone']) ? trim($_POST['phone']): '';
+
+            $mobile_country_num = isset($_POST['mobile_country_num']) ? trim($_POST['mobile_country_num']): '';
+            $mobile_num = isset($_POST['mobile_num']) ? trim($_POST['mobile_num']): '';
+            $address = isset($_POST['address']) ? trim($_POST['address']): '';
+
+            $introduction = isset($_POST['introduction']) ? trim($_POST['introduction']): '';
+
+
+            $errors = array();
+
+            if(!$username || preg_match('/^\s*$|^c:\\con\\con$|[%,\*\"\s\t\<\>\&\'\(\)]|\xA1\xA1|\xAC\xA3|^Guest|^\xD3\xCE\xBF\xCD|\xB9\x43\xAB\xC8/is',$username)){
+                $errors[] = array('message'=>'用户名包含非法字符','label' => 'username');
+            }else if(!preg_match('/^[a-zA-Z][wd_]{5,19}/',$username)){ 
+                $errors[] = array('message'=>'只允许6-20位字母数字和下划线组成','label' => 'username');
+            }else if(!checkfield('member', 'username', $username)){
+                $errors[] = array('message'=>'该用户名已被注册','label' => 'username');
+            }
+
+            if (empty($pwd) || strlen($pwd) < 6 || strlen($pwd) > 15){
+                $errors[] = array('message'=>'密码应该大于6位小于15位','label' => 'pwd');
+            }else if ($pwd_confirm != $pwd){
+                $errors[] = array('message'=>'二次确认密码不一致','label' => 'pwd');
+            }
+
+            if(!checkfield('member_info','email1',$email)) {
+                $errors[] = array('message'=>'该邮箱已被注册','label' => 'email');
+            }
+
+            if(empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)!==false){
+                $errors[] = array('message'=>'邮箱地址格式不正确','label' => 'email');
+            }
+
+            if(!empty($errors)){
+                $this->ajaxReturn(array('error'=>101,'response'=>$errors));
+            }
+
+
+            $member_data = array(
+                'username'=> $username,
+                'pwd'=>$pwd,
+                'member_type'=>$member_type,
+                'company'=>htmlspecialchars($company),
+                'contact'=>htmlspecialchars($contact),
+                'telephone'=>$country_num.'-'.$qu_num.'-'.$phone,
+                'mobile' => $mobile_country_num.'-'.$mobile_num,
+                'email_jiban'=>$email,
+                'country_id'=>$country_id,
+                'area_id'=>$area_id,
+                'city_id'=>$city_id,
+                'address'=>htmlspecialchars($address),
+                'is_show'=>$is_show,
+                'introduction'=>htmlspecialchars($introduction),
+            );
+
             //处理用户数据
-            $data = $this->get_member_data($_POST);
-            $result=$this->member_mod->reg_Member_Info($data);  
+            $result=$this->member_mod->reg_Member_Info($member_data);  
             if($result['error'])
             {
-                $this->ajaxReturn(array('status'=>'no','msg'=>$result['error']));
+                $this->ajaxReturn(array('error'=>102,'response'=>'注册失败'));
                 exit();
-            } 
+            }
             else 
             {
                 //登陆信息
@@ -53,69 +122,9 @@ class RegisterController extends Controller
                 M('member')->where('member_id='.$result['data'])->setInc('login_times');
                 session('member_id',$result['data']);
             }
-            $this->ajaxReturn(array('status'=>'yes','msg'=>'注册成功！','url'=>U('Home/Schedule/index')));
+            $this->ajaxReturn(array('error'=>0,'response'=>'Home/Schedule/index'));
             exit();
         }
-    }
-    
-    /** 
-     *  处理数据 
-     */
-    public function get_member_data($data=array())
-    {
-        $member_data = array();
-        if(!is_array($data))
-        {
-            return false;
-        }
-        
-        if($data['member_type']==1) //企业
-        {
-            $member_data = array(
-                'username'=>trim($data['username']),
-                'pwd'=>trim($data['pwd']),
-                'member_type'=>intval($data['member_type']),
-                'company'=>trim($data['company']),
-                'contact'=>trim($data['contact']),
-                'telephone'=>trim($data['country_num_qiye']).'-'.trim($data['qu_num_qiye']).'-'.trim($data['phone_qiye']),
-                'email_jiban'=>trim($data['email']),
-                'country_id'=>intval($data['country_id']),
-                'area_id'=>intval($data['area_id']),
-                'city_id'=>intval($data['city_id']),
-                'address'=>trim($data['address']),
-                'is_show'=>intval($data['is_show']),
-                'introduction'=>trim($data['introduction']),
-            );
-            
-            if($data['country_num_qiye1']!='国家编号' && $data['moblie_num_qiye1'])
-            {
-                $member_data['mobile']=trim($data['country_num_qiye1']).'-'.trim($data['moblie_num_qiye1']);
-            }
-        }
-        elseif($data['member_type']==2) //个人
-        { 
-            $member_data = array(
-                'username'=>trim($data['username']),
-                'pwd'=>trim($data['pwd']),
-                'member_type'=>intval($data['member_type']),
-                'contact'=>trim($data['contact']),
-                'mobile'=>trim($data['country_num_geren1']).'-'.trim($data['moblie_num_geren1']),
-                'email_jiban'=>trim($data['email']),
-                'country_id'=>intval($data['country_id']),
-                'area_id'=>intval($data['area_id']),
-                'city_id'=>intval($data['city_id']),
-                'address'=>trim($data['address']),
-                'is_show'=>intval($data['is_show']),
-                'introduction'=>trim($data['introduction']),
-            );
-            
-            if($data['country_num_geren']!='国家编号' && $data['qu_num_geren']!='区号' && $data['phone_geren'])
-            {
-                $member_data['telephone']=trim($data['country_num_geren']).'-'.trim($data['qu_num_geren']).'-'.trim($data['phone_geren']);
-            }
-        }
-        
-        return $member_data;
     }
     
     /**

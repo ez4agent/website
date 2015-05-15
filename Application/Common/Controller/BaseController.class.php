@@ -48,7 +48,7 @@ class BaseController extends Controller
             $this->pager->parameter = $map;
         }
         return $this->pager->show();
-    }
+    }  
 }
 
 

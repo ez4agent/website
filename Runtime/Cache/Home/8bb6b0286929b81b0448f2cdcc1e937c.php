@@ -42,87 +42,74 @@
                 </li>
                 <li class="clearfix">
                    <em><span style="color:#ff0000; margin-right:3px;">*</span>用户名：</em>
-                   <input id='username' name="username" type="text" class="regsiter_input"/> 
+                   <input id='input_username' name="username" type="text" class="regsiter_input"/>
+                   <span id="username_inpt" class="popover"></span>
                 </li>
                 <li class="clearfix">
                    <em><span style="color:#ff0000; margin-right:3px;">*</span>密码：</em>
-                   <input id="pwd" name="pwd" type="password" class="regsiter_input" /> 
+                   <input id="input_pwd" name="pwd" type="password" class="regsiter_input" />
+                    <span id="pwd_inpt" class="popover"></span>
                 </li>
+                <li class="clearfix">
+                   <em><span style="color:#ff0000; margin-right:3px;">*</span>确认密码：</em>
+                   <input id="input_pwd_confirm" name="pwd_confirm" type="password" class="regsiter_input" /> 
+                   <span id="pwd_confirm_inpt" class="popover"></span>
+                </li>    
                 <li class="clearfix">
                     <em><span style="color:#ff0000; margin-right:3px;">*</span>所在地区：</em>
                     <select id="country_id" class="reg_siter" name="country_id">
-                        <option value="">==请选择==</option>
+                        <option value="0">==请选择==</option>
                         <?php if(is_array($country)): $i = 0; $__LIST__ = $country;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><option value="<?php echo ($vo['countryid']); ?>"><?php echo ($vo['name']); ?></option><?php endforeach; endif; else: echo "" ;endif; ?>
                         </select>&nbsp;
                         <select id="area_id" class="reg_siter" name="area_id">
-                        <option value="">==请选择==</option>
+                        <option value="0">==请选择==</option>
                         </select>&nbsp;
                         <select id="city_id" class="reg_siter" name="city_id">
-                        <option value="">==请选择==</option>
+                        <option value="0">==请选择==</option>
                         </select>
                 </li>
                 <li class="clearfix">
                   <em><span style="color:#ff0000; margin-right:3px;">*</span>以下信息：</em>
-          <label><input type="radio" name="is_show"  value="0" />&nbsp;不公开</label> &nbsp;&nbsp;                  
+                    <label><input type="radio" name="is_show"  value="0" />&nbsp;不公开</label> &nbsp;&nbsp;                  
                     <label><input type="radio" name="is_show"  value="2" checked />&nbsp;仅对合作方显示</label> &nbsp;&nbsp;
                     <label><input type="radio" name="is_show"  value="1" />&nbsp;对所有人显示</label>　
-                      
                 </li>
-                <li class="clearfix" id="company_show" style="display:none">
+                <li class="clearfix" id="company_show">
                    <em><span style="color:#ff0000; margin-right:3px;">*</span>公司名称：</em>
-                   <input id="company" name="company" type="text" class="regsiter_input"/>
+                   <input id="input_company" name="company" type="text" maxlength="20" class="regsiter_input"/>
+                   <span id="company_inpt" class="popover"></span>
                 </li>
                 <li class="clearfix">
                    <em><span style="color:#ff0000; margin-right:3px;">*</span>联系人：</em>
-                   <input id="contact" type="text" name="contact" class="regsiter_input"/>
+                   <input id="input_contact" type="text" maxlength="12" name="contact" class="regsiter_input"/>
+                   <span id="contact_inpt" class="popover"></span>
                 </li>
-                <div id="campany_form"> 
                 <li class="clearfix">
-                   <em><span style="color:#ff0000; margin-right:3px;">*</span>固定电话：</em>
-                   + <input id="country_num_qiye" type="text" class="baseInfor_input" style="width:50px" name="country_num_qiye" value="国家编号"
-                     onFocus="if(this.value=='国家编号')this.value='';" onblur="if(this.value=='')this.value='国家编号';"
-                     />-
-                   <input id="qu_num_qiye" type="text" class="baseInfor_input" style="width:50px" name="qu_num_qiye" value="区号"
-                     onFocus="if(this.value=='区号')this.value='';" onblur="if(this.value=='')this.value='区号';"
-                   />-
-                   <input id="phone_qiye" type="text" class="regsiter_input" name="phone_qiye"/>
+                   <em>固定电话：</em>
+                   + <input id="country_num" type="number" maxlength="3" class="baseInfor_input" style="width:50px" placeholder="国家编号" name="country_num" value="" />-
+                   <input id="qu_num" type="number" maxlength="3" class="baseInfor_input" style="width:50px" placeholder="区号" name="qu_num" value="" />-
+                   <input id="phone" type="number" maxlength="8" class="regsiter_input" name="phone"/>
                 </li>
                 <li class="clearfix">
                    <em>移动电话：</em>
-                   + <input id="country_num_qiye1" type="text" class="baseInfor_input" style="width:50px" name="country_num_qiye1" value="国家编号"
-                     onFocus="if(this.value=='国家编号')this.value='';" onblur="if(this.value=='')this.value='国家编号';"
-                   />-
-                   <input id="moblie_num_qiye1" type="text" class="regsiter_input" name="moblie_num_qiye1"/>
+                   + <input type="number" maxlength="3" class="baseInfor_input" style="width:50px"  placeholder="国家编号" name="mobile_country_num" value="" />-
+                   <input id="moblie_num" type="number" maxlength="11" class="regsiter_input" name="mobile_num"/>
                 </li>
-                </div>
-                <div id="geren_form" style="display:none"> 
-                <li class="clearfix">
-                   <em>固定电话：</em>
-                   + <input id="country_num_geren" type="text" class="baseInfor_input" style="width:50px" name="country_num_geren" value="国家编号"/>-
-                   <input id="qu_num_geren" type="text" class="baseInfor_input" style="width:50px" name="qu_num_geren" value="区号"/>-
-                   <input id="phone_geren" type="text" class="regsiter_input" name="phone_geren"/>
-                </li>
-                <li class="clearfix">
-                   <em><span style="color:#ff0000; margin-right:3px;">*</span>移动电话：</em>
-                   + <input id="country_num_geren1" type="text" class="baseInfor_input" style="width:50px" name="country_num_geren1" value="国家编号"/>-
-                   <input id="moblie_num_geren1" type="text" class="regsiter_input" name="moblie_num_geren1"/>
-                </li>
-                </div>
                 <li class="clearfix">
                     <em><span style="color:#ff0000; margin-right:3px;">*</span>邮箱：</em>
-                    <input id="email" name="email" type="text" class="regsiter_input"/>
+                    <input id="input_email" name="email" type="text" class="regsiter_input"/>
+                    <span id="email_inpt" class="popover"></span>
                 </li>
-               
                 <li class="clearfix">
                     <em>详细地址：</em>
-                    <input type="text" class="regsiter_input address" name="address"/> 
+                    <input type="text" maxlength="50" class="regsiter_input address" name="address"/> 
                 </li>
                 <li class="clearfix">
-                        <span class="fl"><em class="info_text">介&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;绍：</em><textarea name="introduction" class="regsiter_input address info"/></textarea> </span>
+                    <span class="fl"><em class="info_text">介&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;绍：</em><textarea name="introduction" class="regsiter_input address info"/></textarea> </span>
                 </ul>
                 <p class="regsiter_bt_wrap">
-                <a href="javascript:void(0);" class="login_bt" onClick="user_reg();">注册</a>
-                <a class="regsiter_bt" href="<?php echo U('Home/Login/index');?>">返回</a>
+                  <a href="javascript:void(0);" class="login_bt" id="login_bt" >注册</a>
+                  <a class="regsiter_bt" href="<?php echo U('Home/Login/index');?>">返回</a>
                 </p>
                 </form>
             </div>
@@ -146,38 +133,108 @@ var check_username_url = "<?php echo U('Home/Register/check_unique_Name');?>";
 var check_email_url = "<?php echo U('Home/Register/check_unique_Email');?>";
 var submit_url = "<?php echo U('Home/Register/regact');?>";
 
-//获取当前类型的选中值
-var type = $("input[name='member_type']:checked").val();
-if(type==2)
-{  $("#company_show").hide();	
-	$("#campany_form").hide();
-	$("#geren_form").show();
-}
-else
-{ 
-	$("#company_show").show();
-	$("#campany_form").show();
-	$("#geren_form").hide();
-}
-
-//点击radio
 $('input[name="member_type"]').click(function(){ 
 	
-	var type1=$("input[name='member_type']:checked").val();
-	if(type1==2)
-	{
+	var type=$("input[name='member_type']:checked").val();
+	if(type==2) {
 		$("#company_show").hide();	
-		$("#campany_form").hide();
-		$("#geren_form").show();
-	}
-	else
-	{ 
+	} else { 
 		$("#company_show").show();
-		$("#campany_form").show();
-		$("#geren_form").hide()
 	}
 })
 
+function show_err(name, msg) {
+    var inpt = $("#"+name + "_inpt");
+    inpt.html(msg);
+    inpt.show();
+}
+
+function hide_err(name) {
+    $("#"+name + "_inpt").hide();
+}
+
+var error_str = {
+    'require_username':"请输入用户名",
+    'require_pwd':"请输入密码",
+    'require_company':"请输入公司名称",
+    'require_contact':"请输入联系人",
+    'vaild_email':'邮箱格式不正确'
+};
+
+function passport_ajax(url,btn,callback){
+
+    $('.popover').hide();
+
+    var has_error = 0;
+    var data = {};
+
+    var type=$("input[name='member_type']:checked").val();
+
+    var fieldarr = ['username', 'pwd', 'company','contact','email'];
+    $.each(fieldarr,function(i,k){
+        var field = $('#Regfrom').find('#input_'+k);
+        if(!field.length){
+            return true;
+        }
+
+        if(type == 2 && k == 'company'){
+           return true;
+        }
+
+        var value = field.val();
+        if ($.trim(value) == ""){
+            has_error = 1;
+            show_err(k, error_str['require_'+k]);
+        }
+
+        if(k == 'email'){
+            if (!~value.indexOf("@")){
+                has_error = 1;
+                show_err(k, error_str['vaild_'+k]);
+            }
+        }
+
+        data[k] = value;
+    });
+
+    if(has_error){
+        return;
+    }
+
+    btn.attr('disabled',true);
+
+    $.ajax(url, {
+        type: 'POST',
+        data: data,
+        dataType:'json',
+        success:function(json){
+            if(json.error){
+                
+                if($.isArray(json.response)){
+                    $.each(json.response,function(i,error){
+                        show_err(error.label, error.message);
+                    });
+                }else{
+                    alert(json.response);
+                }
+
+            }else if(json.result){
+                callback(json);
+            }
+        },
+        complete:function(xhr, textStatus){
+            btn.attr('disabled',false);
+        }
+    });
+}
+
+$('#login_bt').on('click',function(){
+    passport_ajax(submit_url,$(this),function(res){
+        setTimeout(function() {
+            window.location.href = '/';
+        },1e3);
+    });
+});
 
 </script>
 </body>

@@ -46,21 +46,21 @@ margin: 0px auto; padding: 5px; line-height: 25px; text-indent: 2em; font-size: 
 .register_inner{    left: 50%;
     margin-left: -300px;
     position: absolute;
-    top: -570px;
+    top: -600%;
     width: 600px;
     z-index: 11;}
-.regsiter_con .login_inner{ width:616px;}
-.regsiter_con .login_made_inner{ padding:40px 78px 40px; font-size:14px; }
-.regsiter_con .login_made_inner h2{ background:url("../images/regsiter_line.gif") repeat-x 0 bottom; padding-bottom:6px;}
-.regsiter_con .login_made_inner ul{ padding-top:10px;}
-.regsiter_con .login_made_inner li{ padding-bottom:6px; line-height:30px;}
-.regsiter_con .login_made_inner .regsiter_input{ width:140px;line-height:22px; height:22px; background-color:#efefef; border-radius:2px; box-shadow:1px 2px 2px #888888 inset; border:none; padding:0 6px;}
-.regsiter_con .login_made_inner .input_name{ margin-left:2px;}
-.regsiter_con .login_made_inner em{ margin-right:2px; width:100px; float: left; text-align:right;}
-.regsiter_con .login_made_inner .reg_siter{background-color:#efefef; border-radius:2px; box-shadow:1px 2px 2px #888888 inset; border:none; width:105px;}
-.regsiter_con .login_made_inner .address{ width:290px;}
-.regsiter_con .login_made_inner .info{ height:46px; font-size:12px;}
-.regsiter_con .login_made_inner .info_text{ vertical-align:top;}
+.register_inner .login_inner{ width:616px;}
+.register_inner .login_made_inner{ padding:40px 40px; font-size:14px; }
+.register_inner .login_made_inner h2{ background:url("../images/regsiter_line.gif") repeat-x 0 bottom; padding-bottom:6px;}
+.register_inner .login_made_inner ul{ padding-top:10px;}
+.register_inner .login_made_inner li{ padding-bottom:6px; line-height:30px;}
+.register_inner .login_made_inner .regsiter_input{ width:140px;line-height:22px; height:22px; background-color:#efefef; border-radius:2px; box-shadow:1px 2px 2px #888888 inset; border:none; padding:0 6px;}
+.register_inner .login_made_inner .input_name{ margin-left:2px;}
+.register_inner .login_made_inner em{ margin-right:2px; width:100px; float: left; text-align:right;}
+.register_inner .login_made_inner .reg_siter{background-color:#efefef; border-radius:2px; box-shadow:1px 2px 2px #888888 inset; border:none; width:105px;}
+.register_inner .login_made_inner .address{ width:290px;}
+.register_inner .login_made_inner .info{ height:46px; font-size:12px;}
+.register_inner .login_made_inner .info_text{ vertical-align:top;}
 .emailWrap h3{ 
 	background: -moz-linear-gradient(top,#ffffff,#dddddd); 
 	background:-webkit-linear-gradient(top,#ffffff,#dddddd);
@@ -78,6 +78,8 @@ margin: 0px auto; padding: 5px; line-height: 25px; text-indent: 2em; font-size: 
 .emailWrap h3 .icon2{ background-position:0 -105px; width:12px; height:7px; margin-top:8px; margin-right:10px; _display:inline; cursor:pointer;}
 .emailWrap ul{ padding:0 6px;}
 .regsiter_bt_wrap{ text-align:center; padding-top:16px;}
+
+.popover{ font-size: 12px; color: #f20; padding-left: 10px}
 
 .authen_tit{ background:url("../images/regsiter_line.gif") repeat-x 0 bottom; padding-bottom:10px; text-align:center;}
 .authen_con{ padding-top:18px;}
