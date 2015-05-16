@@ -4,10 +4,9 @@
  *  CRM登陆页面 
  */
 namespace Home\Controller;
-use Think\Controller;
-use Common\Util\Auth;
+use Common\Controller\BaseController;
 
-class LoginController extends Controller
+class LoginController extends BaseController
 {
     var $member_mod;  
     public function __construct()
@@ -22,7 +21,7 @@ class LoginController extends Controller
      */
     public function index()
     {
-        if(!session('member_id'))
+        if($this->auth()->isGuest())
         {
            $this->display(); 
         }
@@ -64,8 +63,8 @@ class LoginController extends Controller
                 }
                 else
                 {
-                    $auth = new Auth();
-                    $auth->logging($_info['member_id'],$checked);
+
+                    $this->auth()->logging($_info['member_id'],$checked);
 
                     //登陆信息
                     $update=array('login_time'=>time(),'login_ip'=> get_client_ip());
@@ -90,8 +89,7 @@ class LoginController extends Controller
      */
     public function logout()
     {
-        session('member_id',null);
-        cookie('auth',null);
+        $this->auth()->logout();
         $this->redirect('Home/Login/index');
     }
 }

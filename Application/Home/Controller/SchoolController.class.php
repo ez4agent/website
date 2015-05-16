@@ -20,7 +20,7 @@ class SchoolController extends FrontbaseController
         $this->school_mod = D('School');
         $this->partner_mod = D('Partner');
         $this->education = C('Education_TYPE');
-        $this->member_id = session('member_id');
+        $this->member_id = $this->auth()->member_id;
     }
     
     /**

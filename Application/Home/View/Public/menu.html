@@ -7,14 +7,18 @@
   <div class="nav_wrap_inner clearfix">
     <ul class="clearfix">
       <volist name="meun" id="vo">
-      <li <if condition="$vo['select'] eq 1"> class="active" </if>><a href="{$vo.url}" class="firstA">{$vo.name}</a> 
+      <li <if condition="$vo['select'] eq 1"> class="active" </if>>
+           <a href="{$vo.url}" class="firstA">{$vo.name}</a> 
            <notempty name="vo['child']">
             <dl class="nav_dl4">
                 <volist name="vo['child']" id="vo1">
-                    <dd><a href="{$vo1.url}"><span>{$vo1.name}</span></a></dd>
+                    <dd>
+                      <a href="{$vo1.url}"><span>{$vo1.name}</span></a>
+                    </dd>
                 </volist>
             </dl>
           </notempty>
+          <if condition="($vo['name'] eq '提醒') and ($event_num gt 0)"><i>{$event_num}</i></if>
       </li>
       </volist>
     </ul>

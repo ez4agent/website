@@ -15,7 +15,7 @@ class MemberController extends FrontbaseController
     {
         parent::__construct();
         $this->member_mod = D('Member');
-        $this->member_id = session('member_id');
+        $this->member_id = $this->auth()->member_id;
     }
     
     //会员信息

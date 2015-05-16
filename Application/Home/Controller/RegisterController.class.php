@@ -23,7 +23,7 @@ class RegisterController extends BaseController
      */
     public function index()
     {
-        if(!session('member_id')){
+        if(!$this->auth()->member_id){
             $this->assign('country',country());
             $this->display();
         }else{
@@ -160,9 +160,9 @@ class RegisterController extends BaseController
     {
         $email =I('post.email','','trim');
         
-        if(session('member_id'))
+        if($this->auth()->member_id)
         {
-            $_email =M('member_info')->where('member_id='.session('member_id'))->getfield('email1');
+            $_email =M('member_info')->where('member_id='.$this->auth()->member_id)->getfield('email1');
             if($email != $_email)
             {
                 if(!checkfield('member_info','email1',$email))

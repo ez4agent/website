@@ -9,7 +9,7 @@ class Auth {
 
     private $_timeout = 6400;
 
-    private $_prefix = "cl_m_";
+    private $_sessin_name = "member";
 
     private $_secret_key;
 
@@ -45,43 +45,31 @@ class Auth {
     }
 
     public function hasState($key){
-        $key=$this->_prefix.$key;
-        return isset($_SESSION[$key]);
+        $m = session($this->_sessin_name);
+        return isset($m[$key]);
     }
 
     public function getState($key,$defaultValue=null){
-        $key=$this->_prefix.$key;
-        return isset($_SESSION[$key]) ? $_SESSION[$key] : $defaultValue;
+        $m = session($this->_sessin_name);
+        return isset($m[$key]) ? $m[$key] : $defaultValue;
     }
 
     public function setState($key,$value,$defaultValue=null){
-        $key=$this->_prefix.$key;
-        if($value===$defaultValue)
-            unset($_SESSION[$key]);
-        else
-            $_SESSION[$key]=$value;
+        $m = session($this->_sessin_name);
+        if(!$m){
+            $m = array();
+        }
+
+        $m[$key] = $value;
+        session($this->_sessin_name,$m);
     }
 
     public function getStates(){
-        $tmp = array();
-        foreach($_SESSION as $k => $v){
-            if(strpos($k, $this->_prefix) !== false){
-                $k = str_replace($this->_prefix,"",$k);
-                $tmp[$k] = $v;
-            }
-        }
-
-        return $tmp;
+        return (array)session($this->_sessin_name);
     }
 	
 	public function clearStates(){
-		$keys=array_keys($_SESSION);
-		$prefix=$this->_prefix;
-		$n=strlen($prefix);
-		foreach($keys as $key){
-			if(!strncmp($key,$prefix,$n))
-				unset($_SESSION[$key]);
-		}
+		session($this->_sessin_name,null);
 	}
 
     public function updateState(){
@@ -120,6 +108,7 @@ class Auth {
 		}
 
 		$this->setState('member_id',(int)$user_id);
+
         $this->updateState();
     }
 

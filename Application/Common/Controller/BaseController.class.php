@@ -1,15 +1,28 @@
 <?php 
 namespace Common\Controller;
 use Think\Controller;
-
+use Common\Util\Auth;
 
 class BaseController extends Controller
 {
+
+    private static $auth;
+
     public function __construct()
     {
         parent::__construct();
     }
     
+
+    function auth(){
+
+        if(is_null(self::$auth)){
+            self::$auth = new Auth();
+        }
+
+        return self::$auth;
+    }
+
     /**
      * 页面不存在
      * @return array 页面信息

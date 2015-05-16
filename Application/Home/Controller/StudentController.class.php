@@ -21,7 +21,7 @@ class StudentController extends FrontbaseController
         $this->student_mod = D('Stu');
         $this->apply_mod = D('Apply');
         //会员ID
-        $this->member_id=session('member_id');
+        $this->member_id=$this->auth()->member_id;
         $this->stu_last_id=$this->student_mod->get_last_stuId($this->member_id);
         //推送学员
         $this->receive_num=$this->apply_mod->get_receive_num($this->member_id); 
@@ -146,6 +146,7 @@ class StudentController extends FrontbaseController
                 //添加学生操作
                 $data['stu_name']=$data['xin'].','.$data['mingzi'];
                 $data['pinyin']=$data['xin_pinyin'].','.$data['mingzi_pinyin'];
+                $data['member_id'] = $this->member_id;
                 unset($data['xin']);
                 unset($data['mingzi']);
                 unset($data['xin_pinyin']);

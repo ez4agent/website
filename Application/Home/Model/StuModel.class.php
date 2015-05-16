@@ -151,7 +151,6 @@ class StuModel extends Model
         }
         if($type=='add')
         {
-            $data['member_id'] = session('member_id');
             $data['add_time'] = time();
             $stu_id = M('stu_info')->add($data);
             

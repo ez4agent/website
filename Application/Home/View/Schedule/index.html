@@ -75,7 +75,7 @@
                       <font <if condition="$type eq now">color="#ff9600"</if>><strong>今日待办</strong></font>&nbsp;
                       <span>{$now}</span></a></em>
                       <em class="font14"><a href="{:U('Home/Schedule/index',array('type'=>'plan'))}">
-                      <font <if condition="$type eq plan">color="#ff9600"</if>><strong>提醒与计划</strong></font>&nbsp;
+                      <font <if condition="$type eq plan">color="#ff9600"</if>><strong>计划提醒</strong></font>&nbsp;
                       <span>{$plan_count}</span></a></em>
                       <em class="font14"><a href="{:U('Home/Schedule/index',array('type'=>'over'))}">
                       <font <if condition="$type eq over">color="#ff9600"</if>><strong>历史记录</strong></font>&nbsp;
@@ -83,13 +83,14 @@
                   </div>
                   <div class="today_rc_con">
                       <div class="today_con_hd">
-                          <span>日&nbsp;&nbsp;期</span>   <span class="stu_name">学生姓名</span>   <span>主&nbsp;&nbsp;题</span>
-                          <span style="float:right;"> 
+                          <span class="col1">日&nbsp;&nbsp;期</span>   
+                          <span class="col2">
                           <select id="stuid" name="stuid" class="address_gj">
-                          <option value="0">全部学生</option>
+                            <option value="0">全部学生</option>
                           {$str}
-                          </select>
-                          </span>
+                          </select></span>   
+                          <span class="col3">主&nbsp;&nbsp;题</span>   
+                          <span class="col4">完成日期</span>
                       </div>
                       <div class="rc_con_tabel">
                           <ul>
@@ -98,19 +99,19 @@
                             <else />
                           	<volist name='list' id="vo">
                               <li <if condition="$vo['is_use'] eq 0">class="stat_on"<else /> class="stat_on1" </if>>
-                                  <span class="rc_time">
+                                  <span class="rc_time col1">
                                       <b>{$vo['date_value']}</b>
                                   </span>
-                                  <span class="rc_st_name">{$vo['stu_name']}</span>
-                                  <span class="rc_zhuti">
+                                  <span class="rc_st_name col2">{$vo['stu_name']}</span>
+                                  <span class="rc_zhuti col3">
                                       <a href="javascript:void(0);" onClick="add_event({$vo['stu_id']},{$vo['event_id']},'{:U('Home/Schedule/event_form')}');">
                                       <em>{$vo['title']}</em>
                                       </a>
                                   </span>
                                   <if condition="$vo['is_use'] eq 1">
-                                  <span class="rc_time" style=" float:right; width:80px;"><b>[完成]</b></span>
+                                  <span class="rc_time col4"><b>[完成]</b></span>
                                   <else />
-                                  <span class="rc_time" style=" float:right; width:80px;">
+                                  <span class="rc_time col4">
                                      <a href="javascript:void(0);" class="is_use" data_attr="{$vo['event_id']}" uri="{:U('Home/Schedule/change_use')}"><b style="color:#ff9900; ">[未完成]</b></a>
                                   </span>
                                   </if>

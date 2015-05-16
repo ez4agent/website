@@ -18,7 +18,7 @@ class LetterController extends FrontbaseController
         //实例化站内信模型
         $this->letter_mod = D('Letter');
         $this->student_mod=D('Stu');
-        $this->member_id=session('member_id');
+        $this->member_id=$this->auth()->member_id;
     }
     
     /**

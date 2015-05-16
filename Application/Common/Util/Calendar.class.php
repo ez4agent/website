@@ -104,6 +104,8 @@ class Calendar
             if($month<10)
             {
                 $month1 = '0'.$month;
+            }else{
+                $month1 = $month;
             }
             
         }

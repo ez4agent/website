@@ -16,7 +16,7 @@ class ApplyController extends FrontbaseController
     {
         parent::__construct();
         //会员ID
-        $this->member_id =session('member_id');
+        $this->member_id =$this->auth()->member_id;
         $this->apply_mod=D('Apply');
         $this->log_mod=D('Log');
         $this->status = C('APPLY_STATUS_OWN');

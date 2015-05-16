@@ -17,7 +17,7 @@ class ScheduleController extends FrontbaseController
     {
         parent::__construct();
         $this->schedule_mod = D('Schedule');
-        $this->member_id = session('member_id');
+        $this->member_id = $this->auth()->member_id;
         
     }
     
@@ -80,7 +80,7 @@ class ScheduleController extends FrontbaseController
             }
         }
         $str = D('Stu')->select_stu($stu_id,$this->member_id);
-        $this->get_num($stu_id);
+        //$this->get_num($stu_id);
         $this->assign('str',$str);
         $this->assign('type',$type);
         $this->assign('now_time',date('Y/m/d',time()));
@@ -88,17 +88,6 @@ class ScheduleController extends FrontbaseController
         $this->assign('list',$list);
         $this->assign('page',$show);
         $this->display();    
-    }
-    
-    //日程统计数量
-    public function get_num($stu_id)
-    {
-        $now = $this->schedule_mod->get_event_count('now',$this->member_id,$stu_id);
-        $this->assign('now',$now);
-        $plan_count = $this->schedule_mod->get_event_count('plan',$this->member_id,$stu_id);
-        $this->assign('plan_count',$plan_count);
-        $past = $this->schedule_mod->get_event_count('over',$this->member_id,$stu_id);
-        $this->assign('past',$past);
     }
     
     

@@ -53,10 +53,14 @@
 <nav class="nav_wrap">
   <div class="nav_wrap_inner clearfix">
     <ul class="clearfix">
-      <?php if(is_array($meun)): $i = 0; $__LIST__ = $meun;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><li <?php if($vo['select'] == 1): ?>class="active"<?php endif; ?>><a href="<?php echo ($vo["url"]); ?>" class="firstA"><?php echo ($vo["name"]); ?></a> 
+      <?php if(is_array($meun)): $i = 0; $__LIST__ = $meun;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><li <?php if($vo['select'] == 1): ?>class="active"<?php endif; ?>>
+           <a href="<?php echo ($vo["url"]); ?>" class="firstA"><?php echo ($vo["name"]); ?></a> 
            <?php if(!empty($vo['child'])): ?><dl class="nav_dl4">
-                <?php if(is_array($vo['child'])): $i = 0; $__LIST__ = $vo['child'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo1): $mod = ($i % 2 );++$i;?><dd><a href="<?php echo ($vo1["url"]); ?>"><span><?php echo ($vo1["name"]); ?></span></a></dd><?php endforeach; endif; else: echo "" ;endif; ?>
+                <?php if(is_array($vo['child'])): $i = 0; $__LIST__ = $vo['child'];if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo1): $mod = ($i % 2 );++$i;?><dd>
+                      <a href="<?php echo ($vo1["url"]); ?>"><span><?php echo ($vo1["name"]); ?></span></a>
+                    </dd><?php endforeach; endif; else: echo "" ;endif; ?>
             </dl><?php endif; ?>
+          <?php if(($vo['name'] == '提醒') and ($event_num > 0)): ?><i><?php echo ($event_num); ?></i><?php endif; ?>
       </li><?php endforeach; endif; else: echo "" ;endif; ?>
     </ul>
   </div>
@@ -87,7 +91,7 @@
                       <font <?php if($type == now): ?>color="#ff9600"<?php endif; ?>><strong>今日待办</strong></font>&nbsp;
                       <span><?php echo ($now); ?></span></a></em>
                       <em class="font14"><a href="<?php echo U('Home/Schedule/index',array('type'=>'plan'));?>">
-                      <font <?php if($type == plan): ?>color="#ff9600"<?php endif; ?>><strong>提醒与计划</strong></font>&nbsp;
+                      <font <?php if($type == plan): ?>color="#ff9600"<?php endif; ?>><strong>计划提醒</strong></font>&nbsp;
                       <span><?php echo ($plan_count); ?></span></a></em>
                       <em class="font14"><a href="<?php echo U('Home/Schedule/index',array('type'=>'over'));?>">
                       <font <?php if($type == over): ?>color="#ff9600"<?php endif; ?>><strong>历史记录</strong></font>&nbsp;
@@ -95,31 +99,32 @@
                   </div>
                   <div class="today_rc_con">
                       <div class="today_con_hd">
-                          <span>日&nbsp;&nbsp;期</span>   <span class="stu_name">学生姓名</span>   <span>主&nbsp;&nbsp;题</span>
-                          <span style="float:right;"> 
+                          <span class="col1">日&nbsp;&nbsp;期</span>   
+                          <span class="col2">
                           <select id="stuid" name="stuid" class="address_gj">
-                          <option value="0">全部学生</option>
+                            <option value="0">全部学生</option>
                           <?php echo ($str); ?>
-                          </select>
-                          </span>
+                          </select></span>   
+                          <span class="col3">主&nbsp;&nbsp;题</span>   
+                          <span class="col4">完成日期</span>
                       </div>
                       <div class="rc_con_tabel">
                           <ul>
                           	<?php if(empty($list)): ?><li style="text-align:center;"><span style="font-size:14px; font-weight:bold;">今日无日程安排!</span></li>
                             <?php else: ?>
                           	<?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><li <?php if($vo['is_use'] == 0): ?>class="stat_on"<?php else: ?> class="stat_on1"<?php endif; ?>>
-                                  <span class="rc_time">
+                                  <span class="rc_time col1">
                                       <b><?php echo ($vo['date_value']); ?></b>
                                   </span>
-                                  <span class="rc_st_name"><?php echo ($vo['stu_name']); ?></span>
-                                  <span class="rc_zhuti">
+                                  <span class="rc_st_name col2"><?php echo ($vo['stu_name']); ?></span>
+                                  <span class="rc_zhuti col3">
                                       <a href="javascript:void(0);" onClick="add_event(<?php echo ($vo['stu_id']); ?>,<?php echo ($vo['event_id']); ?>,'<?php echo U('Home/Schedule/event_form');?>');">
                                       <em><?php echo ($vo['title']); ?></em>
                                       </a>
                                   </span>
-                                  <?php if($vo['is_use'] == 1): ?><span class="rc_time" style=" float:right; width:80px;"><b>[完成]</b></span>
+                                  <?php if($vo['is_use'] == 1): ?><span class="rc_time col4"><b>[完成]</b></span>
                                   <?php else: ?>
-                                  <span class="rc_time" style=" float:right; width:80px;">
+                                  <span class="rc_time col4">
                                      <a href="javascript:void(0);" class="is_use" data_attr="<?php echo ($vo['event_id']); ?>" uri="<?php echo U('Home/Schedule/change_use');?>"><b style="color:#ff9900; ">[未完成]</b></a>
                                   </span><?php endif; ?>
                               </li><?php endforeach; endif; else: echo "" ;endif; endif; ?>
