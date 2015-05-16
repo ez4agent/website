@@ -59,7 +59,8 @@
                         </select>&nbsp;
                         <select id="city_id" class="reg_siter" name="city_id">
                         <option value="0">==请选择==</option>
-                        </select>
+                    </select>
+                    <span id="from_inpt" class="popover"></span>
                 </li>
                 <li class="clearfix">
                   <em><span style="color:#ff0000; margin-right:3px;">*</span>以下信息：</em>
@@ -79,18 +80,18 @@
                 </li>
                 <li class="clearfix">
                    <em>固定电话：</em>
-                   + <input id="country_num" type="number" maxlength="3" class="baseInfor_input" style="width:50px" placeholder="国家编号" name="country_num" value="" />-
-                   <input id="qu_num" type="number" maxlength="3" class="baseInfor_input" style="width:50px" placeholder="区号" name="qu_num" value="" />-
-                   <input id="phone" type="number" maxlength="8" class="regsiter_input" name="phone"/>
+                   + <input id="country_num" type="text" maxlength="3" class="baseInfor_input" style="width:50px" placeholder="国家编号" name="country_num" value="" />-
+                   <input id="qu_num" type="text" maxlength="3" class="baseInfor_input" style="width:50px" placeholder="区号" name="qu_num" value="" />-
+                   <input id="phone" type="telephone" maxlength="8" class="regsiter_input" name="phone"/>
                 </li>
                 <li class="clearfix">
                    <em>移动电话：</em>
-                   + <input type="number" maxlength="3" class="baseInfor_input" style="width:50px"  placeholder="国家编号" name="mobile_country_num" value="" />-
-                   <input id="moblie_num" type="number" maxlength="11" class="regsiter_input" name="mobile_num"/>
+                   + <input type="text" maxlength="3" class="baseInfor_input" style="width:50px"  placeholder="国家编号" name="mobile_country_num" value="" />-
+                   <input id="moblie_num" type="text" maxlength="11" class="regsiter_input" name="mobile_num"/>
                 </li>
                 <li class="clearfix">
                     <em><span style="color:#ff0000; margin-right:3px;">*</span>邮箱：</em>
-                    <input id="input_email" name="email" type="text" class="regsiter_input"/>
+                    <input id="input_email" name="email" type="email" class="regsiter_input"/>
                     <span id="email_inpt" class="popover"></span>
                 </li>
                 <li class="clearfix">
@@ -143,6 +144,8 @@ var error_str = {
     'require_pwd':"请输入密码",
     'require_company':"请输入公司名称",
     'require_contact':"请输入联系人",
+    'require_from':"请选择地区",
+    'vaild_pwd':'密码格式小于6位',
     'vaild_email':'邮箱格式不正确'
 };
 
@@ -154,8 +157,9 @@ function passport_ajax(url,btn,callback){
     var data = {};
 
     var type=$("input[name='member_type']:checked").val();
+    data['member_type']=type;
 
-    var fieldarr = ['username', 'pwd', 'company','contact','email'];
+    var fieldarr = ['username', 'pwd','company','contact','email'];
     $.each(fieldarr,function(i,k){
         var field = $('#Regfrom').find('#input_'+k);
         if(!field.length){
@@ -170,17 +174,47 @@ function passport_ajax(url,btn,callback){
         if ($.trim(value) == ""){
             has_error = 1;
             show_err(k, error_str['require_'+k]);
+            return false;
+        }
+
+        if(k == 'pwd'){
+            if (value.length < 6){
+                has_error = 1;
+                show_err(k, error_str['vaild_'+k]);
+                return false;
+            }
         }
 
         if(k == 'email'){
             if (!~value.indexOf("@")){
                 has_error = 1;
                 show_err(k, error_str['vaild_'+k]);
+                return false;
             }
         }
 
         data[k] = value;
     });
+
+    data['pwd_confirm']=$("input[name='pwd_confirm']").val();
+    data['country_id']=$("select[name=country_id]").val();
+    data['area_id']= $("select[name=area_id]").val();
+    data['city_id']=$("select[name=city_id]").val();
+
+    if(data['country_id'] == 0 || data['area_id'] == 0 || data['city_id'] == 0){
+        has_error = 1;
+        show_err('from', error_str['require_from']);
+    }
+
+    data['is_show']=$("input[name='is_show']:checked").val();
+    data['country_num']=$("input[name='country_num']").val();
+    data['qu_num']=$("input[name='qu_num']").val();
+    data['phone']=$("input[name='phone']").val();
+
+    data['mobile_country_num']=$("input[name='mobile_country_num']").val();
+    data['mobile_num']=$("input[name='mobile_num']").val();
+    data['address']=$("input[name='address']").val();
+    data['introduction']=$("textarea[name='introduction']").val();
 
     if(has_error){
         return;
@@ -203,8 +237,8 @@ function passport_ajax(url,btn,callback){
                     alert(json.response);
                 }
 
-            }else if(json.result){
-                callback(json);
+            }else if(json.response){
+                callback(json.response);
             }
         },
         complete:function(xhr, textStatus){
@@ -216,7 +250,7 @@ function passport_ajax(url,btn,callback){
 $('#login_bt').on('click',function(){
     passport_ajax(submit_url,$(this),function(res){
         setTimeout(function() {
-            window.location.href = '/';
+            window.location.href = res;
         },1e3);
     });
 });

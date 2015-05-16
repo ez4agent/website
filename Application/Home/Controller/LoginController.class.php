@@ -5,6 +5,7 @@
  */
 namespace Home\Controller;
 use Think\Controller;
+use Common\Util\Auth;
 
 class LoginController extends Controller
 {
@@ -63,22 +64,12 @@ class LoginController extends Controller
                 }
                 else
                 {
+                    $auth = new Auth();
+                    $auth->logging($_info['member_id'],$checked);
+
                     //登陆信息
                     $update=array('login_time'=>time(),'login_ip'=> get_client_ip());
                 
-                    if($checked==1)
-                    {
-                        //建立cookie
-                        $update['identifier'] = md5(C('SALT') . md5($_info['username'] . C('SALT')));
-                        $update['token'] = md5(uniqid(rand(), TRUE));
-                        $update['timeout'] = time() + 60 * 60 * 24 * 7;
-                        cookie('auth', $update['identifier'].':'.$update['token'], $update['timeout']);
-                    }
-                    else 
-                    {
-                        $update['timeout'] = time() + 60 * 60 * 24 * 7;
-                        cookie('auth',$_info['member_id'],$update['timeout']);
-                    }
                     $this->member_mod->update_data('member',$update,$_info['member_id']);
                     M('member')->where('member_id='.$_info['member_id'])->setInc('login_times');
                    

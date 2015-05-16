@@ -5,6 +5,7 @@
  */
 namespace Home\Controller;
 use Common\Controller\BaseController;
+use Common\Util\Auth;
 
 class RegisterController extends BaseController
 {
@@ -60,12 +61,11 @@ class RegisterController extends BaseController
 
             $introduction = isset($_POST['introduction']) ? trim($_POST['introduction']): '';
 
-
             $errors = array();
 
             if(!$username || preg_match('/^\s*$|^c:\\con\\con$|[%,\*\"\s\t\<\>\&\'\(\)]|\xA1\xA1|\xAC\xA3|^Guest|^\xD3\xCE\xBF\xCD|\xB9\x43\xAB\xC8/is',$username)){
                 $errors[] = array('message'=>'用户名包含非法字符','label' => 'username');
-            }else if(!preg_match('/^[a-zA-Z][wd_]{5,19}/',$username)){ 
+            }else if(!preg_match('/^[a-zA-Z0-9_]{5,19}$/',$username)){ 
                 $errors[] = array('message'=>'只允许6-20位字母数字和下划线组成','label' => 'username');
             }else if(!checkfield('member', 'username', $username)){
                 $errors[] = array('message'=>'该用户名已被注册','label' => 'username');
@@ -75,6 +75,10 @@ class RegisterController extends BaseController
                 $errors[] = array('message'=>'密码应该大于6位小于15位','label' => 'pwd');
             }else if ($pwd_confirm != $pwd){
                 $errors[] = array('message'=>'二次确认密码不一致','label' => 'pwd');
+            }
+
+            if(!$country_id || !$area_id || !$city_id){
+                $errors[] = array('message'=>'请选择地区','label' => 'from');
             }
 
             if(!checkfield('member_info','email1',$email)) {
@@ -105,6 +109,9 @@ class RegisterController extends BaseController
                 'address'=>htmlspecialchars($address),
                 'is_show'=>$is_show,
                 'introduction'=>htmlspecialchars($introduction),
+                'login_time'=>time(),
+                'login_ip'=> get_client_ip(),
+                'login_times' => 1
             );
 
             //处理用户数据
@@ -117,12 +124,13 @@ class RegisterController extends BaseController
             else 
             {
                 //登陆信息
-                $update=array('login_time'=>time(),'login_ip'=> get_client_ip());
-                $this->member_mod->update_data('member',$update,$result['data']);
+                $auth = new Auth();
+                $auth->logging($_info['member_id'],$checked);
+
                 M('member')->where('member_id='.$result['data'])->setInc('login_times');
-                session('member_id',$result['data']);
             }
-            $this->ajaxReturn(array('error'=>0,'response'=>'Home/Schedule/index'));
+            
+            $this->ajaxReturn(array('error'=>0,'response'=>'/index.php?m=Home&c=Schedule&a=index'));
             exit();
         }
     }
