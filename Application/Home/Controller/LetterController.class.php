@@ -302,7 +302,7 @@ class LetterController extends FrontbaseController
         }
         else if($to_id==$this->member_id)
         {
-            $msg = "收信人不能是自己";    
+           // $msg = "收信人不能是自己";    
         }
         return $msg;
     }

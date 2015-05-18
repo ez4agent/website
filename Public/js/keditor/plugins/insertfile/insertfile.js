@@ -33,7 +33,7 @@ KindEditor.plugin('insertfile', function(K) {
 			//title
 			'<div class="ke-dialog-row">',
 			'<label for="keTitle" style="width:60px;">' + lang.title + '</label>',
-			'<input type="text" id="keTitle" class="ke-input-text" name="title" value="" style="width:160px;" /></div>',
+			'<input type="text" id="keTitle" class="ke-input-text" name="title" value="" maxlength="10" style="width:160px;" /></div>',
 			'允许文件上传格式： gif，jpg，jpeg，png，doc，docx，xls，xlsx，pdf',
 			'</div>',
 			//form end

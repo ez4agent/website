@@ -15,6 +15,7 @@ class LetterModel extends Model
             $list=M('message_receiver')->alias('sr')->join('__MESSAGE_SENDER__ ms ON sr.mid= ms.mid')
             ->where($where)->order($order)->limit($firstRow.','.$listRows)
             ->select();
+
             if(!empty($list))
             {
                 foreach($list as $key=>$val)
@@ -70,7 +71,7 @@ class LetterModel extends Model
         {
             $condition['_string']='ms.repay_id='.$email_info['repay_id'].' OR '.'ms.mid='.$email_info['repay_id'];
             $email_info['repay_email_info'] = M('message_receiver')->alias('sr')->join('__MESSAGE_SENDER__ ms ON sr.mid= ms.mid')
-                      ->where($condition)->select();
+                      ->where($condition)->order('ms.date desc')->select();
             
             if(!empty($email_info['repay_email_info']))
             {

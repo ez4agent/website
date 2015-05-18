@@ -107,6 +107,9 @@ class ScheduleModel extends Model
             {
                $stu_info = D('Stu')->get_StuInfo($val['stu_id']);
                $list[$key]['stu_name'] = $stu_info['stu_name'];
+               if($val['is_use']){
+                    $list[$key]['finishtime'] = date('Y/m/d');
+               }
             }
         }
         return $list;

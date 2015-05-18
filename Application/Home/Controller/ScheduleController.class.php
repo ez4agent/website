@@ -145,9 +145,33 @@ class ScheduleController extends FrontbaseController
            }
            else
            {
+                if(!isset($data['title'])){
+                   $this->ajaxReturn(array('status'=>'no','请输入主题'));
+                   exit;
+                }
+
+                if(!isset($data['stu_id'])){
+                   $this->ajaxReturn(array('status'=>'no','请选择学生'));
+                   exit;
+                }
+
+                if(!isset($data['date_value']) || !strtotime($data['date_value'])){
+                   $this->ajaxReturn(array('status'=>'no','请输入日期'));
+                   exit;
+                }
+                
+
+               $timenow = time();
                $data['member_id'] = $this->member_id;
-               $data['addtime'] = time();
-               $data['is_use'] = isset($data['is_use'])?intval($data['is_use']):0;
+               $data['addtime'] = $timenow;
+
+               $data['is_use'] = 0;
+               $data['finishtime'] = 0;
+               if(isset($data['is_use']) && intval($data['is_use']) > 0){
+                    $data['is_use'] = 1;
+                    $data['finishtime'] = $timenow;
+               }
+               
                $res = $this->schedule_mod->editData($data,'add');
                if($res['msg'])
                {
@@ -175,7 +199,7 @@ class ScheduleController extends FrontbaseController
             }
             else 
             {
-                if(!M('schedule_event')->where('event_id='.$id)->setField('is_use',1))
+                if(!M('schedule_event')->where('event_id='.$id)->setField(array('is_use'=>1,'finishtime'=>time())))
                 {
                     echo $this->ajaxReturn(array('status'=>'no','msg'=>'更新失败！'));
                 }

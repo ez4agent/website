@@ -122,7 +122,7 @@
                                       <em><?php echo ($vo['title']); ?></em>
                                       </a>
                                   </span>
-                                  <?php if($vo['is_use'] == 1): ?><span class="rc_time col4"><b>[完成]</b></span>
+                                  <?php if($vo['is_use'] == 1): ?><span class="rc_time col4"><b>[完成]</b> <?php echo ($vo['finishtime']); ?></span>
                                   <?php else: ?>
                                   <span class="rc_time col4">
                                      <a href="javascript:void(0);" class="is_use" data_attr="<?php echo ($vo['event_id']); ?>" uri="<?php echo U('Home/Schedule/change_use');?>"><b style="color:#ff9900; ">[未完成]</b></a>
@@ -157,7 +157,7 @@
             	<td width="60%" height="25px">日&nbsp;&nbsp;期：
                     <input name="date_value" id="date" type="text" class="baseInfor_input school_name"  style="width:112px;" />
                 </td>
-            </tr>								
+            </tr>
             <tr>									
                 <td colspan="2"><p>内&nbsp;&nbsp;容：</p> <textarea class="baseInfor_input textarea_js" style="width:600px" name="content" id="content"></textarea></td>
             </tr>

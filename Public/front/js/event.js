@@ -7,22 +7,20 @@
 
   $(document).ready(function(){
 
-  	  
-
   	  $("#sub_events_act").click(function(){ 
 
   	  	  var title = $("#title").val();
   	  	  var date = $("#date").val();
   	  	  var stu_id = $("#stu_id1").val();
-  	  	  
+   	  
   	  	  if(!title)
   	  	  { 
   	  	  	 alert('请输入主题！');
   	  	  	 return false;
   	  	  }
 
-  	  	  if(!stu_id)
-  	  	  { 
+  	  	  if(!parseInt(stu_id))
+  	  	  {
   	  	  	 alert('请选择学生！');
   	  	  	 return false;
   	  	  }
