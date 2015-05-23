@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>站内信--EZ4Agent</title>
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/share.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/main.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/common.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/message.css">
+    <script src="__PUBLIC__/js/jquery.js" type="text/javascript"></script>
+    <script src="__PUBLIC__/front/js/gobal.js" type="text/javascript"></script>
+    <script src="__PUBLIC__/front/js/letter.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var type="{$type}";
+    </script>
+    <!--[if lt IE 9]>
+    <script src="__PUBLIC__/js/html5.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<section class="main_wrap main_wrap_inner">
+    <!--公用方法-->
+    <include file="Public:menu" />
+    <section class="content_wrap clearfix">
+        <div class="con_item">
+            <h2 class="con_item_tit clearfix">
+                <em class="font18 ffyh fl">申请院校和学历</em>
+            </h2>
+            <div class="con_item_c">
+                <div class="message_con">
+                    <table width="100%" class="apply_listing" cellpadding="1" cellspacing="0">
+                        <tbody>
+                        <tr>
+                            <td width="25%" align="left"><strong>Country</strong></td>
+                            <td align="left"><strong>Qualification</strong></td>
+                        </tr>
+                        <tr>
+                            <td align="left"><strong>New Zealand (8 universities)</strong></td>
+                            <td></td>
+                        </tr>
+                        <volist name="new_zealand" key="key" id="vo">
+                            <tr>
+                                <td align="left">{$key}</td>
+                                <td align="left">{$vo}</td>
+                            </tr>
+                        </volist>
+                        <tr>
+                            <td colspan="2">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td align="left"><strong>Australia (39 universities)</strong></td>
+                            <td></td>
+                        </tr>
+                        <volist name="australia" key="key" id="vo">
+                            <tr>
+                                <td align="left">{$key}</td>
+                                <td align="left">{$vo}</td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <include file="Public:footer" />
+</section>
+
+</body>
+</html>
