@@ -21,7 +21,72 @@ class ApplyController extends FrontbaseController
         $this->log_mod=D('Log');
         $this->status = C('APPLY_STATUS_OWN');
         $this->status_other = C('APPLY_STATUS_OTHERS');
-    } 
+    }
+
+
+    public function listing(){
+
+        //Country	Qualification
+        //New Zealand (8 universities)
+        $new_zealand = array(
+            'Auckland University of Technology'	=> '专科；本科；研究生',
+            'Lincoln University'	=> '专科；本科；研究生',
+            'Massey University'	=> '专科；本科；研究生',
+            'The University of Auckland'	=> '专科；本科；研究生',
+            'The University of Waikato'	=> '专科；本科；研究生',
+            'University of Canterbury'	=> '专科；本科；研究生',
+            'University of Otago'	=> '专科；本科；研究生',
+            'Victoria University of Wellington'	=> '专科；本科；研究生'
+        );
+
+        //Australia (39 universities)
+        $australia = array(
+            'Australian Catholic University'	=> '专科；本科；研究生',
+            'Bond University'	=> '专科；本科；研究生',
+            'Central Queensland University'	=> '专科；本科；研究生',
+            'Charles Darwin University'	=> '专科；本科；研究生',
+            'Charles Sturt University'	=> '专科；本科；研究生',
+            'Curtin University of Technology'	=> '专科；本科；研究生',
+            'Deakin University'	=> '专科；本科；研究生',
+            'Edith Cowan University'	=> '专科；本科；研究生',
+            'Flinders University'	=> '专科；本科；研究生',
+            'Griffith University'	=> '专科；本科；研究生',
+            'James Cook University'	=> '专科；本科；研究生',
+            'La Trobe University'	=> '专科；本科；研究生',
+            'Macquarie University'	=> '专科；本科；研究生',
+            'Monash University'	=> '专科；本科；研究生',
+            'Murdoch University'	=> '专科；本科；研究生',
+            'Queensland University of Technology'	=> '专科；本科；研究生',
+            'RMIT University'	=> '专科；本科；研究生',
+            'Southern Cross University'	=> '专科；本科；研究生',
+            'Swinburne University of Technology'	=> '专科；本科；研究生',
+            'The Australian National University'	=> '专科；本科；研究生',
+            'The University of Adelaide'	=> '专科；本科；研究生',
+            'The University of Melbourne'	=> '专科；本科；研究生',
+            'The University of New England'	=> '专科；本科；研究生',
+            'The University of New South Wales'	=> '专科；本科；研究生',
+            'The University of Newcastle'	=> '专科；本科；研究生',
+            'The University of Notre Dame Australia'	=> '专科；本科；研究生',
+            'The University of Queensland'	=> '专科；本科；研究生',
+            'The University of Sydney'	=> '专科；本科；研究生',
+            'The University of Western Australia'	=> '专科；本科；研究生',
+            'University of Ballarat'	=> '专科；本科；研究生',
+            'University of Canberra'	=> '专科；本科；研究生',
+            'University of South Australia'	=> '专科；本科；研究生',
+            'University of Southern Queensland'	=> '专科；本科；研究生',
+            'University of Tasmania'	=> '专科；本科；研究生',
+            'University of Technology Sydney'	=> '专科；本科；研究生',
+            'University of the Sunshine Coast'	=> '专科；本科；研究生',
+            'University of Western Sydney'	=> '专科；本科；研究生',
+            'University of Wollongong'	=> '专科；本科；研究生',
+            'Victoria University'	=> '专科；本科；研究生'
+        );
+
+        $this->assign('new_zealand',$new_zealand);
+        $this->assign('australia',$australia);
+        $this->display();
+    }
+
     //搜索院校
     public function search_college()
     {

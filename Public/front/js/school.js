@@ -127,14 +127,14 @@ $(function () {
 			return false;
 		}
 
-		if(!start_time || start_time=='年/月/日')
+		if(!start_time)
 		{ 
 			alert('请填写入学日期');
 			return false;
 		}
 		else if(!checkDate(start_time))
 		{
-			alert('入学日期不能早于当前日期！');
+			alert('入学日期不得早于或等于今日！');
 			return false;
 		}
 

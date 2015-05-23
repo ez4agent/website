@@ -49,9 +49,7 @@
                 <tbody>
                 <tr>
                     <th height="30px;" width="50%"><span style="font-size:12px;">院校名称：{$college_info.ename}</span></th>
-                    <th height="30px;" width="50%"><span style="font-size:12px;">学历名称：<strong>
-                    <font color="#FF0000">{$commission_info.education}</font>
-                    </strong></span></th>  
+                    <th height="30px;" width="50%"><span style="font-size:12px;">学历名称：{$commission_info.education}</span></th>
                 </tr>
                 <if condition="$Cooperation eq 0">
                 <tr>
@@ -69,13 +67,18 @@
                     </span></th>
                 </tr>
                 <tr>
-                	<th height="30px" width="50%"><span style="font-size:12px;">接收中介： <strong><font color="#FF0000">{$commission_info['username']}</font></strong>
-                    <input name="member_id" id="member_id" type="hidden" value="{$commission_info['member_id']}"/></span>
+                	<th height="30px" width="50%">
+                        <span style="font-size:12px;">
+                            接收中介： {$commission_info['username']}
+                            <input name="member_id" id="member_id" type="hidden" value="{$commission_info['member_id']}"/>
+                        </span>
                     </th>
                     
                     <th height="30px" width="50%">
                     <if condition="$stu neq 0">
-                    	<span style="font-size:12px;">输送中介： <strong><font color="#FF0000">{$stu_info['transportation_name']}</font></strong></span>
+                    	<span style="font-size:12px;">
+                            输送中介： {$stu_info['transportation_name']}
+                        </span>
                     <else />
                     	&nbsp;
                     </if>
@@ -84,8 +87,10 @@
                 <else />
                 <tr>
                 	<th height="30px" width="50%">
-                    <span style="font-size:12px;">中介名称： <strong><font color="#FF0000">{$stu_info['transportation_name']}</font></strong>
-                    <input name="member_id" id="member_id" type="hidden" value="{$commission_info['member_id']}"/></span>
+                        <span style="font-size:12px;">中介名称：
+                            {$stu_info['transportation_name']}
+                            <input name="member_id" id="member_id" type="hidden" value="{$commission_info['member_id']}"/>
+                        </span>
                     </th>
                     <th height="30px" width="50%"></th> 
                 </tr>
@@ -118,7 +123,7 @@
                     </tr>
                     <tr>
                         <th width="10%" height="30px;"><span style="font-size:12px;">入学时间：</span></th>
-                        <td width="90%" height="30px;"><input class="baseInfor_input birthday_input" type="text" id="start_time" name="start_time" value="年/月/日" ></td>
+                        <td width="90%" height="30px;"><input class="baseInfor_input birthday_input" type="text" id="start_time" name="start_time" placeholder="年/月/日" ></td>
                     </tr>
                     <tr>
 						<td colspan="2">
@@ -203,18 +208,18 @@
 								html+="<a href='"+path+"' target='_blank'><span style='text-align:left' class='title' title="+title+">"+title+"</span></a></li>";
 								$("#stu_file").append(html);
 								editor.hideDialog();
-							}
+							}/*
 							else if(data.status=='yes1')
 							{
 								alert('附件更新成功！');
-								window.location.reload();
+								//window.location.reload();
 								editor.hideDialog();
 							}
 							else if(data.status=='yes2')
 							{ 
-								window.location.reload();
+								//window.location.reload();
 								editor.hideDialog();
-							}
+							}*/
 							else
 							{
 								alert(data.msg);
@@ -227,12 +232,90 @@
 		});
 	});
 });
-    
+
     </script>
     <include file="Public:footer" />
 </section>
 	<div id="stu_form" style="display:none;">
  		<include file="Public:stu_info" />
 	</div>
+<script>
+    //提交保存
+    $("#stu_submit").click(function(){
+
+        //客户端验证
+        var xin = $("#xin").val();
+        var mingzi=$("#mingzi").val();
+
+        if(!xin || xin=='姓氏'|| !mingzi || mingzi=='名字')
+        {
+            alert('请输入学生姓名！');
+            return false;
+        }
+        //生日
+        var birthday=$("#birthday").val();
+        if(!birthday || birthday=='年/月/日'){
+            alert('请填写学生生日！');
+            return false;
+        }else{
+            if(!RQcheck(birthday)) {
+                alert("请输入正确的学生生日！");
+                return false;
+            }
+        }
+
+        //所在地
+        var country_id = $("#country_id").val();
+        var area_id = $("#area_id").val();
+        var city_id = $("#city_id").val();
+
+        if(!country_id || !area_id ||area_id==0|| !city_id ||city_id==0)
+        {
+            alert('请选择所在地！');
+            return false;
+        }
+
+        var data = $("#stu_info").serialize();
+        var url = $("#submit_url").val();
+
+        $.ajax({
+            type : "POST",
+            url : url,
+            data : data,
+            success : function(res)
+            {
+                if(res.status=='yes')
+                {
+                    reload_stu_selecter(res.stu_id);
+                    $("#stu_info")[0].reset()
+                    layer.closeAll();
+                }
+                else
+                {
+                    alert(res.msg);
+                    return false;
+                }
+            }
+        });
+
+    });
+
+
+    function reload_stu_selecter(id){
+
+        $.ajax({
+            type : "POST",
+            url : "{:U('Home/Student/ajax_students_option')}",
+            data : {'stu_id':id},
+            success : function(res)
+            {
+                $('#stu_info1').empty();
+                $('#stu_info1').append(res);
+            }
+        });
+
+
+    }
+</script>
 </body>
 </html>

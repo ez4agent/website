@@ -8,8 +8,8 @@
     <tbody>
     <tr height="30px;">
       <td width="50%" style=" font-size:12px"><span style="color:#F00">*</span>&nbsp;姓　　名：
-         <input class="baseInfor_input" id="xin" name="xin" value="姓氏" type="text" onFocus="if(this.value=='姓氏')this.value='';" onblur="if(this.value=='')this.value='姓氏';"/>
-         <input class="baseInfor_input" id="mingzi" name="mingzi" value="名字" type="text" onFocus="if(this.value=='名字')this.value='';" onblur="if(this.value=='')this.value='名字';"/>
+         <input class="baseInfor_input" id="xin" name="xin" type="text" placeholder="姓氏" value="" />
+         <input class="baseInfor_input" id="mingzi" name="mingzi" type="text"  placeholder="名字" value="" />
      </td>
       <td width="50%"  style=" font-size:12px">&nbsp;&nbsp;姓名拼音：
         <input class="baseInfor_input" id="xin_pinyin" name="xin_pinyin" type="text" value="" />
@@ -18,7 +18,7 @@
     </tr>
     <tr height="30px;">
       <td width="50%"  style=" font-size:12px"><span style="color:#F00">*</span>&nbsp;生　　日：
-      <input  name="birthday" type="text" id="birthday" class="baseInfor_input birthday_input" value="年/月/日" onFocus="if(this.value=='年/月/日')this.value='';"  />
+      <input  name="birthday" type="text" id="birthday" class="baseInfor_input birthday_input"  placeholder="年/月/日" value=""  />
       </td>
       <td width="50%"  style=" font-size:12px"><span style="color:#F00">*</span>&nbsp;性　　别：
          <label><input name="sex" type="radio" checked value="1">&nbsp;男</label>&nbsp;
@@ -61,7 +61,43 @@ $('#birthday').datetimepicker({
 	timepicker:false,
 	format:'Y/m/d',
 	formatDate:'Y/m/d',
+    maxDate: (new Date().getFullYear() - 1 ) + "-01-01"
 });
+
+
+//中文姓转换成拼音
+$("#xin").change(function(){
+    var xin = $(this).val();
+    if(xin!='')
+    {
+        if(!xin.match(/^[\u4e00-\u9fa5a-zA-Z]+$/)){
+            alert('姓氏只允许中文和字母');
+            $(this).val('');
+        }else{
+            chinesetoEN( xin,'xin_pinyin');
+        }
+
+    }else{
+        $('#xin_pinyin').val('');
+    }
+});
+
+//中文名字转换成拼音
+$("#mingzi").change(function(){
+    var mingzi = $(this).val();
+    if(mingzi!='')
+    {
+        if(!mingzi.match(/^[\u4e00-\u9fa5a-zA-Z]+$/)){
+            alert('名字只允许中文和字母');
+            $(this).val('');
+        }else {
+            chinesetoEN(mingzi, 'mingzi_pinyin');
+        }
+    }else{
+        $('#mingzi_pinyin').val('');
+    }
+});
+
 </script>
 
           

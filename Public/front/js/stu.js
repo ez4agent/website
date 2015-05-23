@@ -5,65 +5,6 @@
 
  $(document).ready(function(){
 
- 	//中文姓转换成拼音
-  	 $("#xin").blur(function(){
-	 	var xin = $("#xin").val();
-		if(xin!='姓氏')
-		{
-			chinesetoEN( xin,'xin_pinyin');
-		}
-  	 });
-	 
-	 //中文名字转换成拼音
-	 $("#mingzi").blur(function(){
-		 var mingzi = $("#mingzi").val();
-		 if(mingzi!='名字')
-		 {
-			 chinesetoEN( mingzi,'mingzi_pinyin');
-		 }
-	 });
-
-	 //提交保存
-	 $("#stu_submit").click(function(){
-
-	 	//客户端验证
-	 	  var xin = $("#xin").val();
-		  var mingzi=$("#mingzi").val();
-		  
-		  if(!xin || xin=='姓氏'|| !mingzi || mingzi=='名字')
-		  {
-		  		alert('请输入学生姓名！');
-				return false;
-		  }
-		  //生日
-		  var birthday=$("#birthday").val();
-		  if(!birthday || birthday=='年/月/日'){
-			  alert('请填写学生生日！');
-			  return false;
-		  }else{
-			 if(!RQcheck(birthday)) {
-                alert("请输入正确的学生生日！");
-                return false;
-             } 
-		  }
-		  
-		  //所在地
-		  var country_id = $("#country_id").val();
-		  var area_id = $("#area_id").val();
-		  var city_id = $("#city_id").val();
-	
-		  if(!country_id || !area_id ||area_id==0|| !city_id ||city_id==0)
-		  { 
-			 alert('请选择所在地！');
-			 return false;
-		  }
-
-		  var data = $("#stu_info").serialize();
-		  var url = $("#submit_url").val();
-		  ajax_submit(url,data);
-
-	 });
-
 	 //申请院校 查到院校(跳转到该院校页面)
 	 $("#apply").click(function(){
 
@@ -120,36 +61,33 @@
 
 	});
 
-	//学生搜索
-	$("#search_act").click(function(){ 
-		var value = $(".search_text").val();
-		var url =$("#sreach_url").val();
+    //学生搜索
+     $("#search_student_byname").keydown(function(e){
+         var e = e || event,keycode = e.which || e.keyCode;
+         var name = $(this).val();
 
-		if( value!='' || value=='学生姓名...' )
-		{ 
-			$.post(url,{value:value},function(data){ 
-				if(data.info!=0)
-				{ 
-					$("#stu_list").html('');
-					var html1="";
-					for (var i = 0; i < data.info.length; i++) {
-						
-						html1+="<li> <i class='icon'></i> <em>"+data.info[i].name+"</em> <a href='"+data.info[i].url+"'>查	看</a> </li>";
-					};
+         if (keycode==13 && name != '') {
+             $.post('/index.php?m=Home&c=Student&a=searchbyname',{value:name},function(data){
+                 if(data.info!=0) {
+                     $("#stu_list").html('');
+                     var html1="";
+                     for (var i = 0; i < data.info.length; i++) {
 
-					$("#stu_list").html(html1);
-					return true;
-				}
-				else
-				{ 
-					alert('您输入的学生姓名关键字没有匹配相应的学生,请重新搜索！');
-					return false;
-				}
+                         html1+="<li> <i class='icon'></i> <em>"+data.info[i].name+"</em> <a href='"+data.info[i].url+"'>查	看</a> </li>";
+                     };
 
-			},'json')
-		}
+                     $("#stu_list").html(html1);
+                     return true;
+                 }
+                 else
+                 {
+                     alert('您输入的学生姓名关键字没有匹配相应的学生,请重新搜索！');
+                     return false;
+                 }
 
-	})
+             },'json');
+         }
+     });
 
 
 	//交流
@@ -239,8 +177,9 @@ function chinesetoEN( xin ,id)
  *	添加学生
  */
  function add_stu(stu_id,form_url)
- { 
- 	
+ {
+     layer_area('填写学生基本信息(*必填)','stu_form',800,340);
+ 	/*
  	$.post(form_url,{stu_id:stu_id},function(data){ 
 
  		if(data.status=='yes')
@@ -277,7 +216,7 @@ function chinesetoEN( xin ,id)
  	    }
 
  	},'json');
- 	
+ 	*/
  }
 
  /* 

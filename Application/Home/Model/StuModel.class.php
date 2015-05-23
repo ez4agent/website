@@ -85,7 +85,7 @@ class StuModel extends Model
         if($type){
             $where['type'] = $type;
         }  
-        $list =M('stu')->where($where)->field('id,stu_id,type')->select();
+        $list =M('stu')->where($where)->field('id,stu_id,type')->order('id desc')->select();
         if(!empty($list))
         { 
             $str="";

@@ -115,7 +115,7 @@
           <div class="c_tem message_rc">
             <div class="c_tem_text fl"> <span>院校申请</span> &nbsp;&nbsp;
              <if condition="($info.type eq 1) or ($info.type eq '')"> 
-            <font color="#FF0000">(每个学生共有5次申请机会，其中大学专业课程申请次数不得超过2次)</font> 
+            <font color="#FF0000">(每个学生均有5次申请机会， 其中<a href="{:U('Home/Apply/listing')}" target="_blank">list</a>上的院校和学历只可申请不超过2次)</font>
              </if>
             </div>
           </div>
@@ -258,6 +258,48 @@ KindEditor.ready(function(K) {
 			});
 		}
 	});
+});
+
+
+//提交保存
+$("#stu_submit").click(function(){
+
+    //客户端验证
+    var xin = $("#xin").val();
+    var mingzi=$("#mingzi").val();
+
+    if(!xin || xin=='姓氏'|| !mingzi || mingzi=='名字')
+    {
+        alert('请输入学生姓名！');
+        return false;
+    }
+    //生日
+    var birthday=$("#birthday").val();
+    if(!birthday || birthday=='年/月/日'){
+        alert('请填写学生生日！');
+        return false;
+    }else{
+        if(!RQcheck(birthday)) {
+            alert("请输入正确的学生生日！");
+            return false;
+        }
+    }
+
+    //所在地
+    var country_id = $("#country_id").val();
+    var area_id = $("#area_id").val();
+    var city_id = $("#city_id").val();
+
+    if(!country_id || !area_id ||area_id==0|| !city_id ||city_id==0)
+    {
+        alert('请选择所在地！');
+        return false;
+    }
+
+    var data = $("#stu_info").serialize();
+    var url = $("#submit_url").val();
+    ajax_submit(url,data);
+
 });
 </script>
 </body>

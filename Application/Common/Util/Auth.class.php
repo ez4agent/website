@@ -7,7 +7,7 @@ class Auth {
 	const AUTH_REMAMBER_NAME='cl_remember';
     const AUTH_TIMEOUT_VAR='__timeout';
 
-    private $_timeout = 6400;
+    private $_timeout;
 
     private $_sessin_name = "member";
 
@@ -15,6 +15,7 @@ class Auth {
 
     public function __construct(){
 
+        $this->_timeout =  3600 * 24 * 7;
         $this->_secret_key = C('SALT');
         if($this->isGuest()){
             $cookie = $this->getAuthCookie();

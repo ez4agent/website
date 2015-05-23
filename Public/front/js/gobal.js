@@ -312,7 +312,7 @@ function check_unique( url,field,value,async)
 
 
 //AJAX提交
-function ajax_submit(url,data)
+function ajax_submit(url,data )
 {
 	$.ajax({ 
 	  type : "POST", 
@@ -344,13 +344,13 @@ function ajax_submit(url,data)
 //layer弹出层
 function layer_area(title,id,width,height)
 {
-	$.layer({
+	return $.layer({
         type: 1,
         title: title,
         border : [5, 0.5, '#666'],
         area: [width,height],
         shadeClose: true,
-        page: {dom: '#'+id,},
+        page: {dom: '#'+id}
     });
 }
 

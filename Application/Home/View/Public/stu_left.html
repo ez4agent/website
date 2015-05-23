@@ -1,8 +1,8 @@
 <div class="con_item">
   <h2 class="con_item_tit clearfix"> <em class="font18 ffyh fl">学生列表</em>
-    <div class="c_tem_search fl"> <i class="icon" id="search_act"></i>
-      <input class="search_text" value="学生姓名..." onFocus="if(this.value=='学生姓名...')this.value='';" onblur="if(this.value=='')this.value='学生姓名...';" type="text">
-      <input id="sreach_url" type="hidden" value="{:U('Home/Student/searchbyname')}" />
+    <div class="c_tem_search fl">
+        <i class="icon" id="search_act"></i>
+        <input class="search_text" placeholder="学生姓名" id="search_student_byname" name="name" type="text">
     </div>
     <i class="icon icon2 fr" onclick="add_stu(0,'{:U('Home/Student/get_infoBystu_id')}');"></i> </h2>
   <div class="con_item_c">

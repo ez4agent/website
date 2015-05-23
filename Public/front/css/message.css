@@ -114,3 +114,6 @@
     background: url("../images/mail227195.png") no-repeat scroll -65px 0 rgba(0, 0, 0, 0);
     cursor: pointer;
 }
+
+.apply_listing{ border-spacing: 1px}
+.apply_listing td{ line-height: 27px; border-bottom: 1px solid #ccc;}

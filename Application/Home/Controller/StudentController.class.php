@@ -138,7 +138,12 @@ class StudentController extends FrontbaseController
                     $this->ajaxReturn(array('status'=>'no','msg'=>$res['msg']));
                     exit();
                 }
-                $this->ajaxReturn(array('status'=>'yes','msg'=>'修改成功！'));
+                $this->ajaxReturn(array(
+                    'status'=>'yes',
+                    'msg'=>'修改成功！',
+                    'url' => U('Home/Student/index',array('stu'=>$data['stu_id'])),
+                    'stu_id' => $stu_id
+                ));
                 exit();
             }
             else
@@ -147,6 +152,7 @@ class StudentController extends FrontbaseController
                 $data['stu_name']=$data['xin'].','.$data['mingzi'];
                 $data['pinyin']=$data['xin_pinyin'].','.$data['mingzi_pinyin'];
                 $data['member_id'] = $this->member_id;
+                //$data['stu_no'] = '0';
                 unset($data['xin']);
                 unset($data['mingzi']);
                 unset($data['xin_pinyin']);
@@ -163,12 +169,22 @@ class StudentController extends FrontbaseController
                         'add_time'=>time(),
                     );
                     $stu_id=M('stu')->add($stu_insert);
-                    $this->ajaxReturn(array('status'=>'yes','msg'=>'添加成功！'));
+
+                    $this->ajaxReturn(array(
+                        'status'=>'yes',
+                        'msg'=>'添加成功！',
+                        'url' => U('Home/Student/index',array('stu'=>$stu_id)),
+                        'stu_id' => $stu_id
+                    ));
                     exit();
                 }
                 else 
                 {
-                    $this->ajaxReturn(array('status'=>'no','msg'=>$res['msg']));
+                    $this->ajaxReturn(array(
+                        'status'=>'no',
+                        'msg'=>$res['msg'],
+                        'url' => U('Home/Student/index')
+                    ));
                     exit();
                 }
             }
@@ -519,6 +535,19 @@ class StudentController extends FrontbaseController
             $this->ajaxReturn(array('status'=>'yes','info'=>$list));
             exit;
         }
+    }
+
+
+    public function ajax_students_option(){
+        if(!IS_AJAX || !$this->member_id) {
+            return '';
+        }
+
+        $stu_id = I('param.stu_id','0','intval');
+        $options = D('Stu')->select_stu($stu_id,$this->member_id);
+
+        $this->ajaxReturn($options,'EVAL');
+        exit;
     }
 }
 

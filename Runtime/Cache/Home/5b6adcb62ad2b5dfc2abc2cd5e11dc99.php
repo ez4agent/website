@@ -57,7 +57,7 @@
 		<em class="icon1"><i class="icon"></i><b>company<br/>The lader</b></em>
 		<em class="icon2"><i class="icon"></i><b>recruit<br/>call  me</b></em>
 		<em><b>(c) 上海瓯丽信息科技有限公司. All rights reserved.</b></em>
-		<p class="copy">Copyright @ 上海瓯丽信息科技有限公司 京ICP10035687</p>
+		<p class="copy">Copyright @ 上海瓯丽信息科技有限公司 沪ICP14049149</p>
 	</div>
 </section>		
 </section>
