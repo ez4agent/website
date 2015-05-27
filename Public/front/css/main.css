@@ -12,7 +12,7 @@ body{ color:#444;}
 .login_nav a:hover,
 .login_nav a.active{ line-height:37px; border-bottom:3px solid #444444;}
 
-.banner_wrap{ width:100%; overflow:hidden;  height: 675px;position:relative;}
+.banner_wrap{ width:100%; overflow:hidden;  height: 660px;position:relative;}
 .banner_wrap .banner_inner{ display:block; position:absolute; z-index:2; left:50%; margin-left:-840px; top:0px;}
 
 .banner_box{  background: url("../images/p_login.gif") no-repeat scroll center bottom rgba(0, 0, 0, 0);
@@ -38,6 +38,8 @@ margin: 0px auto; padding: 5px; line-height: 25px; text-indent: 2em; font-size: 
 .login_inner{  background:url("../images/p_login.gif") no-repeat center bottom; /*padding-bottom:35px;*/ position:absolute; top:30%; z-index:10; width:500px; }
 .login_made{ background:url("../images/login_bg.png") repeat;  padding:1px; border-radius:5px;}
 .login_made_inner{background:#f9f9f9;background: -moz-linear-gradient(top,#f9f9f9,#f0f0f0); background:-webkit-linear-gradient(top,#f9f9f9,#f0f0f0);background:-o-linear-gradient(top,#f9f9f9,#f0f0f0);border-radius:5px; padding:40px 124px 40px; }
+.certifiemail_inner{background:#f9f9f9;background: -moz-linear-gradient(top,#f9f9f9,#f0f0f0); background:-webkit-linear-gradient(top,#f9f9f9,#f0f0f0);background:-o-linear-gradient(top,#f9f9f9,#f0f0f0);border-radius:5px; padding:40px 20px 40px; }
+
 .input_wrap{ width:250px; height:40px; background-color:#d3d3d3; border-radius:2px; box-shadow:1px 2px 2px #888888 inset; margin-bottom:14px; position:relative; }
 .input_wrap .login_input{ width:230px; height:40px; line-height:40px; padding:0 10px; border:none; background:none; position:absolute; z-index:15;}
 .input_wrap span{ display:block; position:absolute; z-index:14; font-family:"微软雅黑"; line-height:40px; font-size:14px; padding-left:10px; color:#666;}
@@ -139,6 +141,130 @@ background:-webkit-linear-gradient(top,#d7d7d7,#ffffff);background:-o-linear-gra
 .bottom .icon2 i{ background-position:0 -38px; width:32px; height:32px; vertical-align:middle;}
 .copy{ padding-top:15px; color:#888;}
 
+.certifiemail p{
+    text-indent: 0;
+}
 
 
+.certifiemail .message{
+    margin: 15px 0;
+    line-height: 27px;
+}
+
+.certifiemail .form-actions{
+    margin-bottom: 50px;
+    padding: 0 10px;
+}
+
+.certifiemail .form-actions .btn {
+    margin: 10px 0;
+}
+
+.certifiemail .tip{
+    font-size: 12px;
+}
+
+.certifiemail .help li{
+    list-style: inside none disc;
+    line-height: 21px;
+    font-size: 12px;
+}
+.certifiemail .help a{
+    color: #0077dd;
+ }
+
+
+
+
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.btn:active {
+    background-image: none;
+    outline: 0;
+    -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+}
+
+.btn[disabled]{
+    pointer-events: none;
+    cursor: not-allowed;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    opacity: .65;
+}
+
+.btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active{
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
+.btn-default:active{
+    background-image: none;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #428bca;
+    border-color: #357ebd;
+}
+.btn-primary:hover,
+.btn-primary:active{
+    color: #fff;
+    background-color: #3071a9;
+    border-color: #285e8e;
+    background-image: none;
+}
+
+.btn-primary[disabled],
+.btn-primary[disabled]:hover,
+.btn-primary[disabled]:active {
+    background-color: #428bca;
+    border-color: #357ebd;
+}
+
+.btn-outline {
+    color: inherit;
+    background-color: transparent;
+    transition: all .5s;
+}
+
+.findpass .inpt{
+    padding: 10px 0;
+    line-height: 37px;
+}
+
+.findpass .input{
+    font-size: 14px;
+    height: 37px;
+    line-height: 37px;background-color:#efefef;
+    border-radius:2px; box-shadow:1px 2px 2px #888888 inset;
+    border:none; padding:0 6px;
+}
 

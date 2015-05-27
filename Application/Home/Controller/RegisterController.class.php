@@ -115,23 +115,35 @@ class RegisterController extends BaseController
             );
 
             //处理用户数据
-            $result=$this->member_mod->reg_Member_Info($member_data);  
+            $result=$this->member_mod->reg_Member_Info($member_data);
             if($result['error'])
             {
                 $this->ajaxReturn(array('error'=>102,'response'=>'注册失败'));
                 exit();
             }
-            else 
+            else
             {
+
+                $_SESSION['signup_user'] = array(
+                    'username' => $username,
+                    'usermail' => $email,
+                    'password' => $pwd
+                );
+
+                $this->ajaxReturn(array('error'=>0,'response'=>'/index.php?m=Home&c=Auth&a=certifiemail'));
+                exit();
+                /*
                 //登陆信息
                 $auth = new Auth();
                 $auth->logging($_info['member_id'],$checked);
 
                 M('member')->where('member_id='.$result['data'])->setInc('login_times');
+
+                $this->ajaxReturn(array('error'=>0,'response'=>'/index.php?m=Home&c=Schedule&a=index'));
+                exit();
+                */
             }
-            
-            $this->ajaxReturn(array('error'=>0,'response'=>'/index.php?m=Home&c=Schedule&a=index'));
-            exit();
+
         }
     }
     

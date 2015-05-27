@@ -60,6 +60,16 @@ class LoginController extends BaseController
                 {
                     $this->ajaxReturn(array('status'=>'no','msg'=>'该用户名已被锁定,请联系管理员解锁！'));
                     exit();
+
+                }elseif($_info['certifiemail']==0){
+
+                    $_SESSION['signup_user'] = array(
+                        'username' => $_info['username'],
+                        'password' => $pwd
+                    );
+
+                    $this->ajaxReturn(array('status'=>'yes','msg'=>'','url'=>'/index.php?m=Home&c=Auth&a=certifiemail'));
+                    exit();
                 }
                 else
                 {

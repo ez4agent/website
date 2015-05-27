@@ -1,4 +1,5 @@
 Runtime/
+Runtime/Cache/
 Application/Runtime/
 Uploads/
 Application/Common/Conf/

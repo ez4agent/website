@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>用户邮件激活-EZ4Agent</title>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/share.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/main.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/common.css">
+<script src="__PUBLIC__/js/jquery.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/area.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/gobal.js" type="text/javascript"></script>
+<!--[if lt IE 9]>
+    <script src="__PUBLIC__/js/html5.js"></script>
+<![endif]-->
+</head>
+<body>
+
+<section class="main_wrap">
+    <include file="Public:login-header" />
+    <section class="banner_wrap">
+        <div class="login_con">
+            <div class="login_inner">
+                <div class="login_made">
+                    <div class="banner_box_inner certifiemail">
+                        <h2>用户邮件激活</h2>
+
+                        <?php if($step == 'postemail'):?>
+
+                        <div class="form ">
+                            <p class="message">邮箱验证后，即可完成注册！</p>
+                            <p>只需登录邮箱 <?=$usermail?> 点击链接激活即可。</p>
+                            <div class="form-actions">
+                                <a class="btn btn-primary" href="<?=$maildaemon?>" target="_blank">立即登录邮箱验证</a>
+                            </div>
+                            <p class="tip">还没有收到验证邮件？</p>
+                            <ul class="help">
+                                <li>尝试到广告邮件、垃圾邮件目录里找找看</li>
+                                <li><a href="<?=U('Home/Auth/certifiemail')?>">再次发送验证邮件</a></li>
+                                <li>如果重发注册验证邮件仍然没有收到，请<a href="<?=U('Home/Register/index')?>">更换另一个邮件地址</a></li>
+                            </ul>
+                        </div>
+                        <?php elseif($step == 'authcode'):?>
+                        <div class="form authcode">
+                            <p class="message"><?=$certifie_message?></p>
+                            <p class="tip">您可以</p>
+                            <ul class="help">
+                                <li><a href="<?=U('Home/Auth/certifiemail')?>">再次发送验证邮件</a></li>
+                                <li>请<a href="<?=U('Home/Register/index')?>">重新注册</a></li>
+                            </ul>
+                        </div>
+                        <?php endif;?>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="banner_inner"><img src="__PUBLIC__/front/images/bannerImg.jpg" width="1680" height="704" alt="" /></div>
+    </section>
+    <include file="Public:footer" />
+</section>
+</body>
+</html>

@@ -491,7 +491,7 @@ class SMTP {
    * @return bool
    */
   private function SendHello($hello, $host) {
-    fputs($this->smtp_conn, $hello . " " . $host . $this->CRLF);
+    fputs($this->smtp_conn, $hello . " [" . $host ."]". $this->CRLF);
 
     $rply = $this->get_lines();
     $code = substr($rply,0,3);

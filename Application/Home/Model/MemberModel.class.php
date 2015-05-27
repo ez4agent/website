@@ -20,6 +20,10 @@ class MemberModel extends Model
         $info= M('member')->where(array('username'=>$username))->find();
         return $info;
     }
+
+    public function get_member($member_id){
+        return M('member')->where(array('member_id'=>$member_id))->find();
+    }
     
     /**
      *  获取会员信息
@@ -87,6 +91,7 @@ class MemberModel extends Model
                           'pwd'     =>md5($data['pwd']),                 
                           'is_open' =>1,
                           'grade'   =>1,
+                          'certifiemail' => 0,
                           'add_time' =>time(),
                        ));
         if($member_id)

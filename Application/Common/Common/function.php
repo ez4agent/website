@@ -393,63 +393,118 @@ function html_out($str){
  *  array  $file    附件
  *  return boolean
  */
-function send_email($to,$title,$content,$file=array())
-{
-    header('Content-type:text/html;charset=utf-8');
-    vendor("PHPMailer.class#phpmailer");
-    
-    $config = C('EMAIL');
-    $mail=new \PHPMailer();
-    
-    // 设置PHPMailer使用SMTP服务器发送Email
-    $mail->IsSMTP();
-    $mail->SMTPSecure = "ssl";    				//打开SSL
-    $mail->SMTPDebug  = 1;                     // 启用SMTP调试功能
-    // 设置邮件的字符编码，若不指定，则为'UTF-8'
-    $mail->CharSet='UTF-8';
-     
-    // 添加收件人地址，可以多次使用来添加多个收件人
-    $mail->AddAddress($to);
 
-    // 设置邮件正文
-    $mail->Body=$content;
-     
-    // 设置邮件头的From字段。
-    $mail->From=$config['FROM'];
-     
-    // 设置发件人名字
-    $mail->FromName=$config['FROMNAME'];
-     
-    // 设置邮件标题
-    $mail->Subject=$title;
-     
-    // 设置SMTP服务器。
-    $mail->Host=$config['HOST'];
-    $mail->Port= $config['PORT'];
-    // 设置为"需要验证"
-    $mail->SMTPAuth=true;
-     
-    // 设置用户名和密码。
-    $mail->Username=$config['USER'];
-    $mail->Password=$config['PASSWORD'];
-    
-    //如果附件
-    if(!empty($file))
-    { 
-        foreach($file as $key=>$val)
-        {
-            $houzui = substr(strrchr($val['file_path'], '.'), 1);
-            $mail->AddAttachment('./Uploads'.$val['file_path'],$val['file_name'].'.'.$houzui);
+function send_email($to,$title,$content,$file=array(),$type = 'info')
+{
+    //header('Content-type:text/html;charset=utf-8');
+    import("Common.Util.PHPMailer");
+    //Vendor('PHPMailer.PHPMailerAutoload');
+    $mail_config = C('EMAIL');
+    $config = $mail_config[$type];
+
+    try {
+        $mail=new \PHPMailer(true);
+        // 设置PHPMailer使用SMTP服务器发送Email
+        $mail->IsSMTP();
+        $mail->CharSet = 'utf-8';
+        //Enable SMTP debugging
+        // 0 = off (for production use)
+        // 1 = client messages
+        // 2 = client and server messages
+        $mail->SMTPDebug = 0;
+        //Ask for HTML-friendly debug output
+        //$mail->Debugoutput = 'html';
+
+        $mail->Host = $config['HOST'];
+        $mail->Port = 25;
+        $mail->SMTPAuth = true;
+        $mail->Username = $config['USER'];
+        $mail->Password = $config['PASSWORD'];//"EZ4agent1";
+
+        $mail->setFrom($config['FROM'], $config['FROMNAME']);
+        $mail->AddAddress($to);
+
+        // 设置邮件标题
+        $mail->Subject = $title;
+        $mail->Body = $content;
+
+        if (!empty($file)) {
+            foreach ($file as $key => $val) {
+                $houzui = substr(strrchr($val['file_path'], '.'), 1);
+                $mail->AddAttachment('./Uploads' . $val['file_path'], $val['file_name'] . '.' . $houzui);
+            }
         }
+
+        $mail->IsHTML(true);
+
+        // 发送邮件。
+        $mail->Send();
+    } catch (\phpmailerException $e) {
+        //echo $e->errorMessage();
+        return false;
+    } catch (\Exception $e) {
+        //echo $e->getMessage();
+        return false;
     }
-    
-    // 发送邮件。
-    if($mail->Send()){
-       return true;
-    }else{
-       return false;
-    }
+
+    return true;
 }
 
+
+
+function authcode($string, $operation = 'DECODE', $key = '', $expiry = 3600) {
+
+    $ckey_length = 4;
+    // 随机密钥长度 取值 0-32;
+    // 加入随机密钥，可以令密文无任何规律，即便是原文和密钥完全相同，加密结果也会每次不同，增大破解难度。
+    // 取值越大，密文变动规律越大，密文变化 = 16 的 $ckey_length 次方
+    // 当此值为 0 时，则不产生随机密钥
+
+    $key = md5($key ? $key : 'default_key'); //这里可以填写默认key值
+    $keya = md5(substr($key, 0, 16));
+    $keyb = md5(substr($key, 16, 16));
+    $keyc = $ckey_length ? ($operation == 'DECODE' ? substr($string, 0, $ckey_length): substr(md5(microtime()), -$ckey_length)) : '';
+
+    $cryptkey = $keya.md5($keya.$keyc);
+    $key_length = strlen($cryptkey);
+
+    $string = $operation == 'DECODE' ? base64_decode(substr($string, $ckey_length)) : sprintf('%010d', $expiry ? $expiry + time() : 0).substr(md5($string.$keyb), 0, 16).$string;
+    $string_length = strlen($string);
+
+    $result = '';
+    $box = range(0, 255);
+
+    $rndkey = array();
+    for($i = 0; $i <= 255; $i++) {
+        $rndkey[$i] = ord($cryptkey[$i % $key_length]);
+    }
+
+    for($j = $i = 0; $i < 256; $i++) {
+        $j = ($j + $box[$i] + $rndkey[$i]) % 256;
+        $tmp = $box[$i];
+        $box[$i] = $box[$j];
+        $box[$j] = $tmp;
+    }
+
+    for($a = $j = $i = 0; $i < $string_length; $i++) {
+        $a = ($a + 1) % 256;
+        $j = ($j + $box[$a]) % 256;
+        $tmp = $box[$a];
+        $box[$a] = $box[$j];
+        $box[$j] = $tmp;
+        $result .= chr(ord($string[$i]) ^ ($box[($box[$a] + $box[$j]) % 256]));
+    }
+
+    if($operation == 'DECODE') {
+        if((substr($result, 0, 10) == 0 || substr($result, 0, 10) - time() > 0) && substr($result, 10, 16) == substr(md5(substr($result, 26).$keyb), 0, 16)) {
+            return substr($result, 26);
+        } else {
+            return '';
+        }
+    } else {
+        return $keyc.str_replace('=', '', base64_encode($result));
+    }
+
+}
 
 

@@ -43,7 +43,7 @@
                 <a href="javascript:void(0);" class="login_bt" id="submit_login">登录</a>
                 <a href="<?php echo U('Home/Register/index');?>" class="regsiter_bt">注册</a>
               </p>
-              <p class="wj_pwd"><a href="#">忘记密码? </a></p>
+              <p class="wj_pwd"><a href="<?=U('Home/Auth/findpass')?>">忘记密码? </a></p>
             </div>
           </form>
           </div>
