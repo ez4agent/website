@@ -112,10 +112,107 @@ EOT;
     public function findpass()
     {
 
-        if(IS_AJAX) {
+        $act = isset($_POST['act']) ? $_POST['act'] : '';
+        $errors = array();
 
-            $this->ajaxReturn(array('status'=>'yes','msg'=>'','url'=>U('Home/Schedule/index')));
+        if(IS_AJAX && $act == 'sendmail') {
+
+            $email = isset($_POST['email']) ? $_POST['email'] : '';
+            if(empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)!==false){
+                $errors = array('message'=>'邮箱地址格式不正确','label' => 'usermail');
+            }else if(checkfield('member_info','email1',$email)){
+                $errors = array('message'=>'该邮箱没有被注册','label' => 'usermail');
+            }
+
+            if(!empty($errors)){
+                $this->ajaxReturn(array('error'=>101,'response'=>$errors));
+                exit();
+            }
+
+            $member_info = D('Member')->get_member_bymail($email);
+
+            $code = generate_key(6,true);
+            $token = md5($member_info['email1'].$member_info['pwd'].session_id());
+
+            session('findpass',array(
+                'code' => $code,
+                'token'=>$token,
+                'uid' => $member_info['member_id'],
+                'email' => $member_info['email1']
+            ));
+
+            $html = "您的验证码是".$code."，在5分钟内有效";
+            send_email($member_info['email1'],'ez4agent邮件验证码',$html,array(),'noreply');
+
+
+            $this->ajaxReturn(array('error'=>0,'response'=>array('usermail'=>$member_info['email1'])));
             exit();
+        }elseif(IS_AJAX && $act == 'resendmail'){
+
+            $findpass = session('findpass');
+
+            if($findpass){
+                $code = generate_key(6,true);
+
+                $html = "您的验证码是".$code."，在5分钟内有效";
+                send_email($findpass['email'],'ez4agent邮件验证码',$html,array(),'noreply');
+
+                $findpass['code'] = $code;
+                session('findpass',$findpass);
+
+                $this->ajaxReturn(array('error'=>0,'response'=>array()));
+                exit();
+
+            }
+
+            $this->ajaxReturn(array('error'=>0,'response'=>array('message'=>'操作已超时，请返回重新找回密码')));
+            exit();
+
+        }elseif(IS_AJAX && $act == 'checkcode'){
+            $mailcode = isset($_POST['mailcode']) ? $_POST['mailcode'] : '';
+
+            $findpass = session('findpass');
+            if( $findpass['code'] != $mailcode){
+                $this->ajaxReturn(array('error'=>101,'response'=>array('message'=>'验证码不正确')));
+                exit();
+            }
+
+            $this->ajaxReturn(array('error'=>0,'response'=>array('token'=>$findpass['token'])));
+            exit();
+
+        }elseif(IS_AJAX && $act == 'changepass'){
+            $newpass = isset($_POST['newpass']) ? trim($_POST['newpass']) : '';
+            $newpass_cfm = isset($_POST['newpass_cfm']) ? $_POST['newpass_cfm'] : '';
+            $onice = isset($_POST['onice']) ? $_POST['onice'] : '';
+
+            $findpass = session('findpass');
+
+            if (empty($newpass) || strlen($newpass) < 6 || strlen($newpass) > 15){
+                $errors = array('message'=>'密码应该大于6位小于15位','label' => 'newpass');
+            }else if ($newpass_cfm != $newpass){
+                $errors = array('message'=>'二次确认密码不一致','label' => 'newpass_cfm');
+            }else if($findpass['token'] != $onice){
+                $errors = array('message'=>'无效请求');
+            }
+
+            if(!empty($errors)){
+                $this->ajaxReturn(array('error'=>101,'response'=>$errors));
+                exit();
+            }
+
+            $member_info = D('Member')->get_member_bymail($findpass['email']);
+            if(!empty($member_info) && $member_info['member_id'] == $findpass['uid']){
+                M('member')->where(array('member_id'=> $member_info['member_id']))->setField('pwd',md5($newpass));
+
+                session('findpass',null);
+                
+                $this->ajaxReturn(array('error'=>0,'response'=>''));
+                exit();
+            }
+
+            $this->ajaxReturn(array('error'=>101,'response'=>array('message'=>'充值密码失败')));
+            exit();
+
         }
 
         $this->display();

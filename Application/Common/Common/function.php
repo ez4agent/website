@@ -507,4 +507,19 @@ function authcode($string, $operation = 'DECODE', $key = '', $expiry = 3600) {
 
 }
 
+function generate_key($size,$number_only=false){
+    if($number_only){
+        $alphabet = '0123456789';
+    }else{
+        $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    }
+
+    $l = strlen($alphabet)-1;
+    $key = '';
+    for ($i=0; $i<$size; $i++){
+        $key.= $alphabet[mt_rand(0, $l)];
+    }
+    return $key;
+}
+
 

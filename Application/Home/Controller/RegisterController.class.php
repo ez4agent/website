@@ -81,13 +81,12 @@ class RegisterController extends BaseController
                 $errors[] = array('message'=>'请选择地区','label' => 'from');
             }
 
-            if(!checkfield('member_info','email1',$email)) {
+            if(empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)!==false){
+                $errors[] = array('message'=>'邮箱地址格式不正确','label' => 'email');
+            }else if(!checkfield('member_info','email1',$email)){
                 $errors[] = array('message'=>'该邮箱已被注册','label' => 'email');
             }
 
-            if(empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)!==false){
-                $errors[] = array('message'=>'邮箱地址格式不正确','label' => 'email');
-            }
 
             if(!empty($errors)){
                 $this->ajaxReturn(array('error'=>101,'response'=>$errors));

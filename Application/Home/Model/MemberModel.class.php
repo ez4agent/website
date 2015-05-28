@@ -24,7 +24,15 @@ class MemberModel extends Model
     public function get_member($member_id){
         return M('member')->where(array('member_id'=>$member_id))->find();
     }
-    
+
+    public function get_member_bymail($email){
+        $_info = M('member_info')->alias('ai')
+            ->join('__MEMBER__ b ON b.member_id= ai.member_id','left')
+            ->where(array('ai.email1'=>$email))
+            ->find();
+        return $_info;
+    }
+
     /**
      *  获取会员信息
      *  @param intval member_id

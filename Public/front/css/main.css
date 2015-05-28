@@ -151,29 +151,27 @@ background:-webkit-linear-gradient(top,#d7d7d7,#ffffff);background:-o-linear-gra
     line-height: 27px;
 }
 
-.certifiemail .form-actions{
-    margin-bottom: 50px;
+.form-actions{
+
     padding: 0 10px;
 }
 
-.certifiemail .form-actions .btn {
+.form-actions .btn {
     margin: 10px 0;
 }
 
-.certifiemail .tip{
+.tip{
     font-size: 12px;
 }
 
-.certifiemail .help li{
+.help li{
     list-style: inside none disc;
     line-height: 21px;
     font-size: 12px;
 }
-.certifiemail .help a{
+.help a{
     color: #0077dd;
  }
-
-
 
 
 .btn {
@@ -266,5 +264,17 @@ background:-webkit-linear-gradient(top,#d7d7d7,#ffffff);background:-o-linear-gra
     line-height: 37px;background-color:#efefef;
     border-radius:2px; box-shadow:1px 2px 2px #888888 inset;
     border:none; padding:0 6px;
+}
+
+.findpass .findpass_step p{
+    text-indent: 0;
+    font-size: 12px;
+    color: #666;
+}
+
+.findpass .findpass_step .subtitle{
+    font-size: 14px;
+    padding:10px 5px;
+    color: #000;
 }
 

@@ -24,17 +24,56 @@
                     <div class="banner_box_inner findpass">
                         <h2>密码找回</h2>
 
-                        <form method="post" id="findpass-form" autocomplete="off" action="" accept-charset="UTF-8">
+                        <div id="input_email" class="findpass_step">
+                            <p class="subtitle">请填写你需要找回的账号信息</p>
                             <dl>
                                 <dd class="inpt">
-                                    <input type="text" class="input"  size="50" value=""  placeholder="请输入密码找回的邮箱地址" name="usermail">
-                                    <div class="popover" id="nickname_tip"></div>
+                                    <input type="text" class="input"  size="50" value=""  placeholder="请输入密码找回的邮箱地址" id="usermail" name="usermail">
+                                    <div class="popover" id="usermail_tip"></div>
                                 </dd>
                             </dl>
                             <div class="form-actions">
-                                <a id="findpass_button" class="btn btn-primary" type="submit" onclick="return false;" href="#">发送邮件</a>
+                                <button id="sendmail_button" class="btn btn-primary" type="button">发送邮件</button>
                             </div>
-                        </form>
+                        </div>
+                        <div id="input_code" class="findpass_step" style="display: none">
+                            <p class="subtitle">请验证你的邮箱</p>
+                            <p>
+                                已向你的邮箱 <a id="mailto" href="javascript:;" style="color: #0077dd;"></a>发送了一封验证邮件。<br/>
+                                请将邮件中的6位验证码输入下方的输入框内，完成邮箱验证。
+                            </p>
+
+                            <dl>
+                                <dd class="inpt">
+                                    <input type="text" class="input" placeholder="邮箱验证码"  size="20" value="" id="mailcode" name="mailcode">
+                                    <button id="checkmail_button" class="btn btn-primary" type="button">验证邮箱</button>
+                                    <div class="popover" id="mailcode_tip"></div>
+                                </dd>
+                            </dl>
+
+                            <p class="tip">没有收到邮件？</p>
+                            <ul class="help">
+                                <li>如果你没有收到验证邮件， <a id="resendmail" href="javascript:;">请点击此处重新发送验证邮件</a></li>
+                                <li>你的邮件系统可能会误将激活邮件识别为垃圾邮件，请到垃圾邮件目录找找。</li>
+                            </ul>
+                        </div>
+                        <div id="input_pass" class="findpass_step"  style="display: none">
+                            <p class="subtitle">设置新的密码</p>
+                            <dl>
+                                <dd class="inpt">
+                                    <input type="password" class="input"  size="50" value=""  placeholder="请输入新的密码" name="newpass" id="newpass">
+                                    <div class="popover" id="newpass_tip"></div>
+                                </dd>
+                                <dd class="inpt">
+                                    <input type="password" class="input"  size="50" value=""  placeholder="请输入新的密码" name="newpass_cfm" id="newpass_cfm">
+                                    <div class="popover" id="newpass_cfm_tip"></div>
+                                </dd>
+                            </dl>
+                            <div class="form-actions">
+                                <input type="hidden" name="onice" id="onice" value=""/>
+                                <button id="changepass_button" class="btn btn-primary" type="button">设置密码</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -58,43 +97,124 @@
             $("#"+name + "_tip").hide();
         }
 
-        $('#findpass_button').on('click',function(){
-            var user_email = $('#input_email').val();
+        $('#sendmail_button').on('click',function(){
+            $('#sendmail_button').attr('disabled',true);
+
+            hide_err('user_email');
+
+            var user_email = $('#usermail').val();
 
             if ($.trim(user_email) == "")
-                return show_err("email", "请输入密码找回的邮箱地址");
+                return show_err("usermail", "请输入密码找回的邮箱地址");
 
             if (!~user_email.indexOf("@"))
-                return show_err("email", "邮箱格式不正确");
+                return show_err("usermail", "邮箱格式不正确");
 
             var data = {
                 email: user_email,
+                act:'sendmail'
             };
 
-            $.post("<?=U('Home/Auth/findpass')?>",data,function( json ) {
+            ajax_post(data,function( json ) {
 
                 if(json.error){
-                    $('#signup_button').attr('disabled',false);
-
-                    return show_err(json.label, json.message);
+                    $('#sendmail_button').attr('disabled',false);
+                    return show_err(json.response.label, json.response.message);
                 }
 
-                setTimeout(function() {
-                    $('#redirect').val() != "" ? window.location.href = $('#redirect').val(): window.location.href = "/"
-                },1e3);
+                $('#input_email').hide();
+                $('#input_code').show();
+
+                $('#mailto').html(json.response.usermail);
+                $('#onice').val(json.response.token);
+
             },'json');
 
         });
 
-        $('#input_email').focus();
+        $('#resendmail').on('click',function(){
+            var data = {
+                act:'resendmail'
+            };
 
-        $('#signup-form input').blur(function(){
-            hide_err($(this).attr('name'));
+            ajax_post(data,function( json ) {
+                alert('验证邮件已重新发送');
+            },'json');
         });
 
-        $("disclaimer").click(function() {
-            $(this).is(":checked") ? $('#signup_button').attr("disabled",false) : $('#signup_button').attr("disabled",true);
+
+        $('#checkmail_button').on('click',function(){
+            $('#checkmail_button').attr('disabled',true);
+
+            hide_err('mailcode');
+
+            var mailcode = $('#mailcode').val();
+
+            if ($.trim(mailcode) == "")
+                return show_err("mailcode", "请输入验证码");
+
+            var data = {
+                mailcode: mailcode,
+                act:'checkcode'
+            };
+
+            ajax_post(data,function( json ) {
+
+                if(json.error){
+                    $('#checkmail_button').attr('disabled',false);
+                    return show_err(json.response.label, json.response.message);
+                }
+
+                $('#input_code').hide();
+                $('#input_pass').show();
+
+                $('#onice').val(json.response.token);
+
+            },'json');
+
         });
+
+        $('#changepass_button').on('click',function(){
+            $('#changepass_button').attr('disabled',true);
+
+            hide_err('newpass');
+            hide_err('newpass_cfm');
+
+            var data = {
+                newpass: $('#newpass').val(),
+                newpass_cfm: $('#newpass_cfm').val(),
+                onice:$('#onice').val(),
+                act:'changepass'
+            };
+
+            ajax_post(data,function( json ) {
+
+                if(json.error){
+                    $('#changepass_button').attr('disabled',false);
+
+                    if(json.response.label){
+                        show_err(json.response.label, json.response.message);
+                    }else{
+                        alert(json.response.message);
+                    }
+
+                    return;
+                }
+
+                alert('密码重置成功，请重新登陆');
+                window.location.href = "/";
+
+            },'json');
+
+        });
+
+
+        function ajax_post(data,callback){
+            $.post("<?=U('Home/Auth/findpass')?>",data,function( json ) {
+                callback(json);
+            },'json');
+        }
+
     });
 </script>
 </body>
