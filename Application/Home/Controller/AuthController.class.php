@@ -205,7 +205,7 @@ EOT;
                 M('member')->where(array('member_id'=> $member_info['member_id']))->setField('pwd',md5($newpass));
 
                 session('findpass',null);
-                
+
                 $this->ajaxReturn(array('error'=>0,'response'=>''));
                 exit();
             }

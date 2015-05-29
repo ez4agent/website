@@ -123,11 +123,11 @@ class RegisterController extends BaseController
             else
             {
 
-                $_SESSION['signup_user'] = array(
+                session('signup_user', array(
                     'username' => $username,
                     'usermail' => $email,
                     'password' => $pwd
-                );
+                ));
 
                 $this->ajaxReturn(array('error'=>0,'response'=>'/index.php?m=Home&c=Auth&a=certifiemail'));
                 exit();
