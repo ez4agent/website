@@ -125,7 +125,6 @@ class RegisterController extends BaseController
 
                 session('signup_user', array(
                     'username' => $username,
-                    'usermail' => $email,
                     'password' => $pwd
                 ));
 
