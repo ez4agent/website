@@ -195,6 +195,12 @@ class StuModel extends Model
         { 
             $file = M('stu_file')->where('stu_id='.$info['id'])->select();
         }
+
+        $url = "http://".$_SERVER['HTTP_HOST'];
+        foreach($file as $k =>$v){
+            $file[$k]['file_url'] = $url.'/Uploads/'.$v['file_path'];
+        }
+
         
         return $file;
     }

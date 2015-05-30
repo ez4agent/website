@@ -39,7 +39,21 @@
 .con_item .con_item_tit em{ color:#fff; margin-right:20px;font-size:16px;}
 .con_item .con_item_tit .c_tem_search{ margin-top:14px;}
 
-.wendang_down li{ float:left;margin-right:12px;padding-bottom:10px;}
+.filetable {width: 100%;}
+.filetable th,.filetable td{border-bottom: 1px solid #f4f4f4;
+    height: 35px;
+    line-height: 35px;
+    padding: 0 15px;
+}
+
+.filetable th{ font-size: 12px; color: #666; background: #f4f4f4}
+
+.wendang_down li{border-bottom: 1px solid #f4f4f4;
+    height: 35px;
+    line-height: 35px;  }
+
+.wendang_down li a.file_a { margin-top: 6px; float: right}
+
 .wendang_down {padding-bottom:15px;}
 .yuanxiao_zhuanye{display:none;}
 

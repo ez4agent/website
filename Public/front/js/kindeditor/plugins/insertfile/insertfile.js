@@ -28,6 +28,7 @@ KindEditor.plugin('insertfile', function(K) {
 			'<input type="button" class="ke-upload-button" value="' + lang.upload + '" /> &nbsp;',
 			'<span class="ke-button-common ke-button-outer">',
 			'<input type="button" class="ke-button-common ke-button" name="viewServer" value="' + lang.viewServer + '" />',
+            '<input type="hidden" id="fileid" name="fileid" value="0" />',
 			'</span>',
 			'</div>',
 			//title
@@ -65,6 +66,7 @@ KindEditor.plugin('insertfile', function(K) {
 		div = dialog.div;
 
 		var urlBox = K('[name="url"]', div),
+            fileid = K('[name="fileid"]', div),
 			viewServerBtn = K('[name="viewServer"]', div),
 			titleBox = K('[name="title"]', div);
 
@@ -82,6 +84,7 @@ KindEditor.plugin('insertfile', function(K) {
 							url = K.formatUrl(url, 'absolute');
 						}
 						urlBox.val(url);
+                        fileid.val(data.fid);
 						if (self.afterUpload) {
 							self.afterUpload.call(self, url, data, name);
 						}

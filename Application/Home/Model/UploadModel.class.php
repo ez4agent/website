@@ -44,9 +44,9 @@ class UploadModel extends Model
         $upload->subName = array('date','Ymd'); //按日期创建文件夹
         $upload->exts = $ext_arr[$type]; //允许上传类型
         $upload->savePath = $php_path;
-        
+
         $info = $upload->upload();
-        
+
         if(!$info) {// 上传错误提示错误信息
            $result= array('error'=>1,'message'=>$upload->getError());
         }else{// 上传成功 获取上传文件信息

@@ -26,6 +26,7 @@ KindEditor.plugin('insertfile', function(K) {
 			'<label for="keUrl" style="width:60px;">' + lang.url + '</label>',
 			'<input type="text" id="keUrl" name="url" class="ke-input-text" style="width:160px;" disabled /> &nbsp;',
 			'<input type="button" class="ke-upload-button" value="' + lang.upload + '" /> &nbsp;',
+            '<input type="hidden" id="fileid" name="fileid" value="0" />',
 			'<span class="ke-button-common ke-button-outer">',
 			'<input type="button" class="ke-button-common ke-button" name="viewServer" value="' + lang.viewServer + '" />',
 			'</span>',
@@ -49,22 +50,24 @@ KindEditor.plugin('insertfile', function(K) {
 				name : self.lang('yes'),
 				click : function(e) {
 					var url = K.trim(urlBox.val()),
-						title = titleBox.val();
+						title = titleBox.val(),
+                        fileid = fileID.val();
 					if (url == 'http://' || K.invalidUrl(url)) {
 						alert(self.lang('invalidUrl'));
 						urlBox[0].focus();
 						return;
 					}
 					if (K.trim(title) === '') {
-						title = url;
+						//title = url;
 					}
-					clickFn.call(self, url, title);
+					clickFn.call(self, url, title, fileid);
 				}
 			}
 		}),
 		div = dialog.div;
 
 		var urlBox = K('[name="url"]', div),
+            fileID = K('[name="fileid"]', div),
 			viewServerBtn = K('[name="viewServer"]', div),
 			titleBox = K('[name="title"]', div);
 
@@ -76,12 +79,13 @@ KindEditor.plugin('insertfile', function(K) {
 				extraParams : extraParams,
 				afterUpload : function(data) {
 					dialog.hideLoading();
-					if (data.error === 0) {
+					if (data.error == 0) {
 						var url = data.url;
 						if (formatUploadUrl) {
 							url = K.formatUrl(url, 'absolute');
 						}
 						urlBox.val(url);
+                        fileID.val(data.fileid);
 						if (self.afterUpload) {
 							self.afterUpload.call(self, url, data, name);
 						}

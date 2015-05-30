@@ -173,21 +173,35 @@
 				<p><input class="updatabtn" value="上 传" type="button" id='upload_info'> </p>
 			</div>
           </div>
-          <div class="baseInfor">
-            <ul class="clearfix wendang_down">
-             <empty name="info['file']">
-             <li><span style="font-size:14px; color:#999">暂无附件,请上传!</span></li>
-             <else />
-                <volist name="info[file]" id="vo">
-                <li><span class="title" title="{$vo['file_name']}">{$vo['file_name']}</span>：<a href="Uploads{$vo['file_path']}" class="file_a opacity8" target="_blank"><span>查看/下载</span></a>
-                	<if condition="$info.type eq 1">       
-                    <a href="javascript:void(0);" class="file_a opacity8" style="margin-left:0px;" onClick="del_file_stu('{:U('Home/Student/del_file_stu')}',{$vo['id']});">
-                    <span>删除</span></a>
-                    </if>
-                </li>
-                </volist>
-             </empty>
-            </ul>
+          <div class="baseInfor" style="padding: 0;padding-bottom:10px">
+            <table cellpadding="0" cellspacing="0" class="filetable">
+                <tr>
+                    <th width="35%">文件名称</th>
+                    <th width="40%">文件说明</th>
+                    <th>操作</th>
+                </tr>
+                <empty name="info['file']">
+                    <tr>
+                        <td colspan="3" align="center">
+                            <span style="font-size:12px; color:#444;font-weight: bold;">暂无附件,请上传!</span>
+                        </td>
+                    </tr>
+                <else />
+                    <volist name="info[file]" id="vo">
+                    <tr>
+                        <td>{$vo['file_name']}</td>
+                        <td>{$vo['file_desc']}</td>
+                        <td>
+                            <a href="{$vo['file_url']}" class="file_a opacity8" target="_blank"><span>查看/下载</span></a>
+                            <if condition="$info.type eq 1">
+                                <a href="javascript:void(0);" class="file_a opacity8" style="margin-left:0px;" onClick="del_file_stu('{:U('Home/Student/del_file_stu')}',{$vo['id']});">
+                                    <span>删除</span></a>
+                            </if>
+                        </td>
+                    </tr>
+                    </volist>
+                </empty>
+            </table>
           </div>
           </if>
         </div>
@@ -214,7 +228,7 @@ var stu_id="{$stu_id}";
 KindEditor.ready(function(K) {
 	var editor = K.editor({
 		allowFileManager : false,
-		uploadJson:stu_uplode_file_url,
+		uploadJson:stu_uplode_file_url
 	});
 	
 	K('#upload_info').click(function() {
@@ -230,16 +244,9 @@ KindEditor.ready(function(K) {
 			editor.loadPlugin('insertfile', function() {
 				editor.plugin.fileDialog({
 					fileUrl : K('#url').val(),
-					clickFn : function(url, title) {
-						//点确定ajax提交
-						if(!title || title=='' || title==url)
-						{
-							alert('请输入文件名称！');
-							return false;
-						}
-						else
-						{
-							$.post(stu_file_submit_url, {fileurl:url,title:title,stu_id:stu_id},function(data){
+					clickFn : function(url, title, fileid) {
+
+							$.post(stu_file_submit_url, {fileurl:url,title:title,fileid:fileid,stu_id:stu_id},function(data){
 								if(data.status=='yes')
 								{
 									//alert('上传成功！');
@@ -252,7 +259,6 @@ KindEditor.ready(function(K) {
 									return false;
 								}
 							},'json');
-						}
 					}
 				});
 			});

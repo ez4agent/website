@@ -144,20 +144,38 @@
                 	<input id='upload_info' class="updatabtn" type="button" stu_id="{$stu}" value="上 传">
                 </div>				
             </div>
-            <div class="baseInfor">
-            	<ul class="clearfix wendang_down" id="stu_file" style="padding-left:10px; padding:15px;">
-                	<empty name="file">
-             			<li><span style="font-size:14px; color:#999">暂无附件,请上传!</span></li>
-             		<else />
-                		<volist name="file" id="vo">
-                		<li style="width:150px;"><input name="checkbox[]" class="checkitem" type="checkbox" value="{$vo['id']}">&nbsp;&nbsp;
-                        	<a href="Uploads{$vo['file_path']}" target="_blank">
-                            <span style='text-align:left' class="title" title="{$vo['file_name']}">{$vo['file_name']}</span></a>
-                        </li>
-                		</volist>
-             		</empty>
-                </ul>
-            </div>
+             <div class="baseInfor" style="padding: 0;padding-bottom:10px">
+                 <table cellpadding="0" cellspacing="0" class="filetable">
+                     <tr>
+                         <th width="10%">选择</th>
+                         <th width="35%">文件名称</th>
+                         <th width="40%">文件说明</th>
+                         <th>操作</th>
+                     </tr>
+                     <tbody id="file_body">
+                     <empty name="file">
+                         <tr id="emtpy_file">
+                             <td colspan="3" align="center">
+                                 <span style="font-size:12px; color:#444;font-weight: bold;">暂无附件,请上传!</span>
+                             </td>
+                         </tr>
+                         <else />
+
+                         <volist name="file" id="vo">
+                             <tr>
+                                 <td><input name='checkbox[]' class='checkitem' type='checkbox' value="{$vo['id']}"></td>
+                                 <td>{$vo['file_name']}</td>
+                                 <td>{$vo['file_desc']}</td>
+                                 <td>
+                                     <a href="{$vo['file_url']}" class="file_a opacity8" target="_blank"><span>查看/下载</span></a>
+                                 </td>
+                             </tr>
+                         </volist>
+
+                     </empty>
+                     </tbody>
+                 </table>
+             </div>
             <div class="blod_js"> 
       			<input id="commission_id" name="commission_id" type="hidden" value="{$commission_info['commission_id']}" />
                 <input id="college_id" name="college_id" type="hidden" value="{$commission_info['college_id']}" />
@@ -171,62 +189,47 @@
 
     <script type="text/javascript">
 	var stu_uplode_file_url = "{:U('Home/Student/upload_StuFile_info',array('type'=>'file'))}";
-	var stu_file_submit_url = "{:U('Home/Student/ajax_stufile_submit1')}";
+	var stu_file_submit_url = "{:U('Home/Student/ajax_stufile_submit')}";
 	
 	//时间
 	$('#start_time').datetimepicker({
 		timepicker:false,
 		format:'Y/m/d',
-		formatDate:'Y/m/d',
+		formatDate:'Y/m/d'
 	});
 	
 	KindEditor.ready(function(K) {
 	var editor = K.editor({
 		allowFileManager : false,
-		uploadJson:stu_uplode_file_url,
+		uploadJson:stu_uplode_file_url
 	});
 	
 	K('#upload_info').click(function() {
 		editor.loadPlugin('insertfile', function() {
 			editor.plugin.fileDialog({
 				fileUrl : K('#url').val(),
-				clickFn : function(url, title) {
+				clickFn : function(url, title, fileid) {
 					//点确定ajax提交
-					if(!title || title=='')
-					{
-						alert('请输入文件名称！');
-						return false;
-					}
-					else
-					{
-						$.post(stu_file_submit_url, {fileurl:url,title:title,stu_id:$("#upload_info").attr('stu_id')},function(data){
+
+						$.post(stu_file_submit_url, {fileurl:url,title:title,fileid:fileid,stu_id:$("#upload_info").attr('stu_id')},function(data){
 							if(data.status=='yes')
 							{
-								html='';
-								path = "Uploads"+url;
-								html+="<li style='width:150px;'><input name='checkbox[]' class='checkitem' type='checkbox' value="+data.id+">&nbsp;&nbsp;";
-								html+="<a href='"+path+"' target='_blank'><span style='text-align:left' class='title' title="+title+">"+title+"</span></a></li>";
-								$("#stu_file").append(html);
-								editor.hideDialog();
-							}/*
-							else if(data.status=='yes1')
-							{
-								alert('附件更新成功！');
-								//window.location.reload();
+								html ="<tr>"+
+                                "<td><input name='checkbox[]' class='checkitem' type='checkbox' value="+data.id+"></td>" +
+                                "<td>"+data.filename+"</td>"+
+                                "<td>"+data.filedesc+"</td>"+
+                                "<td><a href='"+data.url+"' class='file_a opacity8' target='_blank'><span>查看/下载</span></a></td>"+
+                                "</tr>";
+                                $('#emtpy_file').hide();
+                                $('#file_body').append(html);
 								editor.hideDialog();
 							}
-							else if(data.status=='yes2')
-							{ 
-								//window.location.reload();
-								editor.hideDialog();
-							}*/
 							else
 							{
 								alert(data.msg);
 								return false;
 							}
 						},'json');
-					}
 				}
 			});
 		});

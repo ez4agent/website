@@ -118,7 +118,7 @@ class StudentController extends FrontbaseController
     }
 
     //学生基本信息(添加，修改)
-    public function save_Stuinfo()
+    public function save_Stuinfo($stu_id)
     {
         if(IS_AJAX)
         {
@@ -241,9 +241,48 @@ class StudentController extends FrontbaseController
         }
         else 
         {
-             $this->ajaxReturn(array('error'=>$result['error'],'url'=>$result['info']['imgFile']['savepath'].$result['info']['imgFile']['savename']));
+
+            /*
+        Array (
+            [imgFile] => Array (
+                [name] => 新西兰流程.docx
+                [type] => application/vnd.openxmlformats-officedocument.wordprocessingml.document
+                [size] => 115000
+                [key] => imgFile
+                [ext] => docx
+                [md5] => 87fc06c78197cbe0934691c45fdb5327
+                [sha1] => 2ecc62576f3938cd598d658a49e0b623625dc32a
+                [savename] => 5569a8256e17b.docx
+                [savepath] => ./Stu/file/20150530/
+            )
+        )
+
+
+*/
+            $file = $result['info']['imgFile'];
+
+            $file_path = $file['savepath'].$file['savename'];
+
+            if(!M('common_file')->add(array(
+                'uid' => $this->member_id,
+                'used' => 0,
+                'mimetype' => $file['type'],
+                'filesize' => $file['size'],
+                'filemd5' => $file['md5'],
+                'filename' => $file['name'],
+                'fileext' => $file['ext'],
+                'filepath'=> $file_path,
+                'dateline' => time()
+            ))){
+                $this->ajaxReturn(array('error'=>1,'message'=> '上传失败'));
+                exit();
+            }
+
+            $file_id = M('common_file')->getLastInsID();
+
+             $this->ajaxReturn(array('error'=>$result['error'],'fileid'=>$file_id,'url'=>$file_path));
              exit();    
-        }  
+        }
     }
     
     /**
@@ -278,9 +317,10 @@ class StudentController extends FrontbaseController
     {
         if(IS_AJAX)
         {
-            $fileurl = I('post.fileurl','','trim');
+            //$fileurl = I('post.fileurl','','trim');
             $title = I('post.title','','trim');
             $stu_id = I('post.stu_id',0,'intval');
+            $fileid = I('post.fileid',0,'intval');
             
             $_info = $this->student_mod->get_StuInfo($stu_id);
 
@@ -290,96 +330,38 @@ class StudentController extends FrontbaseController
                 exit();
             }
 
-            //判断文件名是否存在
-            $info = M('stu_file')->where(array('file_name'=>$title,'stu_id'=>$stu_id))->find();
-            if($info)
-            {
-               $map = array('id'=>$info['id'],'stu_id'=>$stu_id);
-               if(M('stu_file')->where($map)->save(array('file_path'=>$fileurl))===false)
-               {
-                   $this->ajaxReturn(array('status'=>'no','msg'=>'上传失败！'));
-               }
-               $this->ajaxReturn(array('status'=>'yes'));
-               exit();
-            }
-            else 
-            {
-                $id = M('stu_file')->add(array(
-                    'stu_id'   =>$stu_id,
-                    'file_name'=>$title,
-                    'file_path'=>$fileurl,
-                ));
-                if($id){
-                    $this->ajaxReturn(array('status'=>'yes'));
-                    exit();
-                }
-            }
-        }
-    }
-    
-    /**
-     *  AJAX提交学生附件（用户申请院校） 
-     */
-    public function ajax_stufile_submit1()
-    {
-        if(IS_AJAX)
-        {
-            $fileurl = I('post.fileurl','','trim');
-            $title = I('post.title','','trim');
-            $stu_id = I('post.stu_id',0,'intval');
-            
-            $_info = $this->student_mod->get_StuInfo($stu_id);
-            
-            if(!$stu_id || !$_info)
+            $fileinfo = M('common_file')->where(array('id' => $fileid))->find();
+            if(!$fileinfo || !$fileid)
             {
                 $this->ajaxReturn(array('status'=>'no','msg'=>'该学生信息不存在,请先填写基本信息！'));
                 exit();
             }
-            
-            //判断文件名是否存在
-            $info = M('stu_file')->where(array('file_name'=>$title,'stu_id'=>$stu_id))->find();
-            if($info)
-            {
-                $map = array('id'=>$info['id'],'stu_id'=>$stu_id);
-                if(M('stu_file')->where($map)->save(array('file_path'=>$fileurl))===false)
-                {
-                    $this->ajaxReturn(array('status'=>'no','msg'=>'上传失败！'));
-                    exit;
-                }
-                else 
-                {
-                    $this->ajaxReturn(array('status'=>'yes1'));
-                    exit();
-                }
+
+            if(M('stu_file')->add(array(
+                'file_id'=>$fileinfo['id'],
+                'file_name'=>$fileinfo['filename'],
+                'file_desc'=>$title,
+                'file_path' => $fileinfo['filepath'],
+                'stu_id'=>$stu_id
+            ))){
+
+                $id = M('stu_file')->getLastInsID();
+                
+                M('common_file')->where(array('id' => $fileid))->save(array('used' => 1));
+
+
+                $url = "http://".$_SERVER['HTTP_HOST'].'/Uploads/'.$fileinfo['filepath'];
+                $this->ajaxReturn(array('status'=>'yes','url'=>$url,'id'=>$id,'filename'=>$fileinfo['filename'],"filedesc"=>$title));
+                exit();
             }
-            else
-            {
-                $id = M('stu_file')->add(array(
-                    'stu_id'   =>$stu_id,
-                    'file_name'=>$title,
-                    'file_path'=>$fileurl,
-                ));
-                if(!$id){
-                    $this->ajaxReturn(array('status'=>'no','msg'=>'上传失败！'));
-                    exit;
-                }
-                $file = $this->student_mod->get_stu_file($stu_id);
-                $num = count($file);
-                if($num==1)
-                {
-                    $this->ajaxReturn(array('status'=>'yes2'));
-                    exit();
-                }
-                else 
-                { 
-                    $this->ajaxReturn(array('status'=>'yes','id'=>$id));
-                    exit();
-                }
-            }
-            
-            
         }
+
+        $this->ajaxReturn(array('status'=>'no','msg'=>'添加失败'));
+
     }
+
+
+
     //附件删除
     public function del_file_stu()
     {
@@ -392,17 +374,17 @@ class StudentController extends FrontbaseController
             {
                 $this->ajaxReturn(array('status'=>'no','msg'=>'该附件不存在！'));
                 exit();
-            }
-            else
-            {
-                unlink('./Uploads'.$_info['file_path']);
+            }else{
+
                 if(!$this->student_mod->delData('stu_file',array('id'=>$id)))
                 {
                     $this->ajaxReturn(array('status'=>'no','msg'=>'删除失败！'));
                     exit();
                 }
-                else
-                {
+                else{
+
+                    M('common_file')->where(array('id' => $_info['file_id']))->delete();
+                    unlink('./Uploads'.$_info['file_path']);
                     $this->ajaxReturn(array('status'=>'yes','msg'=>'删除成功！'));
                     exit();
                 }
