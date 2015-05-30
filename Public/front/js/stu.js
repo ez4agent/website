@@ -137,10 +137,10 @@
 	//终止
 	$("#apply_end_sub").click(function(){ 
 
-		var status =$('input[name="end_status"]:checked').val();
+		var status =$('select[name="end_status"] option:selected').val();
 		if(!status)
 		{ 
-			alert('请选择！');
+			alert('请选择原因！');
 			return false;
 		} 
 		else
@@ -441,3 +441,29 @@ function chinesetoEN( xin ,id)
     		},'json');
     	}
     }
+
+//查看留言
+function get_files(log_id)
+{
+    if(log_id)
+    {
+        $("#see_files").html("");
+        $.post(get_log_url,{log_id:log_id},function(data){
+
+            if(data.status=='yes')
+            {
+                $.each(data.files,function(i,v){
+                    $("#see_files").append("<li><a href='"+v.file_url+"' target='_blank'>"+ v.file_name+"</a></li>");
+                });
+
+                layer_area('查看附件','see_files_pop',400,340);
+            }
+            else
+            {
+                alert(data.msg);
+                return false;
+            }
+
+        },'json');
+    }
+}

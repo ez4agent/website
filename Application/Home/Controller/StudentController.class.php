@@ -346,7 +346,7 @@ class StudentController extends FrontbaseController
             ))){
 
                 $id = M('stu_file')->getLastInsID();
-                
+
                 M('common_file')->where(array('id' => $fileid))->save(array('used' => 1));
 
 

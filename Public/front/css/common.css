@@ -57,6 +57,8 @@
 .wendang_down {padding-bottom:15px;}
 .yuanxiao_zhuanye{display:none;}
 
+#see_files li{ line-height: 27px;}
+
 .con_item .con_item_tit .icon2{cursor:pointer; background-position:0 -131px; height:18px; width:18px; position:absolute;right:20px;top:19px;}
 .con_item .con_item_tit .icon2:hover{filter:Alpha(opacity=70);-moz-opacity:0.7;opacity:0.7;}
 .con_item .con_item_tit .icon2:active{filter:Alpha(opacity=100);-moz-opacity:1;opacity:1;}
@@ -231,6 +233,7 @@ a.school_add:hover{filter:Alpha(opacity=80);-moz-opacity:0.8;opacity:0.8;}
 .yj_bt .rc_list_tit em{ padding:0;}
 .blod_js{ text-align:center; padding:20px 0;}
 .blod_js a{ display:inline-block; background:url("../images/bt_bg.gif") repeat-x  0 0; height:39px; line-height:39px; color:#fff; padding:0 30px; font-size:14px; border-radius:2px; margin:0 10px;}
+.blod_js a.disable{background:url("../images/btn2.png") repeat-x  0 0;}
 
 .message_rc{ background: -moz-linear-gradient(top,#fefefe,#dcdcdc); background:-webkit-linear-gradient(top,#fefefe,#dcdcdc);background:-o-linear-gradient(top,#fefefe,#dcdcdc); height:46px; border-radius:0 0 2px 2px; border-top:1px solid #d7d7d7; padding:0 34px; position:relative;}
 .message_rc .c_tem_text{line-height:46px;}

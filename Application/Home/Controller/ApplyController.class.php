@@ -292,6 +292,7 @@ class ApplyController extends FrontbaseController
                     $array = M('stu_file')->where(array('stu_id'=>$stu_id,'id'=>$val))->find();
                     $file[$key] = array( 
                         'stu_id'=>$array['stu_id'],
+                        "file_id" => $array['file_id'],
                         'file_name'=>$array['file_name'],
                         'file_path'=>$array['file_path'],
                     );
@@ -327,7 +328,12 @@ class ApplyController extends FrontbaseController
                 {
                     M('college_apply_view')->add(array('member_id'=>$this->member_id,'college_id'=>$college_id));
                 }
-                
+
+
+                if(!empty($file)){
+                    $log['file'] = $file;
+                }
+
                 $this->log_mod->add_log($apply_id,$log);
                 
                 $jump_url = U('Home/Student/index?stu='.$stu_id);
@@ -441,6 +447,19 @@ class ApplyController extends FrontbaseController
         {
             //验证该申请的操作权限
             $data = $_POST;
+
+            $title =  isset($data['title']) ? trim($data['title']) : '';
+            $content =  isset($data['content']) ? trim($data['content']) : '';
+            if(!$title){
+                echo $this->ajaxReturn(array('status'=>'no','msg'=>'请选择主题'));
+                exit();
+            }
+
+            if(!$content){
+                echo $this->ajaxReturn(array('status'=>'no','msg'=>'请填写内容'));
+                exit();
+            }
+
             $res = $this->check_apply($data['stu_apply_id'],$this->member_id);
             if($res){
                 echo $this->ajaxReturn($res);
@@ -526,6 +545,20 @@ class ApplyController extends FrontbaseController
         {
             //验证该申请的操作权限
             $data = $_POST;
+
+            $end_status =  isset($data['end_status']) ? intval($data['end_status']) : 0;
+            $content =  isset($data['content']) ? trim($data['content']) : '';
+            if(!$end_status){
+                echo $this->ajaxReturn(array('status'=>'no','msg'=>'请选择原因'));
+                exit();
+            }
+
+            if(!$content){
+                echo $this->ajaxReturn(array('status'=>'no','msg'=>'请填写内容'));
+                exit();
+            }
+
+
             $res = $this->check_apply($data['stu_apply_id'],$this->member_id);
             if($res){
                 echo $this->ajaxReturn($res);
@@ -607,11 +640,22 @@ class ApplyController extends FrontbaseController
                 exit();
             }
             $content = getField_value('stu_apply_operate_log','operate_content',array('log_id'=>$log_id));
-            echo $this->ajaxReturn(array('status'=>'yes','info1'=>$content));
+
+            $files = M('stu_apply_file')->field('id,file_name,file_path')->where(array('stu_apply_id'=>$log_id))->select();
+            if($files)
+            {
+                $url = "http://".$_SERVER['HTTP_HOST'].'/Uploads/';
+                foreach($files as $key=>$val)
+                {
+                    $files[$key]['file_url'] = $url.$val['file_path'];
+                }
+            }
+
+            echo $this->ajaxReturn(array('status'=>'yes','info1'=>$content,'files' => $files));
             exit;
         }
     }
-    
+
     //验证该申请是否已经发送邮件
     public function check_is_email()
     {

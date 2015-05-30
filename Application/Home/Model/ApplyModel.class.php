@@ -133,6 +133,7 @@ class ApplyModel extends Model
                     $insert=array(
                         'stu_apply_id'=>$apply_id,
                         'stu_id'=>$val['stu_id'],
+                        'file_id'=>$val['file_id'],
                         'file_name'=>$val['file_name'],
                         'file_path'=>$val['file_path'],
                     );
@@ -250,11 +251,12 @@ class ApplyModel extends Model
         $_info['file'] = M('stu_apply_file')->field('id,file_name,file_path')->where($map)->select();
         
         if($_info['file'])
-        { 
+        {
+            $url = "http://".$_SERVER['HTTP_HOST'].'/Uploads/';
             foreach($_info['file'] as $key=>$val)
             {
-                $_info['file'][$key]['file_path'] = 'Uploads'.$val['file_path'];
-            }    
+                $_info['file'][$key]['file_url'] = $url.$val['file_path'];
+            }
         }
         
         $_info['start_time1'] = date('Y/m/d',$_info['start_time']);

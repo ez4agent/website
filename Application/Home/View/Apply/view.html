@@ -49,11 +49,11 @@ var get_log_url = "{:U('Home/Apply/get_log_info')}";
 						<td height="30px">学生姓名：{$apply_info['stu_info']['stu_name']}</td>
 					</tr>
                     <tr>
-						<td height="30px">学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;历：<strong><span style="color:#F00">{$apply_info['apply_name']}</span></strong></td>
+						<td height="30px">学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;历：<strong>{$apply_info['apply_name']}</strong></td>
 						<td height="30px">申请专业：{$apply_info['profession']}</td>
 					</tr>
                     <tr>
-						<td height="30px">分享比例：<strong><span style="color:#F00">{$apply_info['commission']['share_value']}</span></strong>
+						<td height="30px">分享比例：<strong>{$apply_info['commission']['share_value']}</strong>
                         </td>
 						<td height="30px">付款方式：<if condition="$apply_info['commission']['pay_type'] eq '1'">按年付
                           <elseif condition="$apply_info['commission']['pay_type'] eq '2'" />按半年付
@@ -68,7 +68,7 @@ var get_log_url = "{:U('Home/Apply/get_log_info')}";
                     <if condition="$apply_info['apply_type'] eq 2">
                     <tr>
 						<td height="30px">输送中介：<strong>{$apply_info['intermediary_name']}</strong></td>
-						<td height="30px">接收中介：<strong><font color="#FF0000">{$apply_info['receive_member_name']}</font></strong></td>
+						<td height="30px">接收中介：<strong>{$apply_info['receive_member_name']}</strong></td>
 					</tr>
                     <else />
                     	<tr>
@@ -87,7 +87,7 @@ var get_log_url = "{:U('Home/Apply/get_log_info')}";
                 <div class="baseInfor" >
                     <ul class="clearfix wendang_down">
                         <volist name="apply_info['file']" id="vo">
-                        <li>{$vo['file_name']}： <a class="file_a opacity8" href="{$vo['file_path']}"><span>查看/下载</span></a></li>
+                        <li>{$vo['file_name']} <a class="file_a opacity8" href="{$vo['file_url']}"><span>查看/下载</span></a></li>
                         </volist>
                     </ul>
                 </div> 
@@ -130,10 +130,8 @@ var get_log_url = "{:U('Home/Apply/get_log_info')}";
                         </if>
                         </td>
                         <td height="25px" width="30%">
-                        <if condition="$vo3['file'] neq ''"> 
-                            <volist name="vo3['file']" id="vo4">
-                            	{$vo4['file_name']}：&nbsp;<a class="file_a opacity8" href="{$vo4['file_path']}" title="{$vo4['file_name']}" style="margin-left:0px;" target="_blank"><span>查看</span></a> <br />
-                            </volist>
+                        <if condition="$vo3['file'] neq ''">
+                            <a class="file_a opacity8" style="margin-left:0px; margin-top:5px;"  href="javascript:;" onClick="get_files({$vo3['log_id']});"><span>查看附件</span></a>
                         <else />
                         --
                         </if>
@@ -181,6 +179,15 @@ var get_log_url = "{:U('Home/Apply/get_log_info')}";
             </div>
         </div>
         <!--查看留言-->
+        <!--查看附件-->
+        <div id="see_files_pop" style="display:none">
+            <div style="margin:20px 10px 0 30px;  width:330px;">
+                <label>上传的附件：</label>
+                <ul id="see_files" style="margin-top:5px;">
+                </ul>
+            </div>
+        </div>
+        <!--查看附件-->
 	</section>
     <include file="Public:footer" />
 </section>
@@ -199,14 +206,14 @@ KindEditor.ready(function(K) {
 		editor.loadPlugin('insertfile', function() {
 			editor.plugin.fileDialog({
 				fileUrl : K('#url').val(),
-				clickFn : function(url, title) {
+				clickFn : function(url, title ,fileid) {
 					if(!title){ 
 						alert('请输入文档标题！');
 						return false;
 					}
 					else
 					{
-						var str=title+"|"+url;
+						var str=title+"|"+url+"|"+fileid;
 						$("#"+attr+'_form').append("<label>"+title+"</label><input name='apply_results[]' type='hidden' value='"+str+"' />&nbsp;&nbsp;");
 						editor.hideDialog();
 					}
