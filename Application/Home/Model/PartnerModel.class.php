@@ -30,7 +30,7 @@ class PartnerModel extends Model
        }
        
        $partner_id = $this->add_info('partner_college',$data);
-       
+       /*
        $education = C('Education_TYPE');
        $college_education = M('college_education')->field('id,education')
                        ->where('college_id='.$data['college_id'])->select();
@@ -64,7 +64,7 @@ class PartnerModel extends Model
                 }
            }
        }
-       
+       */
        return $partner_id;
     }
     
@@ -132,7 +132,7 @@ class PartnerModel extends Model
         $type = C('pay_type');
         
         $where['college_id']= $college_id;
-        $where['is_share'] = 1;
+       // $where['is_share'] = 1;
         if($commission_id)
         {
             $where['apply_id']=$commission_id; 
@@ -140,6 +140,7 @@ class PartnerModel extends Model
         
         $share = M('partner_college_commission')->where($where)->page($page.','.$pagesize)->select(); 
         //echo M('partner_college_commission')->getLastSql();exit;
+
         $share1 = array();
         if(!empty($share))
         {
@@ -181,6 +182,25 @@ class PartnerModel extends Model
             $map = array('college_id'=>$college_id,'commission_id'=>$commission_id);
             
             $info = M('partner_college_commission')->where($map)->find();
+
+            if(!empty($info)){
+                $type = C('pay_type');
+                $share_length_str = $info['share_length'];
+                if($info['pay_type'] == 1){
+                    $share_length_str.=" 学年";
+                }elseif($info['pay_type'] == 2){
+                    $share_length_str.=" 学期";
+                }else{
+                    $share_length_str.="一次性";
+                }
+
+                $info['share_length_str'] = $share_length_str;
+                $info['pay_type_str'] = $type[$info['pay_type']];
+
+                $info['username'] = M("member")->where('member_id='.$info['member_id'])->getField('username');
+            }
+
+            /*
             if(!empty($info))
             {
                 $info['username'] = M("member")->where('member_id='.$info['member_id'])->getField('username');
@@ -198,7 +218,7 @@ class PartnerModel extends Model
                     
                     $info['share_value'] = $share;
                 }
-            }
+            }*/
         }
         
         return $info;

@@ -309,29 +309,30 @@ class SchoolController extends FrontbaseController
            $page = isset($_POST['page'])?intval($_POST['page']):1;
            $pagesize =isset($_POST['items_per_page'])?intval($_POST['items_per_page']):8;
            //获取总条数
-           $map = array('college_id'=>$college_id,'is_share'=>1,'apply_id'=>$select);
+           $map = array('college_id'=>$college_id,'apply_id'=>$select);
            $total = M('partner_college_commission')->where($map)->count();
            //获取commission_id
            $array = $this->partner_mod->get_share_college($college_id, $select,$page,$pagesize);
-          
+            $pay_type = C('pay_type');
+
            $str ="<table width='100%'>
                     <thead>
                          <tr>
                             <th width='15%' height='25px'><strong>中介</strong></th>
                             <th width='15%' height='25px'><strong>学历</strong></th>
+                            <th width='20%' height='25px'><strong>支付方式</strong></th>
                             <th width='40%' height='25px' style='padding:0px;'>
-                            <div style='width:100%; height:20px; border-bottom:1px #eee solid; padding:5px 0 3px 0;'>
-                            <span><strong>分享比例</strong></span></div>
-                            <table width='100%' style='border:1px #eee solid'>
-                            <tr>
-                            <th width='25%' height='20px'><strong>第1学年</strong></th>
-                            <th width='25%' height='20px'><strong>第2学年</strong></th>
-                            <th width='25%' height='20px'><strong>第3学年</strong></th>
-                            <th width='25%' height='20px'><strong>第4学年</strong></th>
-                            </tr>
-                            </table>
+                                <div style='width:100%; height:20px; border-bottom:1px #eee solid; padding:5px 0 3px 0;'>
+                                    <span><strong>佣金分享</strong></span>
+                                </div>
+                                <table width='100%' style='border:none'>
+                                    <tr>
+                                        <th width='50%' height='20px' style='border:none;border-right:1px #eee solid;'><strong>百分比</strong></th>
+                                        <th width='50%' height='20px' style='border:none;'><strong>长度</strong></th>
+                                    </tr>
+                                </table>
                             </th>
-                            <th width='20%' height='25px'><strong>支付方式/周期</strong></th>
+                            <th width='20%' height='25px'><strong>周期</strong></th>
                             <th width='20%' height='25px'><strong>操  作</strong></th>
                             </tr>
                          </thead>
@@ -340,14 +341,14 @@ class SchoolController extends FrontbaseController
            {
                if($stu_id!=0)
                {
-                   $str.="<tr><td colspan='5' height='30px' align='center'><strong>无分享信息,请点
+                   $str.="<tr><td colspan='6' height='30px' align='center'><strong>无分享信息,请点
                           <input id='upload_info' class='updatabtn' type='button' value='帮助' onClick='college_help(".$college_id.");' />
                           &nbsp;&nbsp;<a href='".U('Home/Student/index',array('stu'=>$stu_id))."'><input class='updatabtn' type='button' value='返回'/></a> 
                           </strong></td></tr>";
                }
                else 
                {
-                   $str.="<tr><td colspan='5' height='30px' align='center'><strong>无分享信息,请点
+                   $str.="<tr><td colspan='6' height='30px' align='center'><strong>无分享信息,请点
                           <input id='upload_info' class='updatabtn' type='button' value='帮助' onClick='college_help(".$college_id.");' />
                           &nbsp;&nbsp;<a href='".U('Home/Student/index')."'><input class='updatabtn' type='button' value='返回'/></a>
                           </strong></td></tr>";
@@ -357,32 +358,36 @@ class SchoolController extends FrontbaseController
            {
               foreach($array as $key=>$val)
               {
+                  $share_length = "--";
+                  if($val['pay_type'] == 1){
+                      $share_length = $val['share_length']. "学期";
+                  }elseif($val['pay_type'] == 2){
+                      $share_length = $val['share_length']. "学年";
+                  }
                   $str.="<tr>
                              <td width='15%' height='30px'><strong><a href='javascript:void(0);' onclick='view_member(".$val['member_id'].");'>".$val['username']."</a></strong></td>
                              <td width='15%' height='30px'><strong>".$val['education']."</strong></td>
-                             <td width='40%' height='30px' style='padding:0px;'><table width='100%'><tr>";
-                  
-                  for($i=1;$i<5;$i++)
-                  {
-                        $str.="<th width='25%' height='35px;' style='padding:0px;'>".$array[$val['commission_id']]['value1'][$i]['sharing_ratio1']."</th>";  
-                  }
-                  $str.=" </tr></table></td><td width='20%' height='30px'>";
-                  if($val['pay_type']&& $val['pay_cycle'])
-                  {
-                     $str.="<strong>".$val['type_name'].' / '.$val['pay_cycle'].$val['unit']."</strong>";
-                  }
-                  else
-                  {
-                      $str.="<strong>--</strong>";
-                  }  
-                  $str.="</td>";
+                             <td width='20%' height='30px'><strong>".$pay_type[$val['pay_type']]."</strong></td>
+                             <td width='40%' height='30px' style='padding:0px;'>
+                                 <table width='100%'  style='border:none;'>
+                                 <tr>
+                                     <th width='25%' height='35px;' style='border:none;border-right:1px #eee solid;padding:0px;'>
+                                     ".$val['share_ratio']." %
+                                     </th>
+                                     <th width='25%' height='35px;' style='border:none;padding:0px;'>
+                                     ".$share_length."
+                                     </th>
+                                 </tr>
+                                 </table>
+                             </td>
+                             <td width='20%' height='30px'>".$val['pay_cycle']." 周</td>";
                   $str.="<td width='20%'><input id='upload_info' class='updatabtn' type='button' value='申请'
                     onClick='college_apply_header(".$college_id.",".$val['commission_id'].");'
                   /></td>";
                   $str.="</tr>";
               } 
            }
-           $str.="</tboby></table>";
+            $str.="</tboby></table>";
            $this->ajaxReturn(array('status'=>'yes','str'=>$str,'total'=>$total));
         }
     }
@@ -422,31 +427,39 @@ class SchoolController extends FrontbaseController
             $this->error('您查看的合作院校不存在！');
             exit();
         }
-        
+
+        $user_commission = array();
+        $user_commission_rows = M('partner_college_commission')->where(array('member_id'=>$this->member_id,'partner_id'=>$parter_id))->select();
+        foreach($user_commission_rows as $user_value){
+            $user_commission[$user_value['apply_id']] = $user_value;
+        }
+
         $college_info = D('School')->get_college_info($college_id);
-        //拥金信息
-        $commission =$this->partner_mod->get_partner_list('partner_college_commission',
-                     array('member_id'=>$this->member_id,'partner_id'=>$parter_id));
-        if(!empty($commission))
-        {
-            //获取分享信息
-            foreach ($commission as $key=>$val)
-            {
-                if($val['is_share']==1)
-                {
-                    $commission[$key]['share_value'] = $this->partner_mod->get_partner_list('share_value',array(
-                        'commission_id'=>$val['commission_id'],
-                    ));
-                }
-            }
-        } 
-        
+
+        $commission = array();
+
+        foreach($college_info['edu'] as $edu){
+            $tmp = array(
+                'education_id' => $edu['id'],
+                'education_name' => $edu['name'],
+                'payment_type' => isset($user_commission[$edu['id']]['pay_type']) ? $user_commission[$edu['id']]['pay_type'] : 0,
+                'sharing_ratio' => isset($user_commission[$edu['id']]['share_ratio']) ? $user_commission[$edu['id']]['share_ratio'] : '',
+                'length' =>  isset($user_commission[$edu['id']]['share_length']) ? $user_commission[$edu['id']]['share_length'] : '',
+                'cycle' => isset($user_commission[$edu['id']]['pay_cycle']) ? $user_commission[$edu['id']]['pay_cycle'] : '',
+                'commission_id' =>  isset($user_commission[$edu['id']]['commission_id']) ? $user_commission[$edu['id']]['commission_id'] : 0,
+            );
+
+            $commission[] = $tmp;
+        }
+
+        $this->assign('commission',$commission);
+
         $this->assign('partner',$this->get_partner_info($this->member_id));
         $this->assign('view',$this->get_view_college($this->member_id));
         $this->assign('apply',$this->get_apply_college($this->member_id));
         $this->assign('info',$college_info);
-        $this->assign('commission',$commission);
-        $this->assign('parter_id',$parter_id);
+
+        $this->assign('partner_id',$parter_id);
         $this->assign('paytype',C('pay_type'));
         $this->display('partnerinfo');
     }
@@ -454,106 +467,83 @@ class SchoolController extends FrontbaseController
     //更新佣金
     public function edit_value()
     {
-        if(IS_AJAX)
-        {
-            $data = $_POST;
-            
-            //先还原
-            $college_id = I('get.college_id','0','intval');
-            M('share_value')->where(array('college_id'=>$college_id,'member_id'=>$this->member_id))->setField('sharing_ratio',0);
-            
-            if(!empty($data['sharing_ratio']))
-            {
-                //首先把没填的数据清掉
-                foreach($data['sharing_ratio'] as $key=>$val)
-                {
-                    if(!$val['pay_type'] && !$val['pay_cycle'])
-                    {
-                        unset($data['sharing_ratio'][$key]);
-                    }
-                }   
-            }
-            
-            if(!empty($data['value']))
-            {
-                foreach($data['value'] as $key1=>$val1)
-                {
-                    foreach ($val1 as $key2=>$val3)
-                    {
-                        if(empty($val3['sharing_ratio']))
-                        {
-                            unset($data['value'][$key1][$key2]);
-                        }
-                    }
-                }
-                
-                foreach($data['value'] as $key1=>$val1)
-                {
-                    if(empty($val1))
-                    {
-                        unset($data['value'][$key1]);
-                    }
-                    else 
-                    {
-                        if($data['sharing_ratio'][$key1])
-                        {
-                            //更新佣金比例
-                            foreach($val1 as $key4=>$val4)
-                            {
-                                if($val4['sharing_ratio'] && floatval($val4['sharing_ratio']))
-                                {
-                                   //验证（1-99，递减或者递增0.5）
-                                   if(!preg_match('/^[0-9]{0,2}+(\.5)*$/',$val4['sharing_ratio']))
-                                   {
-                                       $this->ajaxReturn(array('status'=>'no','msg'=>'分享比例必须在1-99之间,可以有0.5增减,且一位小数'));
-                                       exit;
-                                   }
-                                   else 
-                                   {
-                                       if(intval($data['sharing_ratio'][$key1]['pay_type'])!=0 && intval($data['sharing_ratio'][$key1]['pay_cycle'])!=0)
-                                       {
-                                           M('share_value')->where('value_id='.$key4)->save($val4);
-                                           if($data['sharing_ratio'][$key1]['pay_cycle']>1 
-                                               && $data['sharing_ratio'][$key1]['pay_cycle']<52
-                                               && preg_match('/^[0-9]*$/', $data['sharing_ratio'][$key1]['pay_cycle'])
-                                           )
-                                           {
-                                               M('partner_college_commission')->where('commission_id='.$key1)
-                                                                               ->save($data['sharing_ratio'][$key1]);
-                                           }
-                                           else 
-                                           {
-                                               $this->ajaxReturn(array('status'=>'no','msg'=>'周期必须在1-52的整数'));
-                                               exit;
-                                           }
-                                       }
-                                       else 
-                                       {
-                                           $this->ajaxReturn(array('status'=>'no','msg'=>'请填写正确的分享信息！'));
-                                           exit;
-                                       }
-                                   } 
-                                }
-                                else 
-                                {
-                                    $this->ajaxReturn(array('status'=>'no','msg'=>'请填写正确的分享信息！'));
-                                    exit;
-                                }
-                            }
+        if(!IS_AJAX || !$this->member_id) {
+            exit;
+        }
+        $data = $_POST;
 
-                        }
-                        else 
-                        {
-                            $this->ajaxReturn(array('status'=>'no','msg'=>'分享信息请填写完整！'));
-                            exit;
-                        }
-                    }
-                }
+        if(!isset($data['education_id']) || !isset($data['partner_id'])){
+            exit;
+        }
+
+        $partner_college = M('partner_college')->where(array('partner_id' => intval($data['partner_id'])))->find();
+        if(empty($partner_college) || $partner_college['member_id'] != $this->member_id){
+            $this->ajaxReturn(array('status'=>'no','msg'=>'没有权限， 请重新登陆'));
+            exit;
+        }
+
+        $education = C('Education_TYPE');
+
+        $update_arr = array();
+        foreach($data['education_id'] as $education_id){
+            $update = array();
+            $update['apply_id'] = $education_id;
+            $update['education'] = $education[$education_id];
+
+            if(isset($data['commission_id'][$education_id]) && $data['commission_id'][$education_id] > 0){
+                $update['commission_id'] = $data['commission_id'][$education_id];
             }
+
+            $update['pay_type'] = isset($data['payment_type'][$education_id]) ? $data['payment_type'][$education_id] : 0;
+            $update['pay_cycle'] = isset($data['cycle'][$education_id]) ? $data['cycle'][$education_id] : 0;
+
+            $update['share_length'] = isset($data['length'][$education_id]) ? $data['length'][$education_id] : 0;
+            $update['share_ratio'] = isset($data['sharing_ratio'][$education_id]) ? $data['sharing_ratio'][$education_id] : 0.0;
+
+            if(!$update['pay_type']){
+                continue;
+            }
+
+            if(!is_numeric($update['share_ratio'])){
+                $this->ajaxReturn(array('status'=>'no','msg'=>'佣金分享百分比格式不正确'));
+                exit;
+            }
+
+            if($update['pay_type'] !=3 && !is_numeric($update['share_length'])){
+                $this->ajaxReturn(array('status'=>'no','msg'=>'佣金分享长度格式不正确'));
+                exit;
+            }elseif($update['pay_type'] ==3){
+                $update['share_length'] = 0;
+            }
+
+            if(!preg_match('/^[0-9]{0,2}+(\.5)*$/',$update['share_ratio']))
+            {
+                $this->ajaxReturn(array('status'=>'no','msg'=>'佣金分享百分比必须在1-99之间,可以有0.5增减,且一位小数'));
+                exit;
+            }
+
+            if(!is_numeric($update['pay_cycle']) || intval($update['pay_cycle']) > 52 || intval($update['pay_cycle']) < 1){
+                $this->ajaxReturn(array('status'=>'no','msg'=>'周期必须在1-52的整数'));
+                exit;
+            }
+
+            $update['member_id'] = $this->member_id;
+            $update['college_id'] = $partner_college['college_id'];
+            $update['partner_id'] = $partner_college['partner_id'];
+            $update_arr[] = $update;
+        }
+        $model = M('partner_college_commission');
+        if($model->addAll($update_arr,array(),true)){
             $this->ajaxReturn(array('status'=>'ok'));
             exit;
-
+        }else{
+            $this->ajaxReturn(array('status'=>'no','msg'=>'更新失败'));
+            exit;
         }
+
+        $this->ajaxReturn(array('status'=>'ok'));
+        exit;
+
     }
     
     

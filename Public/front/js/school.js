@@ -180,34 +180,6 @@ $(function () {
 
 	});
 
-	//更新佣金信息
-	$("#edit_value").bind('click',function(){ 
-
-		var url = $("#edit_value_url").val();
-		$(this).html('更新中...');
-		$(this).unbind('click');
-		$.ajax({
-
-			type: "post",
-             url: url,
-            data: $("#share_value").serialize(),
-            dataType: "json",
-            success: function(data){
-            	if(data.status=="ok")
-            	{ 
-            		alert('更新成功！');
-            		window.location.reload();
-            		return true;
-            	}
-            	else
-            	{
-            		alert(data.msg);
-            		$("#edit_value").html('更 新');
-            		return false;
-            	}            
-            }
-		});
-	});
 
 	//院校帮助
 

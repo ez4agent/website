@@ -224,11 +224,108 @@
                 	</empty>
                 </div>
             </div>
+            <div class="c_tem message_rc">
+                <div class="c_tem_text fl">
+                    <span>签证服务</span>
+                </div>
+                <div class="c_tem_text fr" >
+                    <p style="padding-right:3px;">
+                        <input id="save_visa_service" class="updatabtn" type="button" value="添 加">
+                    </p>
+                </div>
+            </div>
+            <div class="baseInfor">
+                <a name="editvisa"></a>
+                <table class="filetable visa_service_table "  width="100%">
+                    <thead>
+                        <th>签证国家</th>
+                        <th>签证方式</th>
+                        <th>签&nbsp; 证 &nbsp;费</th>
+                        <th>服&nbsp; 务 &nbsp;费</th>
+                        <th>拒签退回</th>
+                        <th></th>
+                    </thead>
+                    <tbody class="visa_service_list">
+                    <if condition="!empty($visa_service)">
+                        <volist name="visa_service" id="vo">
+                            <td>{$vo.country_name}</td>
+                            <td>
+                                <if condition="$vo.visa_type eq 1">
+                                    电签
+                                <elseif condition="$vo.visa_type eq 2"/>
+                                    普签
+                                </if>
+                            </td>
+                            <td>{$vo.visa_price}</td>
+                            <td>{$vo.service_price}</td>
+                            <td>{$vo.return_price_percent} %</td>
+                            <td>
+                                <a href="{:U('Home/Member/view#editvisa',array('visa_id'=>$vo['visa_id']))}" class="file_a visa_edit_bt"><span>编 辑</span></a>　
+                                <a href="{:U('Home/Member/visa',array('action'=>'del','visa_id'=>$vo['visa_id']))}" class="file_a visa_del_bt"><span>删 除</span></a>　
+                            </td>
+                        </volist>
+                    <else />
+                    <td colspan="6">您还没有添加签证国家</td>
+                    </if>
+
+                    </tbody>
+                </table>
+
+
+                <form class="visa_service_info">
+                    <h2>添加新的签证国家</h2>
+                    <table width="100%">
+                        <tbody>
+                        <tr>
+                            <td width="75">签证国家：</td>
+                            <td>
+                                <select name="country_id" class="address_gj" id="country_id">
+                                    <option value="0">==选择国家==</option>
+                                    <option value="2" <if condition="$visa_info['country_id'] eq 2">selected</if> >澳大利亚</option>
+                                    <option value="3" <if condition="$visa_info['country_id'] eq 3">selected</if> >新西兰</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>签证方式：</td>
+                            <td>
+                                <input name="visa_type" type="radio" value="1" <if condition="$visa_info['visa_type'] eq 1"> checked </if> /> 电签&nbsp;
+                                <input name="visa_type" type="radio" value="2" <if condition="$visa_info['visa_type'] eq 2"> checked </if> /> 普签
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>签&nbsp; 证 &nbsp;费： </td>
+                            <td><input class="baseInfor_input" type="text" name="visa_price" value="{$visa_info['visa_price']}" /></td>
+                        </tr>
+                        <tr>
+                            <td>服&nbsp; 务 &nbsp;费： </td>
+                            <td><input class="baseInfor_input" type="text" name="service_price" value="{$visa_info['service_price']}" /></td>
+                        </tr>
+                        <tr>
+                            <td>拒签退回：</td>
+                            <td><input class="baseInfor_input" type="text" name="return_price_percent" value="{$visa_info['return_price_percent']}" /> %</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <if condition="$visa_info">
+                                    <input type="hidden" name="visa_id" value="{$visa_info['visa_id']}" />
+                                    <a href="javascript:;" action="{:U('Home/Member/visa',array('action'=>'edit'))}"  class="updatabtn" id='add_visa_service_act'>保&nbsp;&nbsp;&nbsp;&nbsp;存</a>
+                                <else />
+                                    <a href="javascript:;" action="{:U('Home/Member/visa',array('action'=>'add'))}"  class="updatabtn" id='add_visa_service_act'>保&nbsp;&nbsp;&nbsp;&nbsp;存</a>
+                                </if>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
         </div>
     	</div>
     </section>
     <include file="Public:footer" />
 </section>
+
 <script type="text/javascript">
 //附件上传
 var stu_uplode_file_url = "{:U('Home/Member/upload_MemberFile',array('type'=>'file1'))}";
@@ -274,7 +371,22 @@ KindEditor.ready(function(K) {
 	});
 });
 
+$('#add_visa_service_act').on('click',function(){
+    var href = $(this).attr('action');
+    var data = $(".visa_service_info").serialize();
+    $.post(href,data,function(data){
+        if(data.status=='yes')
+        {
+            window.location.reload();
+            return false;
+        }
+        else
+        {
+            alert(data.msg);
 
+        }
+    },'json');
+});
 
 </script>
 </body>

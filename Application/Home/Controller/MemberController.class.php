@@ -22,8 +22,17 @@ class MemberController extends FrontbaseController
     public function view()
     {
         $info = $this->member_mod->get_Member_Info($this->member_id);
+        $visa_service = M('visa_service')->where(array('member_id'=>$this->member_id))->select();
+
+
+        if(isset($_GET['visa_id'])){
+            $visa_info = M('visa_service')->where(array('visa_id' => $_GET['visa_id'],'member_id'=>$this->member_id))->find();
+        }
+
         $this->assign('info',$info);
         $this->assign('country',country());
+        $this->assign('visa_service',$visa_service);
+        $this->assign('visa_info',$visa_info);
         $this->display();
     }
     
@@ -101,7 +110,57 @@ class MemberController extends FrontbaseController
             exit();
         }
     }
+
+    function visa(){
+        $action = I('request.action','','trim');
+
+        if($action == 'add'){
+            $data = $_POST;
+
+            $country = M('country')->where(array('countryid'=>$data['country_id']))->find();
+
+            M('visa_service')->add(array(
+                'member_id'=>$this->member_id,
+                'country_id'=>$data['country_id'],
+                'country_name'=>$country['cname'],
+                'visa_type'=>$data['visa_type'],
+                'visa_price'=>$data['visa_price'],
+                'service_price'=>$data['service_price'],
+                'return_price_percent'=>$data['return_price_percent'],
+                'dateline'=>time()
+            ));
+            $this->ajaxReturn(array('status'=>'yes'));
+            exit();
+        }elseif($action == 'edit'){
+            $data = $_POST;
+
+            if(isset($data['visa_id']) && is_numeric($data['visa_id'])){
+                $country = M('country')->where(array('countryid'=>$data['country_id']))->find();
+
+                M('visa_service')->where(array(
+                    'visa_id'=>$data['visa_id'],'member_id'=>$this->member_id))->save(array(
+                    'country_id'=>$data['country_id'],
+                    'country_name'=>$country['cname'],
+                    'visa_type'=>$data['visa_type'],
+                    'visa_price'=>$data['visa_price'],
+                    'service_price'=>$data['service_price'],
+                    'return_price_percent'=>$data['return_price_percent']));
+            }
+
+            $this->ajaxReturn(array('status'=>'yes'));
+            exit();
+
+        }elseif($action == 'del'){
+
+            $data = $_GET;
+            if(isset($data['visa_id']) && is_numeric($data['visa_id'])) {
+                M('visa_service')->where(array('visa_id' => $data['visa_id'],'member_id'=>$this->member_id))->delete();
+            }
+
+            header("location: ".U("Home/Member/view"));
+        }
+
+        exit;
+    }
     
 }
-
-?>

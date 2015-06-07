@@ -123,6 +123,7 @@ class CollegesModel extends Model
                 'country_id'=>intval($data['class_id']),
                 'area_id'=>intval($data['area_id']),
                 'city_id'=>intval($data['city_id']),
+                'apply_price'=>floatval($data['apply_price']),
                 'schoolbadge'=>trim($data['image']),  
                 'introduction'=>trim($data['content']),
                 'website' =>trim($data['website']) 
@@ -197,6 +198,7 @@ class CollegesModel extends Model
                 'country_id'=>intval($data['class_id']),
                 'area_id'=>intval($data['area_id']),
                 'city_id'=>intval($data['city_id']),
+                'apply_price'=>floatval($data['apply_price']),
                 'schoolbadge'=>trim($data['image']),
                 'introduction'=>trim($data['content']),
                 'website' =>trim($data['website'])

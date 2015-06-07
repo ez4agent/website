@@ -278,3 +278,28 @@ background:-webkit-linear-gradient(top,#d7d7d7,#ffffff);background:-o-linear-gra
     color: #000;
 }
 
+.visa_service_info{
+    margin: 15px 0;
+}
+
+.visa_service_info h2{
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    margin: 10px 0;
+}
+
+.visa_service_info .updatabtn,
+.visa_service_info .updatabtn:hover{
+    background: none repeat scroll 0 0 #f49710;
+    border: medium none;
+    border-radius: 3px;
+    color: #fff;
+    cursor: pointer;
+    height: 24px;
+    line-height: 24px;
+    display: block;
+    float: left;
+    padding: 0 15px;
+}
+

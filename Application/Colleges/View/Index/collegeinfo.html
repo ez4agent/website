@@ -35,6 +35,8 @@
           <label><input name="education[]" type="checkbox" value="{$vo.id}" <if condition="$vo['select'] eq 1"> checked="checked" </if>/>&nbsp;<span>{$vo.name}</span></label>
           </foreach>
         </admin:formrow>
+          <admin:formrow title="申请费：" tip="">
+              <admin:text name="apply_price" ignore="ignore" value="{$info.apply_price}"  datatype="*" />
          </admin:formrow>
         <admin:formrow title="院校官网：" tip="院校官网,以http://开头">
           <admin:text name="website" value="{$info.website}" len="250" datatype="*" width="large" />

@@ -53,17 +53,11 @@
                 </tr>
                 <if condition="$Cooperation eq 0">
                 <tr>
-                	<th height="30px" width="50%"><span style="font-size:12px;">分享比例：<strong>{$commission_info['share_value']}</strong></span></th>
-                    <th height="30px" width="50%"><span style="font-size:12px;">付款方式：
-                     <if condition="$commission_info['pay_type'] eq 1">
-                    按年付
-                    <elseif condition="$commission_info['pay_type'] eq 2" />
-                    按半年付
-                    <elseif condition="$commission_info['pay_type'] eq 4" />
-                    按课程长度付
-                    <else />
-                    一次性付清
-                    </if>/ {$commission_info['pay_cycle']}{$commission_info['unit']}</span>
+                	<th height="30px" width="50%">
+                        <span style="font-size:12px;">佣金分享：<strong>{$commission_info['share_ratio']} %</strong> / {$commission_info['share_length_str']}</span>
+                    </th>
+                    <th height="30px" width="50%"><span style="font-size:12px;">支付方式：
+                    {$commission_info['pay_type_str']} / {$commission_info['pay_cycle']} 周</span>
                     </span></th>
                 </tr>
                 <tr>
@@ -176,6 +170,34 @@
                      </tbody>
                  </table>
              </div>
+             <if condition="$college_info.apply_price gt 0">
+             <div class="message_rc">
+                 <div class="c_tem_text fl">
+                     <span>申请费用</span>
+                 </div>
+             </div>
+             <div class="">
+                 <div class="newPa">
+                         <table width="100%">
+                             <tbody>
+                             <tr>
+                                 <th width="10%" height="30px;"><span style="font-size:12px;">申请费用：</span></th>
+                                 <td width="90%" height="30px;">
+                                     AU$ {$college_info.apply_price}
+                                 </td>
+                             </tr>
+                             <tr>
+                                 <th width="10%" height="30px;" valign="top"><span style="font-size:12px;line-height: 30px">支付方式：</span></th>
+                                 <td width="90%" style="line-height: 30px">
+                                     <input type="radio" name="payment" value="1" checked /> 支付宝 <br />
+                                     <input type="radio" name="payment" value="2" /> 已在申请表中提供申请费支付途径
+                                 </td>
+                             </tr>
+                             </tbody>
+                         </table>
+                 </div>
+             </div>
+             </if>
             <div class="blod_js"> 
       			<input id="commission_id" name="commission_id" type="hidden" value="{$commission_info['commission_id']}" />
                 <input id="college_id" name="college_id" type="hidden" value="{$commission_info['college_id']}" />
