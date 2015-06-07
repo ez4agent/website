@@ -119,16 +119,29 @@ class MemberController extends FrontbaseController
 
             $country = M('country')->where(array('countryid'=>$data['country_id']))->find();
 
-            M('visa_service')->add(array(
-                'member_id'=>$this->member_id,
-                'country_id'=>$data['country_id'],
-                'country_name'=>$country['cname'],
-                'visa_type'=>$data['visa_type'],
-                'visa_price'=>$data['visa_price'],
-                'service_price'=>$data['service_price'],
-                'return_price_percent'=>$data['return_price_percent'],
-                'dateline'=>time()
-            ));
+            $visa_info = M('visa_service')->where(array('country_id' => $data['country_id'],'member_id'=>$this->member_id))->find();
+            if($visa_info){
+                M('visa_service')->where(array(
+                    'visa_id'=>$visa_info['visa_id'],'member_id'=>$this->member_id))->save(array(
+                    'country_id'=>$data['country_id'],
+                    'country_name'=>$country['cname'],
+                    'visa_type'=>$data['visa_type'],
+                    'visa_price'=>$data['visa_price'],
+                    'service_price'=>$data['service_price'],
+                    'return_price_percent'=>$data['return_price_percent']));
+            }else{
+                M('visa_service')->add(array(
+                    'member_id'=>$this->member_id,
+                    'country_id'=>$data['country_id'],
+                    'country_name'=>$country['cname'],
+                    'visa_type'=>$data['visa_type'],
+                    'visa_price'=>$data['visa_price'],
+                    'service_price'=>$data['service_price'],
+                    'return_price_percent'=>$data['return_price_percent'],
+                    'dateline'=>time()
+                ));
+            }
+
             $this->ajaxReturn(array('status'=>'yes'));
             exit();
         }elseif($action == 'edit'){

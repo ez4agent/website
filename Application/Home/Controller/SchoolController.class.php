@@ -532,9 +532,25 @@ class SchoolController extends FrontbaseController
             $update['partner_id'] = $partner_college['partner_id'];
             $update_arr[] = $update;
         }
+
+        if(empty($update_arr)){
+            $this->ajaxReturn(array('status'=>'no','msg'=>'请输入佣金信息'));
+            exit;
+        }
+
         $model = M('partner_college_commission');
         if($model->addAll($update_arr,array(),true)){
-            $this->ajaxReturn(array('status'=>'ok'));
+
+            $college_info = M('college')->where(array('college_id' => $partner_college['college_id']))->find();
+            if($college_info['country_id'] == 2){
+                $visa_info = M('visa_service')->where(array('country_id' => 2,'member_id'=>$this->member_id))->find();
+                if(empty($visa_info)){
+                    $this->ajaxReturn(array('status'=>'ok','has_visa'=>0));
+                    exit;
+                }
+            }
+
+            $this->ajaxReturn(array('status'=>'ok','has_visa'=>'true'));
             exit;
         }else{
             $this->ajaxReturn(array('status'=>'no','msg'=>'更新失败'));

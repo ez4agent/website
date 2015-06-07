@@ -176,8 +176,20 @@
             success: function(data){
                 if(data.status=="ok")
                 {
-                    alert('更新成功！');
-                    window.location.reload();
+
+
+                    if(data.has_visa == 'true'){
+                        alert('更新成功！');
+                        window.location.reload();
+                    }else if(data.has_visa == '0'){
+                        if(confirm("你愿意为对方添加澳大利亚签证服务吗？")){
+                            window.location.href="{:U('Home/Member/view#editvisa')}";
+                        }else{
+                            alert('更新成功！,  您可以在管理页面添加澳大利亚签证服务');
+                            window.location.reload();
+                        }
+                    }
+
                     return true;
                 }
                 else
