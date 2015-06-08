@@ -319,21 +319,23 @@ class SchoolController extends FrontbaseController
                     <thead>
                          <tr>
                             <th width='15%' height='25px'><strong>中介</strong></th>
-                            <th width='15%' height='25px'><strong>学历</strong></th>
-                            <th width='20%' height='25px'><strong>支付方式</strong></th>
+                            <th width='15%' height='25px'><strong>支付方式</strong></th>
                             <th width='40%' height='25px' style='padding:0px;'>
                                 <div style='width:100%; height:20px; border-bottom:1px #eee solid; padding:5px 0 3px 0;'>
                                     <span><strong>佣金分享</strong></span>
                                 </div>
                                 <table width='100%' style='border:none'>
                                     <tr>
-                                        <th width='50%' height='20px' style='border:none;border-right:1px #eee solid;'><strong>百分比</strong></th>
-                                        <th width='50%' height='20px' style='border:none;'><strong>长度</strong></th>
+                                        <th width='25%' height='20px' style='border:none;border-right:1px #eee solid;'><strong>百分比</strong></th>
+                                        <th width='25%' height='20px' style='border:none;border-right:1px #eee solid;'><strong>长度</strong></th>
+                                        <th width='25%' height='20px' style='border:none;border-right:1px #eee solid;'><strong>规则</strong></th>
+                                        <th width='25%' height='20px' style='border:none;'><strong>固定金额</strong></th>
                                     </tr>
                                 </table>
                             </th>
-                            <th width='20%' height='25px'><strong>周期</strong></th>
-                            <th width='20%' height='25px'><strong>操  作</strong></th>
+                            <th width='10%' height='25px'><strong>支付周期</strong></th>
+                            <th width='10%' height='25px'><strong>备注</strong></th>
+                            <th width='10%' height='25px'><strong>操  作</strong></th>
                             </tr>
                          </thead>
                          <tbody>";
@@ -341,14 +343,14 @@ class SchoolController extends FrontbaseController
            {
                if($stu_id!=0)
                {
-                   $str.="<tr><td colspan='6' height='30px' align='center'><strong>无分享信息,请点
+                   $str.="<tr><td colspan='7' height='30px' align='center'><strong>无分享信息,请点
                           <input id='upload_info' class='updatabtn' type='button' value='帮助' onClick='college_help(".$college_id.");' />
                           &nbsp;&nbsp;<a href='".U('Home/Student/index',array('stu'=>$stu_id))."'><input class='updatabtn' type='button' value='返回'/></a> 
                           </strong></td></tr>";
                }
                else 
                {
-                   $str.="<tr><td colspan='6' height='30px' align='center'><strong>无分享信息,请点
+                   $str.="<tr><td colspan='7' height='30px' align='center'><strong>无分享信息,请点
                           <input id='upload_info' class='updatabtn' type='button' value='帮助' onClick='college_help(".$college_id.");' />
                           &nbsp;&nbsp;<a href='".U('Home/Student/index')."'><input class='updatabtn' type='button' value='返回'/></a>
                           </strong></td></tr>";
@@ -364,24 +366,33 @@ class SchoolController extends FrontbaseController
                   }elseif($val['pay_type'] == 2){
                       $share_length = $val['share_length']. "学年";
                   }
+
+                  $share_desc = !empty($val['share_desc']) ? '<a href="javascript:;" class="desc_show">查看</a>' : '无';
+
                   $str.="<tr>
-                             <td width='15%' height='30px'><strong><a href='javascript:void(0);' onclick='view_member(".$val['member_id'].");'>".$val['username']."</a></strong></td>
-                             <td width='15%' height='30px'><strong>".$val['education']."</strong></td>
-                             <td width='20%' height='30px'><strong>".$pay_type[$val['pay_type']]."</strong></td>
-                             <td width='40%' height='30px' style='padding:0px;'>
+                             <td height='30px'><strong><a href='javascript:void(0);' onclick='view_member(".$val['member_id'].");'>".$val['username']."</a></strong></td>
+                             <td height='30px'><strong>".$pay_type[$val['pay_type']]."</strong></td>
+                             <td height='30px' style='padding:0px;'>
                                  <table width='100%'  style='border:none;'>
                                  <tr>
                                      <th width='25%' height='35px;' style='border:none;border-right:1px #eee solid;padding:0px;'>
                                      ".$val['share_ratio']." %
                                      </th>
-                                     <th width='25%' height='35px;' style='border:none;padding:0px;'>
+                                     <th width='25%' height='35px;' style='border:none;padding:0px;border-right:1px #eee solid;'>
                                      ".$share_length."
+                                     </th>
+                                     <th width='25%' height='35px;' style='border:none;padding:0px;border-right:1px #eee solid;'>
+                                     且不高于
+                                     </th>
+                                     <th width='25%' height='35px;' style='border:none;padding:0px;'>
+                                     ".($val['set_price'] > 0 ? "$".$val['set_price'] : '')."
                                      </th>
                                  </tr>
                                  </table>
                              </td>
-                             <td width='20%' height='30px'>".$val['pay_cycle']." 周</td>";
-                  $str.="<td width='20%'><input id='upload_info' class='updatabtn' type='button' value='申请'
+                             <td height='30px'>".$val['pay_cycle']." 周</td>
+                             <td height='30px'>".$share_desc."<div style='display:none' class='share_desc'>".stripslashes (htmlspecialchars ($val['share_desc']))."</div></td>";
+                  $str.="<td><input id='upload_info' class='updatabtn' type='button' value='申请'
                     onClick='college_apply_header(".$college_id.",".$val['commission_id'].");'
                   /></td>";
                   $str.="</tr>";
@@ -437,6 +448,7 @@ class SchoolController extends FrontbaseController
         $college_info = D('School')->get_college_info($college_id);
 
         $commission = array();
+        $sharing_desc = '';
 
         foreach($college_info['edu'] as $edu){
             $tmp = array(
@@ -447,12 +459,16 @@ class SchoolController extends FrontbaseController
                 'length' =>  isset($user_commission[$edu['id']]['share_length']) ? $user_commission[$edu['id']]['share_length'] : '',
                 'cycle' => isset($user_commission[$edu['id']]['pay_cycle']) ? $user_commission[$edu['id']]['pay_cycle'] : '',
                 'commission_id' =>  isset($user_commission[$edu['id']]['commission_id']) ? $user_commission[$edu['id']]['commission_id'] : 0,
+                'set_price' =>  isset($user_commission[$edu['id']]['set_price']) ? $user_commission[$edu['id']]['set_price'] : '',
             );
+
+            $sharing_desc = empty($sharing_desc) && isset($user_commission[$edu['id']]['share_desc']) ? htmlspecialchars($user_commission[$edu['id']]['share_desc']) : $sharing_desc;
 
             $commission[] = $tmp;
         }
 
         $this->assign('commission',$commission);
+        $this->assign('sharing_desc',$sharing_desc);
 
         $this->assign('partner',$this->get_partner_info($this->member_id));
         $this->assign('view',$this->get_view_college($this->member_id));
@@ -496,8 +512,9 @@ class SchoolController extends FrontbaseController
 
             $update['pay_type'] = isset($data['payment_type'][$education_id]) ? $data['payment_type'][$education_id] : 0;
             $update['pay_cycle'] = isset($data['cycle'][$education_id]) ? $data['cycle'][$education_id] : 0;
-
+            $update['set_price'] = isset($data['set_price'][$education_id]) ? floatval($data['set_price'][$education_id]) : 0;
             $update['share_length'] = isset($data['length'][$education_id]) ? $data['length'][$education_id] : 0;
+            $update['share_desc'] = isset($data['share_desc']) ? addslashes(strip_tags($data['share_desc'])) : '';
             $update['share_ratio'] = isset($data['sharing_ratio'][$education_id]) ? $data['sharing_ratio'][$education_id] : 0.0;
 
             if(!$update['pay_type']){
@@ -526,6 +543,8 @@ class SchoolController extends FrontbaseController
                 $this->ajaxReturn(array('status'=>'no','msg'=>'周期必须在1-52的整数'));
                 exit;
             }
+
+            $update['share_length'] = 0;
 
             $update['member_id'] = $this->member_id;
             $update['college_id'] = $partner_college['college_id'];

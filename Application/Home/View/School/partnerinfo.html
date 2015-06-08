@@ -70,21 +70,22 @@
                                 </table> 
                             </div>
                         </div>
+                        <form id="share_value">
                         <div class="c_tem message_rc">
 							<div class="c_tem_text fl">
 								<span>分享信息</span>
 							</div>
                         </div>
-                        <div class="baseInfor"> 
-                        <form id="share_value">
-                        	<div class="div_inTab">
+                        <div class="baseInfor" style="padding: 0">
+
+                        	<div class="div_inTab" style="margin: 0">
                            
                         		<table width="100%">
                                 <thead>
                                     <tr>
-                                        <th width="20%" height="50px"><strong>学 历</strong></th>
-                                        <td width="30%" height="50px"><strong>支付方式</strong></td>
-                                        <td width="30%" height="50px" style="padding:0px;">
+                                        <th width="15%" height="50px"><strong>学 历</strong></th>
+                                        <td width="20%" height="50px"><strong>支付方式</strong></td>
+                                        <td width="50%" height="50px" style="padding:0px;">
                                             <div style=" width:100%; height:20px; border-bottom:1px #eee solid; padding:5px 0 3px 0;">
                                                 <span><strong>佣金分享</strong></span>
                                             </div>
@@ -92,10 +93,12 @@
                                             <tr>
                                             <th width="25%" height="20px">百分比</th>
                                             <th width="25%" height="20px">长度</th>
+                                                <th width="25%" height="20px">规则</th>
+                                                <th width="25%" height="20px">固定金额</th>
                                             </tr>
                                             </table>
                                         </td>
-                                        <td width="20%" height="50px"><strong>周期</strong></td>
+                                        <td width="15%" height="50px"><strong>周期</strong></td>
                                     </tr> 
                                 </thead>
                                  <volist name='commission' id="vo4">
@@ -117,11 +120,11 @@
                                           <table width="100%">
                                               <tr>
                                                   <th width="25%" style="border: none">
-                                                    <input class="baseInfor_input1"  style="width:30px" type="text" name="sharing_ratio[{$vo4['education_id']}]" value="{$vo4['sharing_ratio']}" /> %
+                                                    <input class="baseInfor_input1"  style="width:20px" type="text" name="sharing_ratio[{$vo4['education_id']}]" value="{$vo4['sharing_ratio']}" /> %
                                                   </th>
                                                   <th width="25%" style="border: none" id="length_{$vo4['education_id']}">
                                                       <if condition="$vo4['payment_type'] gt 0 AND $vo4['payment_type'] neq 3">
-                                                          <input class="baseInfor_input1"  style="width:30px" type="text" name="length[{$vo4['education_id']}]" value="{$vo4['length']}" />
+                                                          <input class="baseInfor_input1"  style="width:20px" type="text" name="length[{$vo4['education_id']}]" value="{$vo4['length']}" />
                                                       <elseif condition="$vo4['payment_type'] eq 3" />
                                                           一次性
                                                       <else />
@@ -134,6 +137,12 @@
                                                           学期
                                                       </if>
                                                   </th>
+                                                  <th width="25%" style="border: none">
+                                                      且不高于
+                                                  </th>
+                                                  <th width="25%" style="border: none">
+                                                      $ <input class="baseInfor_input1"  style="width:45px" type="text" name="set_price[{$vo4['education_id']}]" value="{$vo4['set_price']}" />
+                                                  </th>
                                               </tr>
                                           </table>
                                       </td>
@@ -144,16 +153,25 @@
                                   </volist>
                                 </table>
                                 </div>
-                                <div class="blod_js">
-                                    <input name="partner_id" type="hidden" value="{$partner_id}" />
-                                    <input id="edit_value_url" type="hidden" value="{:U('Home/School/edit_value')}" />
-                                	<a id="edit_value" href="javascript:void(0);">提 交</a>
-                                </div>
-                                
-                                </form>
-                            
+
+
                         </div>
-					</div>
+                        <div class="c_tem message_rc">
+                            <div class="c_tem_text fl">
+                                <span>备注信息</span>
+                            </div>
+                        </div>
+                        <div class="baseInfor">
+                            <textarea class="baseInfor_input" name="share_desc" style="height: 90px;width: 100%">{$sharing_desc}</textarea>
+                            <div class="blod_js">
+                                <a id="edit_value" href="javascript:void(0);">提 交</a>
+                            </div>
+                        </div>
+                            <input name="partner_id" type="hidden" value="{$partner_id}" />
+                            <input id="edit_value_url" type="hidden" value="{:U('Home/School/edit_value')}" />
+
+                        </form>
+                    </div>
 				  </div>
     	</div>
     </div>

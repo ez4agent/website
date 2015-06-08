@@ -273,6 +273,11 @@ function get_sharebyselectapply(select,college_id,stu_id)
     		    document.getElementById("share_div").innerHTML="";
     		    $("#share_div").append(data.str);
 
+                $("#share_div").find('td a.desc_show').on('click',function(){
+                    var html = $(this).parent().find('.share_desc').html();
+                    layer.alert(html,-1,'备注');
+                });
+
     		    $("#total").val(data.total);
     		}
 

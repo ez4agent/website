@@ -90,23 +90,25 @@ var stu_id = '{$stu_id}';
                               <span>佣金分享</span>
                           </div>							
                       </div>
-                      <div class="baseInfor">
-                      	 <div class="div_inTab">
+                      <div class="baseInfor" style="padding: 0">
+                      	 <div class="div_inTab" style="padding-bottom:20px;margin: 0">
                          	<div id="share_div">
-                                <if condition="$share eq 0"> 
-                                <div style="text-align:center">
-                            		<strong><span style="color:#F00">目前没有中介分享该院校,如需支持请点击下方"帮助"</span></strong>
-                                </div>		
-                                <div class="blod_js">
-                                	<a href="javascript:void(0);" onClick="college_help({$info['college_id']});">帮 助</a>
-                                    <if condition="$flag eq 'apply'">
-                                    <a href="{:U('Home/Student/index',array('stu'=>$stu_id))}" >返 回</a>
-                                    <else />
-                                    <a href="{:U('Home/Student/index')}" >返 回</a>
-                                    </if>
-                                </div>
+                                <if condition="$share eq 0">
+                                    <div style="padding: 10px 34px;">
+                                        <div style="text-align:center;">
+                                            <strong><span style="color:#F00">目前没有中介分享该院校,如需支持请点击下方"帮助"</span></strong>
+                                        </div>
+                                        <div class="blod_js">
+                                            <a href="javascript:void(0);" onClick="college_help({$info['college_id']});">帮 助</a>
+                                            <if condition="$flag eq 'apply'">
+                                            <a href="{:U('Home/Student/index',array('stu'=>$stu_id))}" >返 回</a>
+                                            <else />
+                                            <a href="{:U('Home/Student/index')}" >返 回</a>
+                                            </if>
+                                        </div>
+                                    </div>
                                 <else />
-                                	<div style="text-align:center">
+                                	<div style="text-align:center;padding: 10px 34px;">
                             		<strong><span style="color:#F00">请选择学历来查看分享信息！</span></strong>
                                 	</div>
                                 </if>
