@@ -544,7 +544,7 @@ class SchoolController extends FrontbaseController
                 exit;
             }
 
-            $update['share_length'] = 0;
+            //$update['share_length'] = 0;
 
             $update['member_id'] = $this->member_id;
             $update['college_id'] = $partner_college['college_id'];
