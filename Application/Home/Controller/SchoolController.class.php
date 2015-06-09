@@ -522,26 +522,26 @@ class SchoolController extends FrontbaseController
             }
 
             if(!is_numeric($update['share_ratio'])){
-                $this->ajaxReturn(array('status'=>'no','msg'=>'佣金分享百分比格式不正确'));
-                exit;
+                //$this->ajaxReturn(array('status'=>'no','msg'=>'佣金分享百分比格式不正确'));
+                //exit;
             }
 
             if($update['pay_type'] !=3 && !is_numeric($update['share_length'])){
-                $this->ajaxReturn(array('status'=>'no','msg'=>'佣金分享长度格式不正确'));
-                exit;
+                //$this->ajaxReturn(array('status'=>'no','msg'=>'佣金分享长度格式不正确'));
+                //exit;
             }elseif($update['pay_type'] ==3){
                 $update['share_length'] = 0;
             }
 
             if(!preg_match('/^[0-9]{0,2}+(\.5)*$/',$update['share_ratio']))
             {
-                $this->ajaxReturn(array('status'=>'no','msg'=>'佣金分享百分比必须在1-99之间,可以有0.5增减,且一位小数'));
-                exit;
+                //$this->ajaxReturn(array('status'=>'no','msg'=>'佣金分享百分比必须在1-99之间,可以有0.5增减,且一位小数'));
+                //exit;
             }
 
             if(!is_numeric($update['pay_cycle']) || intval($update['pay_cycle']) > 52 || intval($update['pay_cycle']) < 1){
-                $this->ajaxReturn(array('status'=>'no','msg'=>'周期必须在1-52的整数'));
-                exit;
+                //$this->ajaxReturn(array('status'=>'no','msg'=>'周期必须在1-52的整数'));
+                //exit;
             }
 
             //$update['share_length'] = 0;
