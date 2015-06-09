@@ -155,7 +155,9 @@ class PartnerModel extends Model
                 $share1[$key1]['username'] = getField_value('member','username',array('member_id'=>$val1['member_id']));
                 $share1[$key1]['type_name'] = $type[$val1['pay_type']];
                 //获取分享比例
+                /*
                 $map = array('commission_id'=>$val1['commission_id'],'sharing_ratio'=>array('neq',0));
+                
                 $share_value1 = array();
                 $share_value = M('share_value')->where($map)->select();
                 if(!empty($share_value)){
@@ -167,7 +169,8 @@ class PartnerModel extends Model
                     $share1[$key1]['value1'] = $share_value1;
                 }else{
                     unset($share1[$key1]);
-                }    
+                }
+                */
             }
         }
         return $share1;    
