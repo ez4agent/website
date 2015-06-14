@@ -8,7 +8,39 @@ use Think\Model;
 class ApplyModel extends Model
 {
     var $edu;
-    
+
+    //申请
+    const APPLY_START = 10; //提出申请
+    const APPLY_WAIT = 11;
+    const APPLY_UPDATE_OFFER = 12; //Offer更新
+    const APPLY_CONFIRM = 13;
+    const APPLY_HAS_CONDITION = 14;
+    const APPLY_NO_CONDITION = 15;
+
+    //签证
+    const VISA_WAIT = 20;
+    const VISA_CONFIRM = 21;
+    const VISA_PAY_WAIT = 22;
+
+    //支付
+    const PAY_WAIT = 30;
+    const PAY_CONFIRM = 31;
+
+    //完成
+    const FINISH = 100;
+
+    const APPLY_REJECT = -10; //拒绝接收
+    const APPLY_FAILURE = -11; //申请失败
+    const APPLY_FAILURE_UNQUALIFIED = -12; //无条件录取
+
+    const VISA_FAILURE = -20; //拒签
+    const PAY_FAILURE = -30; //支付失败
+
+    //终止
+    const STOP_B_SCHOOL = -100;
+    const STOP_B_TRAVEL = -101;
+    const STOP_B_OTHER = -102;
+
     public function __construct()
     {
         parent::__construct();
@@ -17,7 +49,69 @@ class ApplyModel extends Model
             '专科','本科','研究生'
         );    
     }
-    
+
+    public function get_status_msg($status)
+    {
+        $msg='';
+        if($status==self::APPLY_START)
+        {
+            $msg= '等待接收';
+        }
+        elseif($status==self::APPLY_UPDATE_OFFER)
+        {
+            $msg='Offer更新';
+        }elseif($status==self::APPLY_REJECT){
+            $msg='拒绝接收';
+        }
+        elseif($status==self::APPLY_FAILURE)
+        {
+            $msg='申请失败';
+        }
+        elseif($status==self::APPLY_WAIT){
+            $msg='等待申请材料';
+        }
+        elseif($status==self::APPLY_CONFIRM){
+            $msg='等待申请确认';
+        }
+        elseif($status==self::APPLY_HAS_CONDITION)
+        {
+            $msg='有条件录取';
+        }
+        elseif($status==self::APPLY_NO_CONDITION)
+        {
+            $msg='无条件录取';
+        }
+        elseif($status==self::VISA_WAIT)
+        {
+            $msg='等待签证';
+        }elseif($status==self::VISA_PAY_WAIT){
+            $msg='等待支付委托费';
+        }
+        elseif($status==self::VISA_CONFIRM)
+        {
+            $msg='等待签证原件审核';
+        }
+        elseif($status==self::VISA_FAILURE){
+            $msg='签证失败';
+        }
+        elseif($status==self::FINISH){
+            $msg='完成';
+        }
+        elseif($status==self::STOP_B_SCHOOL)
+        {
+            $msg='终止（选择其他院校 ）';
+        }
+        elseif($status==self::STOP_B_TRAVEL)
+        {
+            $msg='终止（行程中止 ）';
+        }
+        elseif($status==self::STOP_B_OTHER)
+        {
+            $msg='终止（其他 ）';
+        }
+        return $msg;
+    }
+
     /**
      *  判断是否是自己的合作院校 
      */
@@ -84,7 +178,7 @@ class ApplyModel extends Model
         }
         else
         {
-            $conut = getField_value('stu_apply_count', 'times',array('stu_id'=>$stu_id));
+            $count = getField_value('stu_apply_count', 'times',array('stu_id'=>$stu_id));
             if($count==C('MAX_APPLY_TIMES'))
             {
                 $msg = '该学生已经成功申请5次,不能再提出申请';
@@ -284,73 +378,6 @@ class ApplyModel extends Model
     public function get_apply_file($stu_apply_id)
     {
         return M('stu_apply_file')->where('stu_apply_id='.$stu_apply_id)->select();
-    }
-    
-    public function get_status_msg($status)
-    {
-        $msg='';
-        $a = C('APPLY_STATUS_OTHERS');
-        if($status==C('Apply_START'))
-        {
-            $msg= '提出申请';
-        }
-        elseif($status==C('IS_EMAIL'))
-        {
-            $msg='院校审核中';
-        }
-        elseif($status==$a['is_Receive'])
-        {
-            $msg='同意接收';
-        }
-        elseif($status==$a['no_Receive'])
-        {
-            $msg='拒绝接收';
-        }
-        elseif($status==$a['is_msm'])
-        {
-            $msg='等待接收';
-        }
-        elseif($status==C('IS_Conditions_Admission'))
-        {
-            $msg='有条件录取';
-        }
-        elseif($status==C('IS_NO_Conditions_Admission'))
-        {
-            $msg='无条件录取';
-        }
-        elseif ($status==C('OFFER_UPDATE'))
-        {
-            $msg = 'Offer更新';
-        }
-        elseif($status==C('COLLEGE_Refuse'))
-        {
-            $msg='申请失败'; 
-        }
-        elseif($status==C('APPLY_Cancel'))
-        {
-            $msg='取消申请'; 
-        }
-        elseif($status==C('VISA_SUCCESS'))
-        {
-            $msg='签证成功';
-        }
-        elseif($status==C('VISA_FAILURE'))
-        {
-            $msg='签证失败';
-        }
-        elseif($status==C('END1'))
-        {
-            $msg='终止（选择其他院校 ）';
-        }
-        elseif($status==C('END2'))
-        {
-            $msg='终止（行程中止 ）';
-        }
-        elseif($status==C('END3'))
-        {
-            $msg='终止（其他 ）';
-        } 
-        return $msg;
     }
     
     /**

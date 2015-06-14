@@ -157,7 +157,7 @@ class PartnerModel extends Model
                 //获取分享比例
                 /*
                 $map = array('commission_id'=>$val1['commission_id'],'sharing_ratio'=>array('neq',0));
-                
+
                 $share_value1 = array();
                 $share_value = M('share_value')->where($map)->select();
                 if(!empty($share_value)){

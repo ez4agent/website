@@ -5,6 +5,7 @@
 namespace Home\Controller;
 use Common\Controller\FrontbaseController;
 use Common\Util\Pinyin;
+use Home\Model\ApplyModel;
 
 class StudentController extends FrontbaseController
 {
@@ -420,7 +421,7 @@ class StudentController extends FrontbaseController
             
             //更新申请状态
             $condition = array('stu_apply_id'=>$info['apply_id'],'receive_member'=>$this->member_id);
-            M('stu_apply')->where($condition)->setField('status',$this->status_other['is_Receive']);
+            M('stu_apply')->where($condition)->setField('status',ApplyModel::APPLY_WAIT);
             //添加日志信息
             $log = array(
                 'operate_user_id'=>$this->member_id,
@@ -475,7 +476,7 @@ class StudentController extends FrontbaseController
             //更新申请状态
             $condition = array('stu_apply_id'=>$info['apply_id'],'receive_member'=>$this->member_id);
             M('stu_apply')->where($condition)->setField(
-                array('status'=>$this->status_other['no_Receive'],'reason'=>$content)
+                array('status'=>ApplyModel::APPLY_REJECT,'reason'=>$content)
             );
             //添加日志信息
             $log = array(

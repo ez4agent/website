@@ -5,10 +5,10 @@
       <tr>
           <td>
           类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型：
-          <input name="status" type="radio" value="30" /> 有条件录取&nbsp;&nbsp;
-          <input name="status" type="radio" value="40" /> 无条件录取&nbsp;&nbsp;
-          <input name="status" type="radio" value="50" /> Offer更新&nbsp;&nbsp;
-          <input name="status" type="radio" value="99" /> 申请失败&nbsp;&nbsp;
+          <input name="status" type="radio" value="14" /> 有条件录取&nbsp;&nbsp;
+          <input name="status" type="radio" value="15" /> 无条件录取&nbsp;&nbsp;
+          <input name="status" type="radio" value="12" /> Offer更新&nbsp;&nbsp;
+          <input name="status" type="radio" value="-10" /> 申请失败&nbsp;&nbsp;
           </td>
       </tr>
       <tr>
@@ -31,7 +31,7 @@
 </div>
 <div class="blod_js">
 <input name="stu_apply_id" type="hidden" value="{$apply_info['stu_apply_id']}" />
-<input id="apply_result_url" type="hidden" value="{:U('Home/apply/apply_result')}" />
+<input id="apply_result_url" type="hidden" value="{:U('Home/Apply/apply_result')}" />
 <a href="javascript:;" id="apply_result_sub">提　　交</a>
 </div>
 </form>

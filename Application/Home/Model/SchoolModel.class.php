@@ -128,7 +128,7 @@ class SchoolModel extends Model
             } 
         }
         
-        $_areaa_zimu = array();
+        $_area_zimu = array();
         $_Attribute = M('college')->where($condition)->field('area_id')->group('area_id')->select();
         if($_Attribute)
         {

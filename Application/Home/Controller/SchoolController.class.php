@@ -467,6 +467,19 @@ class SchoolController extends FrontbaseController
             $commission[] = $tmp;
         }
 
+        $need_update_contact = 'false';
+        $contact = D('Member')->get_Member_Info($this->member_id);
+
+        if(!empty($contact['company']) &&
+            !empty($contact['contact']) &&
+            (!empty($contact['telephone']) || !empty($contact['mobile'])) &&
+            !empty($contact['address'])){
+            $need_update_contact = 'true';
+        }
+
+        $this->assign('contact',$contact);
+        $this->assign('need_update_contact',$need_update_contact);
+
         $this->assign('commission',$commission);
         $this->assign('sharing_desc',$sharing_desc);
 
@@ -486,6 +499,18 @@ class SchoolController extends FrontbaseController
         if(!IS_AJAX || !$this->member_id) {
             exit;
         }
+
+        $contact = D('Member')->get_Member_Info($this->member_id);
+
+        if(empty($contact['company']) ||
+            empty($contact['contact']) ||
+            (empty($contact['telephone']) && empty($contact['mobile'])) ||
+            empty($contact['address'])){
+            $this->ajaxReturn(array('status'=>'no','msg'=>'邮寄联系方式信息不完整'));
+            exit;
+        }
+
+
         $data = $_POST;
 
         if(!isset($data['education_id']) || !isset($data['partner_id'])){

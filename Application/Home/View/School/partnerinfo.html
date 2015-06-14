@@ -158,18 +158,45 @@
                         </div>
                         <div class="c_tem message_rc">
                             <div class="c_tem_text fl">
+                                <span>邮寄联系方式</span>
+                            </div>
+                        </div>
+                        <div class="baseInfor">
+                            <table width="100%">
+                                <tbody><tr>
+                                    <td width="50%" height="20px;">公司名称：{$contact.company}</td>
+                                    <td width="50%" height="20px;">联系人：{$contact.contact}</td>
+                                </tr>
+                                <tr>
+                                    <td height="20px;" colspan="2">联系方式：{$contact.telephone} {$contact.mobile}</td>
+                                </tr>
+                                <tr>
+                                    <td height="20px" colspan="2">地址：{$contact.address}</td>
+                                </tr>
+                                </tbody></table>
+
+                                <div class="blod_js">
+                                    <a href="{:U('Home/Membr/view')}">修改信息</a>
+                                </div>
+
+                        </div>
+                        <div class="c_tem message_rc">
+                            <div class="c_tem_text fl">
                                 <span>备注信息</span>
                             </div>
                         </div>
                         <div class="baseInfor">
                             <textarea class="baseInfor_input" name="share_desc" style="height: 90px;width: 100%">{$sharing_desc}</textarea>
                             <div class="blod_js">
-                                <a id="edit_value" href="javascript:void(0);">提 交</a>
+                                <if condition="$need_update_contact eq 'false'">
+                                    <a href="javascript:alert('邮寄联系方式信息不完整');">提 交</a>
+                                <else/>
+                                    <a id="edit_value" href="javascript:void(0);">提 交</a>
+                                </if>
                             </div>
                         </div>
                             <input name="partner_id" type="hidden" value="{$partner_id}" />
                             <input id="edit_value_url" type="hidden" value="{:U('Home/School/edit_value')}" />
-
                         </form>
                     </div>
 				  </div>

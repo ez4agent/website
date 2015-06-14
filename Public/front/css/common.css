@@ -663,3 +663,69 @@ a.school_add:hover{filter:Alpha(opacity=80);-moz-opacity:0.8;opacity:0.8;}
     border-color:#dcdcdc;
 }
 
+
+.nbj_operate{
+    margin-bottom: 20px
+}
+
+.nbj_nav {
+    height: 46px;
+    line-height: 46px;
+}
+.nbj_nav li {
+    background: none repeat scroll 0 0 #d8d8d8;
+    color: #444;
+    float: left;
+    font-size: 14px;
+    font-weight: normal;
+    height: 46px;
+    text-align: center;
+    width: 25%;
+}
+
+.nbj_nav li em{ margin-right: 10px; font-family: "Verdana";}
+
+.nbj_nav .cur {
+    background: url("../images/nbj_nav_bg.jpg") no-repeat scroll right -46px #f4a41e;
+    color: #fff;
+}
+.nbj_nav .no_cur {
+    background: url("../images/nbj_nav_bg.jpg") no-repeat scroll right top #d8d8d8;
+}
+.nbj_nav .cur21 {
+    background: url("../images/nbj_nav_bg.jpg") no-repeat scroll right bottom #d8d8d8;
+}
+
+.nbj_nav .last_cur {
+    background: none repeat scroll 0 0 #f4a41e;
+    color: #fff;
+}
+
+
+.operation_table {
+    background-color: #c2c2c2;
+    height: 44px;
+    line-height: 44px;
+    overflow: hidden;
+}
+.operation_table ul {
+    width: 100%;
+}
+.operation_table li {
+    background: rgba(0, 0, 0, 0) url("../images/messagenavLine.gif") no-repeat scroll right center;
+    float: left;
+}
+.operation_table li a {
+    display: block;
+    font-size: 14px;
+    margin-right: 1px;
+    text-align: center;
+    width: 191px;
+}
+
+#submit_school_apply_form{ width: 500px}
+.part_info h2{ font-weight: bold; line-height: 31px;}
+.part_info table th{ text-align: right; width: 70px; padding-right: 5px; font-size: 12px;}
+.part_info table td{padding: 5px;}
+
+.part_info table td input.baseInfor_input{ width: auto}

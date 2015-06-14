@@ -3,6 +3,7 @@
 //申请院校
 namespace Home\Controller;
 use Common\Controller\FrontbaseController;
+use Home\Model\ApplyModel;
 
 class ApplyController extends FrontbaseController
 {
@@ -192,7 +193,21 @@ class ApplyController extends FrontbaseController
             $this->error('改申请记录不存在！');
             exit();
         }
+
         $this->assign('apply_info',$info);
+
+
+        $contact = D('Member')->get_Member_Info($this->member_id);
+        $this->assign('contact',$contact);
+
+
+        if($info['status'] == ApplyModel::VISA_WAIT && $info['receive_member'] != $this->member_id){
+            $college_info = M('college')->where(array('college_id' => $info['college_id']))->find();
+
+            $visa_info = M('visa_service')->where(array('country_id' => $college_info['country_id'],'member_id'=>$info['receive_member']))->find();
+            $this->assign('visa_info',$visa_info);
+        }
+
         $this->assign('log',$this->log_mod->get_log($apply_id));
         $this->assign('session',$this->member_id);
         $this->assign('stu_id3',getField_value('stu_apply', 'member_stu_id',
@@ -274,7 +289,7 @@ class ApplyController extends FrontbaseController
                 'profession'=>$profession,
                 'start_time'=>strtotime($start_time),
                 'intermediary'=>$info['member_id'],
-                'status'=> $Cooperation?C('Apply_START'):$this->status_other['is_msm'],
+                'status'=> ApplyModel::APPLY_START,
                 'content'=>$content,
                 'apply_type'=>$Cooperation?1:2,
                 'receive_member'=>$Cooperation?0:$info['member_id'], //接收申请一方
@@ -347,7 +362,50 @@ class ApplyController extends FrontbaseController
             }
         }
     }
-    
+
+    //提交申请学校审核材料
+    public function submit_school_apply(){
+        if(IS_AJAX) {
+            $waybill_company = I('post.waybill_company', '');
+            $waybill_no = I('post.waybill_no', '');
+            $stu_apply_id = I('post.stu_apply_id', '');
+
+            if(!$waybill_company){
+                echo $this->ajaxReturn(array('status'=>'no','msg'=>'请填写快递公司'));
+                exit();
+            }
+
+            if(!$waybill_no){
+                echo $this->ajaxReturn(array('status'=>'no','msg'=>'请填写快递单号'));
+                exit();
+            }
+
+            $res = $this->check_apply($stu_apply_id,$this->member_id);
+            if($res){
+                echo $this->ajaxReturn($res);
+                exit;
+            }
+
+            //更改状态
+            M('stu_apply')->where('stu_apply_id='.$stu_apply_id)->setField(
+                array('status'=>ApplyModel::APPLY_CONFIRM)
+            );
+
+            //更新日志
+            $log = array(
+                'apply_id'=>$stu_apply_id,
+                'operate_user_id'=>$this->member_id,
+                'update_status'=>ApplyModel::APPLY_CONFIRM,
+                'type'=>0,
+                'title' => $this->apply_mod->get_status_msg(ApplyModel::APPLY_CONFIRM),
+                'operate_content'=>$waybill_company ." : ".$waybill_no,
+            );
+
+            D('Log')->add_log($stu_apply_id,$log);
+            echo $this->ajaxReturn(array("status"=>"yes",'msg'=>'提交成功！','url'=>U('Home/Apply/view',array('apply_id'=>$stu_apply_id))));
+        }
+    }
+
     //院校审核(需扩展 用邮件代替)
     public function examine_act()
     { 
@@ -364,14 +422,14 @@ class ApplyController extends FrontbaseController
             M('stu_apply')->where('stu_apply_id='.$stu_apply_id)->setField(
                 array('status'=>C('IS_EMAIL'))
             );
-            
+
             //写日志
             $info = $this->apply_mod->get_apply_info($stu_apply_id);
             $college_name = M('college')->where('college_id='.$info['college_id'])->getField('ename');
             $operate_content='';
             $log = array('operate_user_id'=>$this->member_id,'operate_content'=>$operate_content);
             $this->log_mod->add_log($stu_apply_id,$log);
-            
+
             echo $this->ajaxReturn(array('status'=>'yes'));
             exit;
         }
@@ -390,10 +448,10 @@ class ApplyController extends FrontbaseController
                 exit;
             } 
             //更改状态
-            if($data['status']==30 || $data['status']==40 || $data['status']==50)
+            if($data['status'] > 0)
             {
                 $update = array(
-                  'status'=>$data['status'],
+                  'status'=> ApplyModel::VISA_WAIT,
                   'is_success' =>1,
                   'is_email'=>1 
                 );
@@ -401,7 +459,7 @@ class ApplyController extends FrontbaseController
                 $stu_id = getField_value('stu_apply','stu_id',array('stu_apply_id'=>$data['stu_apply_id']));
                 $this->apply_mod->update_apply_success_count(intval($stu_id));
             }
-            elseif($data['status']==99) 
+            else
             {
                 $update = array(
                     'status'=>$data['status'],
@@ -418,7 +476,7 @@ class ApplyController extends FrontbaseController
                 'operate_user_id'=>$this->member_id,
                 'update_status'=>$data['status'],
                 'type'=>0,
-                'title'=>NULL,
+                'title'=>$this->apply_mod->get_status_msg(ApplyModel::VISA_WAIT),
                 'operate_content'=>$data['content'], 
             );
             
@@ -472,8 +530,8 @@ class ApplyController extends FrontbaseController
                 'operate_user_id'=>$this->member_id,
                 'update_status'=>$data['status'],
                 'type'=>1,
-                'title'=>$data['title'],
-                'operate_content'=>$data['content'],
+                'title'=>$title,
+                'operate_content'=>$content,
             );
             
             if(!empty($data['apply_results']))
@@ -491,6 +549,48 @@ class ApplyController extends FrontbaseController
             $this->apply_mod->add_apply_file($log['file'],$stu_id,$data['stu_apply_id']);
             
             echo $this->ajaxReturn(array("status"=>"yes",'msg'=>'提交成功！'));
+        }
+    }
+
+    public function submit_visa_apply(){
+        if(IS_AJAX) {
+            $waybill_company = I('post.waybill_company', '');
+            $waybill_no = I('post.waybill_no', '');
+            $stu_apply_id = I('post.stu_apply_id', '');
+
+            if(!$waybill_company){
+                echo $this->ajaxReturn(array('status'=>'no','msg'=>'请填写快递公司'));
+                exit();
+            }
+
+            if(!$waybill_no){
+                echo $this->ajaxReturn(array('status'=>'no','msg'=>'请填写快递单号'));
+                exit();
+            }
+
+            $res = $this->check_apply($stu_apply_id,$this->member_id);
+            if($res){
+                echo $this->ajaxReturn($res);
+                exit;
+            }
+
+            //更改状态
+            M('stu_apply')->where('stu_apply_id='.$stu_apply_id)->setField(
+                array('status'=>ApplyModel::VISA_PAY_WAIT)
+            );
+
+            //更新日志
+            $log = array(
+                'apply_id'=>$stu_apply_id,
+                'operate_user_id'=>$this->member_id,
+                'update_status'=>ApplyModel::VISA_PAY_WAIT,
+                'type'=>0,
+                'title' => $this->apply_mod->get_status_msg(ApplyModel::VISA_PAY_WAIT),
+                'operate_content'=>$waybill_company ." : ".$waybill_no,
+            );
+
+            D('Log')->add_log($stu_apply_id,$log);
+            echo $this->ajaxReturn(array("status"=>"yes",'msg'=>'提交成功！','url'=>U('Home/Apply/view',array('apply_id'=>$stu_apply_id))));
         }
     }
     
@@ -517,7 +617,7 @@ class ApplyController extends FrontbaseController
                 'operate_user_id'=>$this->member_id,
                 'update_status'=>$data['visa_status'],
                 'type'=>0,
-                'title'=>NULL,
+                'title' => $this->apply_mod->get_status_msg($data['visa_status']),
                 'operate_content'=>$data['content'],
             );
             if(!empty($data['apply_results']))
@@ -575,7 +675,7 @@ class ApplyController extends FrontbaseController
                 'operate_user_id'=>$this->member_id,
                 'update_status'=>$data['end_status'],
                 'type'=>0,
-                'title'=>NULL,
+                'title' => $this->apply_mod->get_status_msg($data['end_status']),
                 'operate_content'=>$data['content'],
             );
             if(!empty($data['apply_results']))

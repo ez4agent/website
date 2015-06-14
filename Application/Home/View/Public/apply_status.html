@@ -1,0 +1,84 @@
+<!--操作区-->
+<div class="nbj_nav">
+    <?php
+        $st1_class = $st2_class = $st3_class = 'no_cur';
+        $st4_class = 'last';
+        if($apply_info['is_stop'] != 1){
+            if($apply_info['status'] > 0 && $apply_info['status'] < 20){
+                $st1_class = 'cur';
+            }elseif($apply_info['status'] >= 20 && $apply_info['status'] < 30){
+                $st1_class = 'cur21';
+                $st2_class = 'cur';
+            }elseif($apply_info['status'] >= 30 && $apply_info['status'] < 99){
+                $st2_class = 'cur21';
+                $st3_class = 'cur';
+            }elseif($apply_info['status'] == 100 || $apply_info['status'] < 0 ){
+                $st3_class = 'cur21';
+                $st4_class = 'last_cur';
+            }
+        }
+    ?>
+
+    <ul class="clearfix">
+        <li class="{$st1_class}"><em>1</em><span>院校申请</span></li>
+        <li class="{$st2_class}"><em>2</em><span>签证相关</span></li>
+        <li class="{$st3_class}"><em>3</em><span>佣金支付</span></li>
+        <li class="{$st4_class}"><em>4</em><span>完   成</span></li>
+    </ul>
+</div>
+<if condition="$apply_info['apply_type'] eq 2" > <!--他人合作院校-->
+    <div class="c_tem message_rc">
+        <div class="c_tem_text fl">
+            <span>当前状态：<strong><font color="#FF0000">{$apply_info['status_name']}</font></strong></span>
+        </div>
+    </div>
+    <div class="baseInfor">
+        <div class="yj_bt" >
+            <div class="blod_js">
+                <if condition="($apply_info['is_stop'] eq 1) OR ($apply_info['status'] eq 100) OR ($apply_info['status'] lt 0)">
+                    <?php if($apply_info['status'] == -10):?>
+                        拒绝接收原因：<strong><font color="#FF0000">{$apply_info['reason']}</font></strong>
+                    <?php else:?>
+                     <a href="javascript:;">评   价</a>
+                     <a href="javascript:;" class="disable">交   流</a>
+                    <?php endif;?>
+                <else />
+                    <?php if($apply_info['member_id'] == $session):?>
+                        <?php if($apply_info['status'] == 11):?>
+                            <a href="javascript:;" onclick="submit_school_apply({$apply_info['member_id']},{$apply_info['stu_apply_id']})">提交审核材料</a>
+                        <?php endif;?>
+
+                        <?php if($apply_info['status'] == 20):?>
+                            <?php if(!empty($visa_info)):?>
+                                <a href="javascript:;" onclick="visa_apply({$apply_info['member_id']},{$apply_info['stu_apply_id']})">委托签证</a>
+                            <?php endif;?>
+                            <a href="javascript:;" onclick="visa_results({$apply_info['member_id']},{$apply_info['stu_apply_id']})">提交签证结果（自己办理）</a>
+                        <?php endif;?>
+
+                        <?php if($apply_info['status'] == 22):?>
+                            <a href="{:U('Home/order/pay',array('order_no'=>$apply_info['stu_apply_id']))}">支付委托费用</a>
+                            <a href="javascript:;" onclick="visa_results({$apply_info['member_id']},{$apply_info['stu_apply_id']})">提交签证结果（自己办理）</a>
+                        <?php endif;?>
+
+                        <a href="javascript:;" onclick="apply_end({$apply_info['member_id']},{$apply_info['stu_apply_id']})">终   止</a>
+                        <a href="javascript:;" onclick="message_info({$apply_info['member_id']},{$apply_info['stu_apply_id']})">交   流</a>
+                    <?php endif;?>
+
+                    <?php if($apply_info['receive_member'] == $session):?>
+
+                        <?php if($apply_info['status'] == 13):?>
+                            <a href="javascript:;" onclick="apply_result({$apply_info['receive_member']},{$apply_info['stu_apply_id']})">提交申请结果</a>
+                        <?php endif;?>
+                        <?php if($apply_info['status'] == 21):?>
+                            <a href="javascript:;" onclick="visa_results({$apply_info['receive_member']},{$apply_info['stu_apply_id']})">提交签证结果</a>
+                        <?php endif;?>
+                        <a href="javascript:;" onclick="apply_end({$apply_info['receive_member']},{$apply_info['stu_apply_id']})">终   止</a>
+                        <a href="javascript:;" onclick="message_info({$apply_info['receive_member']},{$apply_info['stu_apply_id']})">交   流</a>
+                    <?php endif;?>
+                </if>
+            </div>
+        </div>
+    </div>
+
+</if>
+

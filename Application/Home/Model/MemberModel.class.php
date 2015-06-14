@@ -163,6 +163,7 @@ class MemberModel extends Model
                 }
                 
                 $update =array(
+                'company' => trim($data['company']),
                 'telephone'=>trim($data['telephone']),
                 'mobile'=>trim($data['mobile']),
                 'email1'=>trim($data['email']),

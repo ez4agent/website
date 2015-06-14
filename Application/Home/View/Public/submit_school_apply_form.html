@@ -1,0 +1,60 @@
+<div class="baseInfor">
+    <div class="part_info">
+      <h2>材料审核邮寄地址</h2>
+      <div class="inner">
+          <table width="100%" border="0" style=" border-collapse: collapse;">
+              <tr>
+                  <th>公司名称: </th>
+                  <td> {$contact.company} </td>
+              </tr>
+              <tr>
+                  <th>联系人: </th>
+                  <td> {$contact.contact} </td>
+              </tr>
+              <tr>
+                  <th>联系方式: </th>
+                  <td> {$contact.telephone} {$contact.mobile} </td>
+              </tr>
+              <tr>
+                  <th>地址: </th>
+                  <td> {$contact.address} </td>
+              </tr>
+            </table>
+      </div>
+    </div>
+    <div class="part_info">
+        <h2>快递详情</h2>
+        <div class="inner">
+            <form id="submit_school_apply_form">
+              <table width="100%" border="0" style=" border-collapse: collapse;">
+                  <tbody>
+                    <tr>
+                      <th>快递公司 ：</th>
+                      <td>
+                         <input class="baseInfor_input" id="waybill_company" name="waybill_company" type="text" value="" />
+                     </td>
+                    </tr>
+                    <tr>
+                      <th>快递单号 ：</th>
+                      <td>
+                        <input class="baseInfor_input" id="waybill_no" name="waybill_no" type="text" value="" />
+                      </td>
+                    </tr>
+                  </tbody>
+              </table>
+              <div class="blod_js">
+                  <input name="stu_apply_id" type="hidden" value="{$apply_info['stu_apply_id']}" />
+                  <a href="javascript:void(0);" id="submit_school_apply_submit" >确&nbsp;&nbsp;定</a>
+              </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $("#submit_school_apply_submit").click(function(){
+        var data = $("#submit_school_apply_form").serialize();
+        console.log(data);
+        var url = "{:U('Home/Apply/submit_school_apply')}";
+        ajax_submit(url,data);
+    });
+</script>

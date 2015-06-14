@@ -245,7 +245,7 @@ function chinesetoEN( xin ,id)
 	 						var html = '';
 	 						for (var i = 0; i < data.info.file.length; i++) {
 	 							html+="<strong>"+data.info.file[i].file_name+"</strong>：";
-	 							html+='<a href='+data.info.file[i].file_path+' class="file_a opacity8" target="_blank"><span>查看/下载</span></a>&nbsp;';
+	 							html+='<a href='+data.info.file[i].file_url+' class="file_a opacity8" target="_blank"><span>查看/下载</span></a>&nbsp;';
 	 						};
 
 	 						$("#file").html(html);
@@ -358,8 +358,15 @@ function chinesetoEN( xin ,id)
    	  	},'json')
    	 }
    }
-  
-   
+
+    //提交审核材料
+    function submit_school_apply(receive_member_id,stu_apply_id)
+    {
+        if(receive_member_id && stu_apply_id)
+        {
+            layer_area('提交审核材料','submit_school_apply',540,390);
+        }
+    }
 
     //留言
     function message_info(receive_member_id,stu_apply_id)
@@ -372,32 +379,20 @@ function chinesetoEN( xin ,id)
     }
 
     //申请结果
-    function apply_result(url,receive_member_id,stu_apply_id) 
+    function apply_result(receive_member_id,stu_apply_id)
     { 
-    	if(receive_member_id && stu_apply_id)
-    	{ 
-    		document.getElementById("result_form").reset();
-    		$.post(url,{stu_apply_id:stu_apply_id},function(data){
-				if(data.status=='no')
-				{ 
-					if(confirm('您是否已经在线下向院校提交了申请！'))
-					{
-						layer_area('申请结果','apply_result_form',740,340);
-						return true;
-					}
-					else
-					{ 
-						return false;
-					}
-				}
-				else if(data.status=='yes')
-				{ 
-					layer_area('申请结果','apply_result_form',740,340);
-					return true;
-				}
-				
-			},'json');
-    	} 
+    	if(receive_member_id && stu_apply_id) {
+            layer_area('申请结果', 'apply_result_form', 740, 340);
+        }
+    }
+
+    //委托签证
+    function visa_apply(receive_member_id,stu_apply_id)
+    {
+        if(receive_member_id && stu_apply_id)
+        {
+            layer_area('签证服务','visa_apply',540,470);
+        }
     }
 
     //签证结果
