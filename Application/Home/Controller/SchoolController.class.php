@@ -499,7 +499,7 @@ class SchoolController extends FrontbaseController
         if(!IS_AJAX || !$this->member_id) {
             exit;
         }
-
+/*
         $contact = D('Member')->get_Member_Info($this->member_id);
 
         if(empty($contact['company']) ||
@@ -510,7 +510,7 @@ class SchoolController extends FrontbaseController
             exit;
         }
 
-
+*/
         $data = $_POST;
 
         if(!isset($data['education_id']) || !isset($data['partner_id'])){
