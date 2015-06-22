@@ -23,16 +23,22 @@ class MemberController extends FrontbaseController
     {
         $info = $this->member_mod->get_Member_Info($this->member_id);
         $visa_service = M('visa_service')->where(array('member_id'=>$this->member_id))->select();
-
+        $address_list = M('member_address')->where(array('member_id'=>$this->member_id))->select();
 
         if(isset($_GET['visa_id'])){
             $visa_info = M('visa_service')->where(array('visa_id' => $_GET['visa_id'],'member_id'=>$this->member_id))->find();
+        }
+
+        if(isset($_GET['address'])){
+            $address_info = M('member_address')->where(array('address_id' => $_GET['address'],'member_id'=>$this->member_id))->find();
         }
 
         $this->assign('info',$info);
         $this->assign('country',country());
         $this->assign('visa_service',$visa_service);
         $this->assign('visa_info',$visa_info);
+        $this->assign('address_info',$address_info);
+        $this->assign('address_list',$address_list);
         $this->display();
     }
     
@@ -175,5 +181,55 @@ class MemberController extends FrontbaseController
 
         exit;
     }
-    
+
+
+    function address(){
+        $action = I('request.action','','trim');
+
+        if($action == 'add'){
+            $data = $_POST;
+
+            if(empty($data['contacter']) || empty($data['phone']) || empty($data['address']) ){
+                $this->ajaxReturn(array('status'=>'no','msg' => '邮寄地址信息不完整'));
+            }
+
+            M('member_address')->add(array(
+                'member_id'=>$this->member_id,
+                'address'=>$data['address'],
+                'contacter'=>$data['contacter'],
+                'phone'=>$data['phone'],
+                'dateline'=>time()
+            ));
+
+            $this->ajaxReturn(array('status'=>'yes'));
+            exit();
+        }elseif($action == 'edit'){
+            $data = $_POST;
+
+            if(isset($data['address_id']) && is_numeric($data['address_id'])){
+                $address = M('member_address')->where(array('address_id'=>$data['address_id']))->find();
+
+                $address && M('member_address')->where(array(
+                    'address_id'=>$data['address_id'],'member_id'=>$this->member_id))->save(array(
+                    'address'=>$data['address'],
+                    'contacter'=>$data['contacter'],
+                    'phone'=>$data['phone'],
+                    'dateline'=>time()));
+            }
+
+            $this->ajaxReturn(array('status'=>'yes'));
+            exit();
+
+        }elseif($action == 'del'){
+
+            $data = $_GET;
+            if(isset($data['address']) && is_numeric($data['address'])) {
+                M('member_address')->where(array('address_id' => $data['address'],'member_id'=>$this->member_id))->delete();
+            }
+
+            header("location: ".U("Home/Member/view"));
+        }
+
+        exit;
+    }
 }

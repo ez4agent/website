@@ -402,6 +402,7 @@ class ApplyController extends FrontbaseController
             );
 
             D('Log')->add_log($stu_apply_id,$log);
+
             echo $this->ajaxReturn(array("status"=>"yes",'msg'=>'提交成功！','url'=>U('Home/Apply/view',array('apply_id'=>$stu_apply_id))));
         }
     }
@@ -573,7 +574,7 @@ class ApplyController extends FrontbaseController
                 echo $this->ajaxReturn($res);
                 exit;
             }
-
+/*
             //更改状态
             M('stu_apply')->where('stu_apply_id='.$stu_apply_id)->setField(
                 array('status'=>ApplyModel::VISA_PAY_WAIT)
@@ -590,7 +591,8 @@ class ApplyController extends FrontbaseController
             );
 
             D('Log')->add_log($stu_apply_id,$log);
-            echo $this->ajaxReturn(array("status"=>"yes",'msg'=>'提交成功！','url'=>U('Home/Apply/view',array('apply_id'=>$stu_apply_id))));
+*/
+            echo $this->ajaxReturn(array("status"=>"yes",'msg'=>'提交成功！','url'=>U('Home/Order/visa',array('apply_id'=>$stu_apply_id))));
         }
     }
     

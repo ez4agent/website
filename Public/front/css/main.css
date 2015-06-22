@@ -278,19 +278,19 @@ background:-webkit-linear-gradient(top,#d7d7d7,#ffffff);background:-o-linear-gra
     color: #000;
 }
 
-.visa_service_info{
+.member_part_form{
     margin: 15px 0;
 }
 
-.visa_service_info h2{
+.member_part_form h2{
     font-size: 14px;
     font-weight: bold;
     color: #333;
     margin: 10px 0;
 }
 
-.visa_service_info .updatabtn,
-.visa_service_info .updatabtn:hover{
+.member_part_form .updatabtn,
+.member_part_form .updatabtn:hover{
     background: none repeat scroll 0 0 #f49710;
     border: medium none;
     border-radius: 3px;

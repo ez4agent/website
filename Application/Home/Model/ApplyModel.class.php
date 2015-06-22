@@ -59,19 +59,20 @@ class ApplyModel extends Model
         }
         elseif($status==self::APPLY_UPDATE_OFFER)
         {
-            $msg='Offer更新';
+            //$msg='Offer更新';
+            $msg='院校申请拒绝';
         }elseif($status==self::APPLY_REJECT){
-            $msg='拒绝接收';
+            $msg='院校申请拒绝';
         }
         elseif($status==self::APPLY_FAILURE)
         {
             $msg='申请失败';
         }
         elseif($status==self::APPLY_WAIT){
-            $msg='等待申请材料';
+            $msg='等待材料审核';
         }
         elseif($status==self::APPLY_CONFIRM){
-            $msg='等待申请确认';
+            $msg='等待院校申请结果';
         }
         elseif($status==self::APPLY_HAS_CONDITION)
         {
@@ -83,13 +84,13 @@ class ApplyModel extends Model
         }
         elseif($status==self::VISA_WAIT)
         {
-            $msg='等待签证';
+            $msg='等待签证原材料';
         }elseif($status==self::VISA_PAY_WAIT){
             $msg='等待支付委托费';
         }
         elseif($status==self::VISA_CONFIRM)
         {
-            $msg='等待签证原件审核';
+            $msg='等待签证结果';
         }
         elseif($status==self::VISA_FAILURE){
             $msg='签证失败';
@@ -99,15 +100,15 @@ class ApplyModel extends Model
         }
         elseif($status==self::STOP_B_SCHOOL)
         {
-            $msg='终止（选择其他院校 ）';
+            $msg='申请终止';
         }
         elseif($status==self::STOP_B_TRAVEL)
         {
-            $msg='终止（行程中止 ）';
+            $msg='申请终止';
         }
         elseif($status==self::STOP_B_OTHER)
         {
-            $msg='终止（其他 ）';
+            $msg='申请终止';
         }
         return $msg;
     }
@@ -352,14 +353,64 @@ class ApplyModel extends Model
                 $_info['file'][$key]['file_url'] = $url.$val['file_path'];
             }
         }
-        
+
         $_info['start_time1'] = date('Y/m/d',$_info['start_time']);
         $_info['status_name'] = $this->get_status_msg($_info['status']);
+
+
         $_info['intermediary_name']= M('member')->where('member_id='.$_info['member_id'])->getField('username');
         if($_info['receive_member']!=0)
         {
             $_info['receive_member_name'] =M('member')->where('member_id='.$_info['receive_member'])->getField('username');
         }
+
+        $_info['receive_address'] = array();
+
+        if($_info['post_address_id'] == "-1"){
+            $receive_member_info = M('member_info')->where(array('member_id'=>$_info['receive_member']))->find();
+
+            $_info['receive_address'] = array(
+                'address' => $receive_member_info['address'],
+                'contacter' => $receive_member_info['contact'],
+                'phone' => $receive_member_info['telephone']
+            );
+        }else{
+            $_info['receive_address'] = M('member_address')->where(array('address_id'=>$_info['post_address_id']))->find();
+        }
+
+        if($_info['needmore']){
+            $needkind_arr = array(
+              1 => '学历', 2 => '成绩单' , 3 => '语言成绩'
+            );
+
+            $needtype_arr = array(
+                '1' => '原件', '2' => '公证件'
+            );
+
+            $needkind = $needkind_other = array();
+            $needmore = json_decode($_info['needmore'],true);
+
+            foreach($needmore['needkind'] as $v){
+                $needkind[] = $needkind_arr[(int)$v];
+            }
+
+            if($needmore['needkind_other']){
+                $needkind[] = $needmore['needkind_other'];
+            }
+
+            foreach($needmore['needtype'] as $v){
+                $needtype[] = $needtype_arr[(int)$v];
+            }
+
+            if(is_array($needmore)){
+                $_info['needmore'] = array(
+                    'needkind' => join(' , ',$needkind),
+                    'needtype' => join(' , ',$needtype),
+                    //'address' => join(' , ',$_info['receive_address']),
+                );
+            }
+        }
+
         return $_info;
     }
     

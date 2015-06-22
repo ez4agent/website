@@ -1,4 +1,21 @@
 <div class="baseInfor">
+    <if condition="$apply_info.needmore">
+        <div class="part_info">
+            <h2>需提交申请原件进行审核</h2>
+            <div class="inner">
+                <table width="100%" border="0" style=" border-collapse: collapse;">
+                    <tr>
+                        <th>材料种类: </th>
+                        <td> {$apply_info.needmore.needkind}</td>
+                    </tr>
+                    <tr>
+                        <th>材料性质: </th>
+                        <td> {$apply_info.needmore.needtype} </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </if>
     <div class="part_info">
       <h2>材料审核邮寄地址</h2>
       <div class="inner">
@@ -9,15 +26,15 @@
               </tr>
               <tr>
                   <th>联系人: </th>
-                  <td> {$contact.contact} </td>
+                  <td> {$apply_info.receive_address.contacter} </td>
               </tr>
               <tr>
                   <th>联系方式: </th>
-                  <td> {$contact.telephone} {$contact.mobile} </td>
+                  <td> {$apply_info.receive_address.phone} </td>
               </tr>
               <tr>
                   <th>地址: </th>
-                  <td> {$contact.address} </td>
+                  <td> {$apply_info.receive_address.address} </td>
               </tr>
             </table>
       </div>

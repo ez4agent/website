@@ -6,7 +6,11 @@
           <table width="100%" border="0" style=" border-collapse: collapse;">
               <tr>
                   <th>签证费: </th>
-                  <td> AU ${$visa_info.visa_price} </td>
+                  <td> AU ${$visa_info.visa_price}</td>
+              </tr>
+              <tr>
+                  <th></th>
+                  <td> <span id="visa_rmb_price">RMB ¥--</span> <span id="hl">--</span></td>
               </tr>
               <tr>
                   <th>服务费: </th>
@@ -47,15 +51,15 @@
                     </tr>
                     <tr>
                         <th>联系人: </th>
-                        <td> {$contact.contact} </td>
+                        <td> {$apply_info.receive_address.contacter} </td>
                     </tr>
                     <tr>
                         <th>联系方式: </th>
-                        <td> {$contact.telephone} {$contact.mobile} </td>
+                        <td> {$apply_info.receive_address.phone} </td>
                     </tr>
                     <tr>
                         <th>地址: </th>
-                        <td> {$contact.address} </td>
+                        <td> {$apply_info.receive_address.address} </td>
                     </tr>
                 </table>
             </div>
@@ -84,6 +88,8 @@
             </div>
         </div>
         <div class="blod_js">
+            <input id="visa_price" type="hidden" value="{$visa_info['visa_price']}" />
+            <input id="hashtime" type="hidden" value="0" />
             <input name="stu_apply_id" type="hidden" value="{$apply_info['stu_apply_id']}" />
             <a href="javascript:void(0);" id="submit_visa_apply" >委&nbsp;&nbsp;托</a>
         </div>
@@ -92,7 +98,7 @@
 <script>
     $("#submit_visa_apply").click(function(){
         var data = $("#submit_visa_apply_form").serialize();
-        console.log(data);
+
         var url = "{:U('Home/Apply/submit_visa_apply')}";
         ajax_submit(url,data);
     });

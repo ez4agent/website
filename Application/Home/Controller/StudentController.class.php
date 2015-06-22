@@ -101,7 +101,29 @@ class StudentController extends FrontbaseController
                     'intermediary_name'=>$apply_info['intermediary_name'],
                     'file'=>$apply_info['file'],
                 );
-                echo $this->ajaxReturn(array('status'=>'yes','info'=>$return_data));
+
+                $address_list = array();
+                $info = D('Member')->get_Member_Info($this->member_id);
+                $address_list[] = array(
+                    'address_id' => -1,
+                    'address' => $info['address'],
+                    'contact' => $info['contact'],
+                    'phone' => $info['telephone']
+                );
+
+                $address_row = M('member_address')->where(array('member_id'=>$this->member_id))->select();
+                if(!empty($address_row)) {
+                    foreach ($address_row as $v) {
+                        $address_list[] = array(
+                            'address_id' => $v['address_id'],
+                            'address' => $v['address'],
+                            'contact' => $v['contacter'],
+                            'phone' => $v['phone']
+                        );
+                    }
+                }
+
+                echo $this->ajaxReturn(array('status'=>'yes','info'=>$return_data,'address'=>$address_list));
                 exit();
             }
             else
@@ -400,11 +422,11 @@ class StudentController extends FrontbaseController
     {
         if(IS_AJAX)
         {
-            $id = I('post.id',0,'intval');
+            $id = I('post.receive_id',0,'intval');
             
             $info = $this->apply_mod->get_receive_info($id);
             if(!$info)
-            { 
+            {
                 echo $this->ajaxReturn(array('status'=>'no','msg'=>'输送信息不存在！'));
                 exit();
             }
@@ -418,10 +440,27 @@ class StudentController extends FrontbaseController
                 echo $this->ajaxReturn(array('status'=>'no','msg'=>'您没有权限操作！'));
                 exit();
             }
-            
+
+            $needmore = '';
+            $post_address_id = 0;
+            if(isset($_POST['needmore']) && $_POST['needmore'] == 1){
+
+                $post_address_id = $_POST['address'];
+                $needmore = json_encode(array(
+                    'needkind' => $_POST['needkind'],
+                    'needkind_other' => $_POST['needkind_other'],
+                    'needtype' => $_POST['needtype'],
+                    'address' => $_POST['address'],
+                ),JSON_UNESCAPED_UNICODE);
+            }
+
             //更新申请状态
             $condition = array('stu_apply_id'=>$info['apply_id'],'receive_member'=>$this->member_id);
-            M('stu_apply')->where($condition)->setField('status',ApplyModel::APPLY_WAIT);
+            M('stu_apply')->where($condition)->setField(array(
+                'status' => ApplyModel::APPLY_WAIT,
+                'needmore' => $needmore,
+                'post_address_id' => $post_address_id
+            ));
             //添加日志信息
             $log = array(
                 'operate_user_id'=>$this->member_id,

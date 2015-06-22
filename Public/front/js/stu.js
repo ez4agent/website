@@ -254,6 +254,25 @@ function chinesetoEN( xin ,id)
 	 					$("#receive_id").val(data.info.receive_id);
 	 				}
 
+                    if(data.address!=""){
+                        if(data.address.length>0)
+                        {
+                            var html = '';
+                            for (var i = 0; i < data.address.length; i++) {
+                                var checked = '';
+                                if(i == 0){
+                                    checked = 'checked';
+                                }
+                                html+='<p><input type="radio" name="address" value="'+data.address[i].address_id+'" '+
+                                        checked +
+                                        ' disabled /> '+data.address[i].address+
+                                '&nbsp;&nbsp;&nbsp;<strong>'+data.address[i].contact+'</strong>&nbsp;[ '+data.address[i].phone+' ]</p>';
+                            };
+
+                            $("#address_list").html(html);
+                        }
+                    }
+
 	 				$("#act1").show();
 					$("#act2").hide();
 					$("#reason_content").val('');
@@ -303,7 +322,8 @@ function chinesetoEN( xin ,id)
   	var id=$("#receive_id").val();
   	if(id)
   	{
-	  	$.post(url,{id:id},function(data){ 
+        var data = $("#sto_receive_user_form").serialize();
+	  	$.post(url,data,function(data){
 
 	  		if(data.status=='yes')
 	  		{ 
@@ -364,7 +384,7 @@ function chinesetoEN( xin ,id)
     {
         if(receive_member_id && stu_apply_id)
         {
-            layer_area('提交审核材料','submit_school_apply',540,390);
+            layer_area('提交审核材料','submit_school_apply',540,450);
         }
     }
 
@@ -391,7 +411,22 @@ function chinesetoEN( xin ,id)
     {
         if(receive_member_id && stu_apply_id)
         {
-            layer_area('签证服务','visa_apply',540,470);
+            layer_area('签证服务','visa_apply',540,500);
+
+            $.post(hl_url,{price:$('#visa_price').val()},function(data){
+                if(data.status=="yes")
+                {
+                    $('#visa_rmb_price').html('RMB ¥'+data.price);
+                    $('#hl').html('当前汇率 '+data.hl);
+                    return true;
+                }
+                else
+                {
+                    alert(data.msg);
+                    return false;
+                }
+
+            },'json')
         }
     }
 

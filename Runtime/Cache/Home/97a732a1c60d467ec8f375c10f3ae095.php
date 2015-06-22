@@ -62,6 +62,9 @@
             </dl><?php endif; ?>
           <?php if(($vo['name'] == '提醒') and ($event_num > 0)): ?><i><?php echo ($event_num); ?></i><?php endif; ?>
       </li><?php endforeach; endif; else: echo "" ;endif; ?>
+        <li>
+            <a href="<?php echo U('Home/Index/guide');?>" class="firstA">使用教学</a>
+        </li>
     </ul>
   </div>
 </nav>

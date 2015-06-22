@@ -95,12 +95,13 @@
     </section>
     <!--操作页面 -->
     <div class="user_infos" id="stu_receive_info" style="display:none;">
+        <form id="sto_receive_user_form">
     	<div class="baseInfor" >
         	<table width="100%">
             <tbody>
             	<tr>
                 	<td width="50%" height="20px">学生姓名：<label id="stu_name"></label>
-                    	<input id='receive_id' type="hidden" value="">
+                    	<input id='receive_id' name="receive_id" type="hidden" value="">
                     </td>
                     <td width="50%" height="20px">输送中介：<label id="zhongjie"></label></td>
                 </tr>
@@ -118,12 +119,46 @@
                 <tr id="refuse_reason" style="display:none;">
                 	<td colspan="2">
                     	<p style="margin-top:10px;"><span style="font-size:12px;">拒绝原因：</span></p>
-						<textarea class="baseInfor_input textarea_js birthday_input_stt" style="width:550px;" id="reason_content"></textarea>
+						<textarea class="baseInfor_input textarea_js birthday_input_stt" style="width:550px;" id="reason_content" name="reason_content"></textarea>
                     </td> 
                 </tr>
        	    </tbody>
         	</table>
         </div>
+        <div class="baseInfor" >
+            <h2><input type="checkbox" id="needmore_triger" name="needmore" value="1" /> 需提交申请原件进行审核</h2>
+
+            <table width="100%" class="needmore">
+                <tbody>
+                <tr>
+                    <td width="60" height="20px">材料种类：</td>
+                    <td height="20px">
+                        <input type="checkbox" name="needkind[]" value="1" disabled /> 学历&nbsp;&nbsp;
+                        <input type="checkbox" name="needkind[]" value="2" disabled /> 成绩单&nbsp;&nbsp;
+                        <input type="checkbox" name="needkind[]" value="3" disabled /> 语言成绩&nbsp;&nbsp;
+                        其他&nbsp;&nbsp;<input type="txt" name="needkind_other" value="" disabled />
+                    </td>
+                </tr>
+                <tr>
+                    <td height="20px">材料性质：</td>
+                    <td height="20px">
+                        <input type="checkbox" name="needtype[]" value="1"  disabled/> 原件
+                        &nbsp;&nbsp;或&nbsp;&nbsp;
+                        <input type="checkbox" name="needtype[]" value="2"  disabled/> 公证件
+                    </td>
+                </tr>
+                <tr>
+                    <td height="20px" valign="top">邮寄地址：</td>
+                    <td height="20px">
+                        <div id="address_list">
+
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        </form>
         <div class="blod_js" id="act1">
         	<a href="javascript:;" onClick="receive_act('{:U('Home/Student/accept')}')">接　收</a> 
             <a href="javascript:;" id='refuse'  >拒　绝</a>
@@ -135,6 +170,23 @@
     </div>
     <include file="Public:footer" />
 </section>
+
+<script>
+    $('#needmore_triger').on('click',function(){
+        var box = $('.needmore');
+        if($(this).is(':checked')){
+            box.addClass('active');
+            box.find('input').each(function(){
+                $(this).removeAttr("disabled");
+            });
+        }else{
+            box.removeClass('active');
+            box.find('input').each(function(){
+                $(this).attr("disabled",true);
+            });
+        }
+    });
+</script>
 </body>
 
 </head>

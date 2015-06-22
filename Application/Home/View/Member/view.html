@@ -228,22 +228,17 @@
                 <div class="c_tem_text fl">
                     <span>签证服务</span>
                 </div>
-                <div class="c_tem_text fr" >
-                    <p style="padding-right:3px;">
-                        <input id="save_visa_service" class="updatabtn" type="button" value="添 加">
-                    </p>
-                </div>
             </div>
             <div class="baseInfor">
                 <a name="editvisa"></a>
                 <table class="filetable visa_service_table "  width="100%">
                     <thead>
-                        <th>签证国家</th>
-                        <th>签证方式</th>
-                        <th>签&nbsp; 证 &nbsp;费</th>
-                        <th>服&nbsp; 务 &nbsp;费</th>
-                        <th>拒签退回</th>
-                        <th></th>
+                    <th>签证国家</th>
+                    <th>签证方式</th>
+                    <th>签&nbsp; 证 &nbsp;费</th>
+                    <th>服&nbsp; 务 &nbsp;费</th>
+                    <th>拒签退回</th>
+                    <th></th>
                     </thead>
                     <tbody class="visa_service_list">
                     <if condition="!empty($visa_service)">
@@ -252,7 +247,7 @@
                             <td>
                                 <if condition="$vo.visa_type eq 1">
                                     电签
-                                <elseif condition="$vo.visa_type eq 2"/>
+                                    <elseif condition="$vo.visa_type eq 2"/>
                                     普签
                                 </if>
                             </td>
@@ -264,15 +259,15 @@
                                 <a href="{:U('Home/Member/visa',array('action'=>'del','visa_id'=>$vo['visa_id']))}" class="file_a visa_del_bt"><span>删 除</span></a>　
                             </td>
                         </volist>
-                    <else />
-                    <td colspan="6">您还没有添加签证国家</td>
+                        <else />
+                        <td colspan="6">您还没有添加签证国家</td>
                     </if>
 
                     </tbody>
                 </table>
 
 
-                <form class="visa_service_info">
+                <form class="visa_service_info member_part_form">
                     <h2>添加新的签证国家</h2>
                     <table width="100%">
                         <tbody>
@@ -311,7 +306,7 @@
                                 <if condition="$visa_info">
                                     <input type="hidden" name="visa_id" value="{$visa_info['visa_id']}" />
                                     <a href="javascript:;" action="{:U('Home/Member/visa',array('action'=>'edit'))}"  class="updatabtn" id='add_visa_service_act'>保&nbsp;&nbsp;&nbsp;&nbsp;存</a>
-                                <else />
+                                    <else />
                                     <a href="javascript:;" action="{:U('Home/Member/visa',array('action'=>'add'))}"  class="updatabtn" id='add_visa_service_act'>保&nbsp;&nbsp;&nbsp;&nbsp;存</a>
                                 </if>
                             </td>
@@ -319,8 +314,75 @@
                         </tbody>
                     </table>
                 </form>
+
             </div>
-        </div>
+            <div class="c_tem message_rc">
+                <div class="c_tem_text fl">
+                    <span>邮寄地址</span>
+                </div>
+            </div>
+            <div class="baseInfor">
+                <a name="editaddress"></a>
+                <table class="filetable visa_service_table "  width="100%">
+                    <thead>
+                    <th>邮寄详细地址</th>
+                    <th>联系人</th>
+                    <th>联系方式</th>
+                    <th></th>
+                    </thead>
+                    <tbody class="address_list">
+                    <if condition="!empty($address_list)">
+                        <volist name="address_list" id="vo">
+                            <td>{$vo.address}</td>
+                            <td>{$vo.contacter}</td>
+                            <td>{$vo.phone}</td>
+                            <td>
+                                <a href="{:U('Home/Member/view#editaddress',array('address'=>$vo['address_id']))}" class="file_a address_edit_bt"><span>编 辑</span></a>　
+                                <a href="{:U('Home/Member/address',array('action'=>'del','address'=>$vo['address_id']))}" class="file_a address_del_bt"><span>删 除</span></a>　
+                            </td>
+                        </volist>
+                        <else />
+                        <td colspan="4">您还没有添加邮寄地址</td>
+                    </if>
+
+                    </tbody>
+                </table>
+
+
+                <form class="address_info member_part_form">
+                    <h2>添加新的邮寄地址</h2>
+                    <table width="100%">
+                        <tbody>
+                        <tr>
+                            <td width="80">邮寄地址：</td>
+                            <td>
+                                <input class="baseInfor_input" style="width: 300px" type="text" name="address" value="{$address_info['address']}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>联&nbsp; 系&nbsp; 人： </td>
+                            <td><input class="baseInfor_input" style="width: 100px" type="text" name="contacter" value="{$address_info['contacter']}" /></td>
+                        </tr>
+                        <tr>
+                            <td>联系方式： </td>
+                            <td><input class="baseInfor_input" style="width: 100px" type="text" name="phone" value="{$address_info['phone']}" /></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <if condition="$address_info">
+                                    <input type="hidden" name="address_id" value="{$address_info['address_id']}" />
+                                    <a href="javascript:;" action="{:U('Home/Member/address',array('action'=>'edit'))}"  class="updatabtn" id='add_address_act'>保&nbsp;&nbsp;&nbsp;&nbsp;存</a>
+                                <else />
+                                    <a href="javascript:;" action="{:U('Home/Member/address',array('action'=>'add'))}"  class="updatabtn" id='add_address_act'>保&nbsp;&nbsp;&nbsp;&nbsp;存</a>
+                                </if>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+
     	</div>
     </section>
     <include file="Public:footer" />
@@ -374,6 +436,23 @@ KindEditor.ready(function(K) {
 $('#add_visa_service_act').on('click',function(){
     var href = $(this).attr('action');
     var data = $(".visa_service_info").serialize();
+    $.post(href,data,function(data){
+        if(data.status=='yes')
+        {
+            window.location.reload();
+            return false;
+        }
+        else
+        {
+            alert(data.msg);
+
+        }
+    },'json');
+});
+
+$('#add_address_act').on('click',function(){
+    var href = $(this).attr('action');
+    var data = $(".address_info").serialize();
     $.post(href,data,function(data){
         if(data.status=='yes')
         {

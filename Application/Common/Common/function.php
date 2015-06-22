@@ -523,3 +523,27 @@ function generate_key($size,$number_only=false){
 }
 
 
+function get_hl(){
+    $url = 'http://qq.ip138.com/hl.asp?from=CNY&to=AUD&q=1';
+    $ch = curl_init();
+    $timeout = 2;
+
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)");
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+    $htmldata = curl_exec($ch);
+    curl_close($ch);
+
+    $content_start = "<tr bgcolor=#ffffff align=center><td>1<\/td>";
+    $content_end = "<\/tr><\/table><\/tr><\/table><br\/><br\/>";
+
+    preg_match("/(" . $content_start . ")(.*?)(" . $content_end . ")/is", $htmldata, $m);
+    preg_match("/<td>(.*?)<\/td>/is", $m[2], $td);
+
+    if(isset($td[1])){
+        return $td[1];
+    }
+
+    return false;
+}

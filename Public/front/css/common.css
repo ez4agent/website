@@ -48,6 +48,9 @@
 
 .filetable th{ font-size: 12px; color: #666; background: #f4f4f4}
 
+.part_info .paytable th{ text-align: left; background: #f4f4f4;border: 1px solid #f4f4f4; padding: 4px 5px}
+.paytable td{ border: 1px solid #f4f4f4}
+
 .wendang_down li{border-bottom: 1px solid #f4f4f4;
     height: 35px;
     line-height: 35px;  }
@@ -680,7 +683,7 @@ a.school_add:hover{filter:Alpha(opacity=80);-moz-opacity:0.8;opacity:0.8;}
     font-weight: normal;
     height: 46px;
     text-align: center;
-    width: 25%;
+    width: 33.333333%;
 }
 
 .nbj_nav li em{ margin-right: 10px; font-family: "Verdana";}
@@ -729,3 +732,12 @@ a.school_add:hover{filter:Alpha(opacity=80);-moz-opacity:0.8;opacity:0.8;}
 .part_info table td{padding: 5px;}
 
 .part_info table td input.baseInfor_input{ width: auto}
+
+.needmore td{ line-height: 26px; color: #ccc}
+.needmore.active td{color: #444}
+
+#hl{ font-size: 12px; color: #666}
+#visa_rmb_price{ font-size: 12px; color: #f20}
+
+.videobox{ width: 960px;margin-left: -480px; top:10%}
+.videobox .banner_box_inner {padding: 10px;}

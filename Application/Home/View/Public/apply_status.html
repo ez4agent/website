@@ -1,29 +1,25 @@
 <!--操作区-->
 <div class="nbj_nav">
     <?php
-        $st1_class = $st2_class = $st3_class = 'no_cur';
-        $st4_class = 'last';
+        $st1_class = $st2_class = 'no_cur';
+        $st3_class = 'last';
         if($apply_info['is_stop'] != 1){
-            if($apply_info['status'] > 0 && $apply_info['status'] < 20){
+            if($apply_info['status'] > 0 && $apply_info['status'] < 30){
                 $st1_class = 'cur';
-            }elseif($apply_info['status'] >= 20 && $apply_info['status'] < 30){
+            }elseif($apply_info['status'] >= 30 && $apply_info['status'] < 99){
                 $st1_class = 'cur21';
                 $st2_class = 'cur';
-            }elseif($apply_info['status'] >= 30 && $apply_info['status'] < 99){
-                $st2_class = 'cur21';
-                $st3_class = 'cur';
             }elseif($apply_info['status'] == 100 || $apply_info['status'] < 0 ){
-                $st3_class = 'cur21';
-                $st4_class = 'last_cur';
+                $st2_class = 'cur21';
+                $st3_class = 'last_cur';
             }
         }
     ?>
 
     <ul class="clearfix">
-        <li class="{$st1_class}"><em>1</em><span>院校申请</span></li>
-        <li class="{$st2_class}"><em>2</em><span>签证相关</span></li>
-        <li class="{$st3_class}"><em>3</em><span>佣金支付</span></li>
-        <li class="{$st4_class}"><em>4</em><span>完   成</span></li>
+        <li class="{$st1_class}"><em>1</em><span>院校申请与签证</span></li>
+        <li class="{$st2_class}"><em>2</em><span>佣金支付</span></li>
+        <li class="{$st3_class}"><em>3</em><span>完   成</span></li>
     </ul>
 </div>
 <if condition="$apply_info['apply_type'] eq 2" > <!--他人合作院校-->

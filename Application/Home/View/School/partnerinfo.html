@@ -156,6 +156,7 @@
 
 
                         </div>
+                            <!--
                         <div class="c_tem message_rc">
                             <div class="c_tem_text fl">
                                 <span>邮寄联系方式</span>
@@ -180,6 +181,7 @@
                                 </div>
 
                         </div>
+                        -->
                         <div class="c_tem message_rc">
                             <div class="c_tem_text fl">
                                 <span>备注信息</span>
@@ -188,11 +190,7 @@
                         <div class="baseInfor">
                             <textarea class="baseInfor_input" name="share_desc" style="height: 90px;width: 100%">{$sharing_desc}</textarea>
                             <div class="blod_js">
-                                <if condition="$need_update_contact eq 'false'">
-                                    <a href="javascript:alert('邮寄联系方式信息不完整');">提 交</a>
-                                <else/>
                                     <a id="edit_value" href="javascript:void(0);">提 交</a>
-                                </if>
                             </div>
                         </div>
                             <input name="partner_id" type="hidden" value="{$partner_id}" />

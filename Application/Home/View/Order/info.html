@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>支付--EZ4Agent</title>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/share.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/main.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/common.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/message.css">
+<link rel="stylesheet" href="__PUBLIC__/js/keditor/themes/default/default.css" />
+<script src="__PUBLIC__/js/jquery.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/common.js" type="text/javascript"></script>
+
+<!--[if lt IE 9]>
+    <script src="__PUBLIC__/js/html5.js"></script>
+<![endif]-->
+</head>
+
+<body>
+<section class="main_wrap main_wrap_inner">
+	<!--公用方法-->
+    <include file="Public:menu" />
+    <section class="content_wrap clearfix">
+    	<div class="con_item">
+    	<h2 class="con_item_tit clearfix">
+            <em class="font18 ffyh fl">订单详情</em>
+        </h2>
+        <div class="con_item_c">
+
+            <div class="baseInfor">
+                <div class="part_info">
+                    <h2>收款人</h2>
+                    <div class="inner">
+                        <table width="100%" border="0" style=" border-collapse: collapse;">
+                            <tr>
+                                <th>收款公司: </th>
+                                <td>{$contact.company}</td>
+                            </tr>
+                            <tr>
+                                <th>收款账号: </th>
+                                <td> </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="part_info">
+                    <h2>支付项目</h2>
+                    <div class="inner">
+                        <table width="100%" border="0" style=" border-collapse: collapse;" class="paytable">
+                            <tr>
+                                <th width="33%" align="left">项目</th>
+                                <th width="33%" align="left">说明</th>
+                                <th align="left">RMB</th>
+                            </tr>
+                            <tr>
+                                <td>签证费</td>
+                                <td> -- </td>
+                                <td>AU ${$visa_info.visa_price} <span style="color:red">RMB ¥{$rmb_price}</span></td>
+                            </tr>
+                            <tr>
+                                <td>服务费</td>
+                                <td>不成功，退回 {$visa_info.return_price_percent}% </td>
+                                <td><span style="color:red">RMB ¥{$visa_info.service_price}</span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="part_info">
+                    <div class="inner">
+                        <table width="100%" border="0" style=" border-collapse: collapse;">
+                            <tr>
+                                <th style="line-height: 35px; font-size: 16px;">应付总额： <span style="color:red">RMB ¥{$order.pay_price}</span></th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="blod_js">
+                <input id="visa_price" type="hidden" value="{$visa_info['visa_price']}" />
+                <input id="hashtime" type="hidden" value="0" />
+                <input name="apply_id" type="hidden" value="{$apply_info['stu_apply_id']}" />
+                <a href="javascript:void(0);" id="submit_pay" >立即支付</a>
+                <a href="{:U('Home/Apply/view',array('apply_id'=>$apply_info['stu_apply_id']))}" >返回</a>
+            </div>
+    	</div>
+    </section>
+    <include file="Public:footer" />
+</section>
+</body>
+</html>
