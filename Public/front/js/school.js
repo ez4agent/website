@@ -157,14 +157,15 @@ $(function () {
 		var college_id = $("#college_id").val();
 		var commission_id = $("#commission_id").val();
 		var content = $("#content").val();
+        var payment = $("input[name=payment]:checked").val();
 		
 		$("#apply_act").html('申请提交中...');
 		$(this).unbind('click');
 		$.post(apply_url,{stu_id:stu_id,college_id:college_id,commission_id:commission_id,profession:profession,
-			start_time:start_time,content:content,items:items},function(data){ 
+			start_time:start_time,content:content,items:items,payment:payment},function(data){
 			if(data.status=='yes')
 			{ 
-				alert(data.msg);
+				//alert(data.msg);
 				window.location.href = data.url;
 				return true;
 			}

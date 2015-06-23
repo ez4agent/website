@@ -40,7 +40,7 @@
                     <?php endif;?>
                 <else />
                     <?php if($apply_info['member_id'] == $session):?>
-                        <?php if($apply_info['status'] == 11):?>
+                        <?php if($apply_info['status'] < 22):?>
                             <a href="javascript:;" onclick="submit_school_apply({$apply_info['member_id']},{$apply_info['stu_apply_id']})">提交审核材料</a>
                         <?php endif;?>
 

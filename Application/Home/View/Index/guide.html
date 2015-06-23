@@ -17,10 +17,18 @@
   <section class="banner_wrap">
     <div class="banner_box videobox">
         <div class="banner_box_inner">
+            <embed src="{$video_url}"
+                   allowFullScreen="true"
+                   quality="high" width="940" height="550"
+                   align="middle"
+                   allowScriptAccess="always" type="application/x-shockwave-flash"></embed>
+            <!--
             <video width="940" height="550" controls>
-                <source src="__PUBLIC__/guide_l1.ogg" type="video/mp4">
+                <source src="__PUBLIC__/guide_l1.ogg" type="video/ogg">
+                <source src="__PUBLIC__/guide_l1.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
+            -->
         </div>
     </div>    
     <div class="banner_inner"><img src="__PUBLIC__/front/images/bannerImg.jpg" width="1680" height="704" alt="" /></div>

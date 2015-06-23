@@ -18,6 +18,33 @@
 .nav_wrap ul li dl a{ height:32px; line-height:32px;font-size:12px; overflow:hidden;  display:block; text-align:center; background-color:#4e4e4e; color:#fff; font-family:"微软雅黑";}
 .nav_wrap ul li dl a:hover{ background:none; background-color:#fff; color:#444;}
 
+.nav_wrap ul li ul li{
+    float: inherit;
+    background: -moz-linear-gradient(top,#ffffff,#dcdcdc);
+    background:-webkit-linear-gradient(top,#ffffff,#dcdcdc);
+    background:-o-linear-gradient(top,#ffffff,#dcdcdc);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#dcdcdc', GradientType='1');
+    background: -ms-linear-gradient(top,#ffffff 0%,#dcdcdc 100%); /*IE*/
+    height:60px; box-shadow:0 6px 16px rgba(0,0,0,0.6)
+}
+.nav_wrap ul li ul li a{
+    display:inline-block; font-size:16px; color:#333333;  line-height:60px; height:60px; text-align:center; font-family:"微软雅黑"; width:163px;
+}
+
+.nav_wrap ul li ul li a:hover {
+    color:#fff; background:url("../images/navHover.gif") repeat-x 0 50%;
+}
+
+.nav_wrap ul li  ul {
+    display: none;
+    position:absolute;
+    top:60px;
+    left:0px;
+    margin-top:0;
+    margin-left:1px;
+    width:163px;
+}
+
 .nav_wrap ul li i{ background-color:#ff9600; line-height:18px; height:18px; padding:0 10px; color:#fff; display:inline-block; border-radius:9px; vertical-align:middle;    position: absolute;
     right: 15px;
     top: 5px;}
@@ -207,7 +234,7 @@ a.school_add:hover{filter:Alpha(opacity=80);-moz-opacity:0.8;opacity:0.8;}
 .school_list_con li{ float:left; margin-top:16px; margin-right:26px;}
 .school_list_con li a{ display:block; padding:6px; width:200px; height:59px; overflow:hidden; background-color:#fff; border-radius:2px; box-shadow:0 0 4px rgba(0,0,0,0.3);}
 .school_list_con li a .sc_logo{ display:inline-block; width:56px; height:56px; vertical-align:middle;}
-.school_list_con li a span{ width:140px; display:inline-block; vertical-align:middle; padding-left:1px; }
+.school_list_con li a span{ width:135px; display:inline-block; vertical-align:middle; padding-left:1px; }
 .school_list_con li a span b{ display:block; line-height:18px;}
 .school_list_con li a span b .icon{ background-position:-48px -75px; width:12px; height:11px; display:inline-block; vertical-align:middle; margin-right:2px;}
 .school_list_con li a span b em{ vertical-align:middle;}

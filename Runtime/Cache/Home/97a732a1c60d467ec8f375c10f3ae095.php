@@ -62,8 +62,12 @@
             </dl><?php endif; ?>
           <?php if(($vo['name'] == '提醒') and ($event_num > 0)): ?><i><?php echo ($event_num); ?></i><?php endif; ?>
       </li><?php endforeach; endif; else: echo "" ;endif; ?>
-        <li>
-            <a href="<?php echo U('Home/Index/guide');?>" class="firstA">使用教学</a>
+        <li onmouseover="displaySubMenu(this)" onmouseout="hideSubMenu(this)" >
+            <a href="javascript:;" target="_blank" class="firstA">使用教学</a>
+            <ul>
+                <li><a href="<?php echo U('Home/Index/guide',array('class'=>'s1'));?>" target="_blank">添加合作院校</a></li>
+                <li><a href="<?php echo U('Home/Index/guide',array('class'=>'s2'));?>" target="_blank">输送学生</a></li>
+            </ul>
         </li>
     </ul>
   </div>

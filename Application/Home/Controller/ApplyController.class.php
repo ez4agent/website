@@ -260,7 +260,15 @@ class ApplyController extends FrontbaseController
             $start_time = I('post.start_time','','trim'); //入学日期
             $content = I('post.content','','trim');//留言（可以为空）
             $items = I('post.items','','trim'); //文档字符串，逗号隔开
-            
+            $payment = I('post.payment',0,'intval');
+
+            //获取院校信息
+            $college_info =D('School')->get_college_info($college_id);
+            if(!$college_info){
+                echo $this->ajaxReturn(array('status'=>'no','msg'=>'很抱歉,申请的院校不存在！'));
+                exit();
+            }
+
             //验证一个学生同一所院校同一个学历重复申请
             if(!D('Apply')->check_repeat1($stu_id,$college_id,$commission_id))
             {
@@ -279,6 +287,14 @@ class ApplyController extends FrontbaseController
                 echo $this->ajaxReturn(array('status'=>'no','msg'=>$msg));
                 exit();
             }
+
+            if($college_info['apply_price'] == 0 ){
+                $status = ApplyModel::APPLY_START;
+            }elseif($college_info['apply_price'] > 0 && $payment == 1){
+                $status = ApplyModel::APPLY_PAY_WAIT;
+            }elseif($college_info['apply_price'] > 0 && $payment == 2){
+                $status = ApplyModel::APPLY_START;
+            }
             
             $insert_apply = array(
                 'member_stu_id'=> $stu_id,
@@ -289,14 +305,14 @@ class ApplyController extends FrontbaseController
                 'profession'=>$profession,
                 'start_time'=>strtotime($start_time),
                 'intermediary'=>$info['member_id'],
-                'status'=> ApplyModel::APPLY_START,
+                'status'=> $status,
                 'content'=>$content,
                 'apply_type'=>$Cooperation?1:2,
-                'receive_member'=>$Cooperation?0:$info['member_id'], //接收申请一方
+                'receive_member'=>$info['member_id'], //接收申请一方
                 'is_success'=>0,
                 'add_time'=>time(),
             );
-            
+
             //附件
             $file_array = explode(',',$items);
             if(!empty($file_array))
@@ -317,28 +333,32 @@ class ApplyController extends FrontbaseController
             $apply_id = $this->apply_mod->apply_action($insert_apply,$commission_id,$info['apply_id'],$file);
 
             if($apply_id)
-            { 
-                $college_name =getField_value('college','ename',array('college_id'=>$college_id)); 
-                if(!$Cooperation) //非自己的合作院校
-                {
-                   $receive = array(
-                        'from_member_id'=>$this->member_id, //推送人
-                        'member_id'=>$info['member_id'], //接受人
-                        'stu_id'=>$stu_id1,
-                        'apply_id'=>$apply_id,
-                        'college_id'=>$college_id,
-                        'college_name'=>$college_name,
-                        'add_time'=>time(),
-                    );
-                   $this->apply_mod->add_stu_receive($receive); //添加学生推送信息表   
+            {
+                if( $status == ApplyModel::APPLY_START){
+
+                    if(!$Cooperation) //非自己的合作院校
+                    {
+                       $receive = array(
+                            'from_member_id'=>$this->member_id, //推送人
+                            'member_id'=>$info['member_id'], //接受人
+                            'stu_id'=>$stu_id1,
+                            'apply_id'=>$apply_id,
+                            'college_id'=>$college_id,
+                            'college_name'=>$college_info['ename'],
+                            'add_time'=>time(),
+                        );
+                       $this->apply_mod->add_stu_receive($receive); //添加学生推送信息表
+                    }
                 }
-                
+
                 $log = array(
-                       'operate_user_id'=>$this->member_id,
-                       'update_status'=>$Cooperation?C('Apply_START'):$this->status_other['is_msm'],
-                       'operate_content'=>$content,
+                    'apply_id'=>$apply_id,
+                   'operate_user_id'=>$this->member_id,
+                   'update_status'=>$status,
+                    'title' => $this->apply_mod->get_status_msg($status),
+                   'operate_content'=>$content,
                 );
-                
+
                 if(!M('college_apply_view')->where(array('member_id'=>$this->member_id,'college_id'=>$college_id))->count())
                 {
                     M('college_apply_view')->add(array('member_id'=>$this->member_id,'college_id'=>$college_id));
@@ -350,8 +370,12 @@ class ApplyController extends FrontbaseController
                 }
 
                 $this->log_mod->add_log($apply_id,$log);
-                
-                $jump_url = U('Home/Student/index?stu='.$stu_id);
+
+                if( $status == ApplyModel::APPLY_START) {
+                    $jump_url = U('Home/Student/index?stu=' . $stu_id);
+                }else{
+                    $jump_url = U('Home/Order/apply?apply_id=' . $apply_id);
+                }
                 echo $this->ajaxReturn(array('status'=>'yes','msg'=>'申请成功！','url'=>$jump_url));
                 exit;
             }
@@ -743,7 +767,7 @@ class ApplyController extends FrontbaseController
             }
             $content = getField_value('stu_apply_operate_log','operate_content',array('log_id'=>$log_id));
 
-            $files = M('stu_apply_file')->field('id,file_name,file_path')->where(array('stu_apply_id'=>$log_id))->select();
+            $files = M('stu_apply_uploadfile')->where(array('log_id'=>$log_id))->select();
             if($files)
             {
                 $url = "http://".$_SERVER['HTTP_HOST'].'/Uploads/';

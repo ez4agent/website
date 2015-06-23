@@ -21,6 +21,16 @@ class IndexController extends Controller
 
     public function guide()
     {
+
+        $class = isset($_GET['class']) ? $_GET['class'] : 's1';
+
+        $video_url = array(
+          's1' => 'http://player.youku.com/player.php/sid/XMTI2OTExNjQ4NA==/v.swf',
+          's2' => 'http://player.youku.com/player.php/sid/XMTI2OTExNTcwNA==/v.swf'
+        );
+
+        $this->assign('video_url',$video_url[$class]);
+        $this->assign('class',$class);
         $this->display();
     }
 }

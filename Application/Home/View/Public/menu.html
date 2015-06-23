@@ -21,8 +21,12 @@
           <if condition="($vo['name'] eq '提醒') and ($event_num gt 0)"><i>{$event_num}</i></if>
       </li>
       </volist>
-        <li>
-            <a href="{:U('Home/Index/guide')}" class="firstA">使用教学</a>
+        <li onmouseover="displaySubMenu(this)" onmouseout="hideSubMenu(this)" >
+            <a href="javascript:;" target="_blank" class="firstA">使用教学</a>
+            <ul>
+                <li><a href="{:U('Home/Index/guide',array('class'=>'s1'))}" target="_blank">添加合作院校</a></li>
+                <li><a href="{:U('Home/Index/guide',array('class'=>'s2'))}" target="_blank">输送学生</a></li>
+            </ul>
         </li>
     </ul>
   </div>

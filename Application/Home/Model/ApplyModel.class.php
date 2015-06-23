@@ -10,6 +10,8 @@ class ApplyModel extends Model
     var $edu;
 
     //申请
+    const APPLY_PAY_WAIT = 5; //申请未支付
+
     const APPLY_START = 10; //提出申请
     const APPLY_WAIT = 11;
     const APPLY_UPDATE_OFFER = 12; //Offer更新
@@ -53,8 +55,10 @@ class ApplyModel extends Model
     public function get_status_msg($status)
     {
         $msg='';
-        if($status==self::APPLY_START)
-        {
+
+        if($status==self::APPLY_PAY_WAIT){
+            $msg= '等待支付申请费';
+        }elseif($status==self::APPLY_START){
             $msg= '等待接收';
         }
         elseif($status==self::APPLY_UPDATE_OFFER)

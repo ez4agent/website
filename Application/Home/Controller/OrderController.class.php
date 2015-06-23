@@ -74,6 +74,46 @@ class OrderController extends FrontbaseController
         $this->display('Order/info');
     }
 
+
+    function apply(){
+
+        $apply_id = I('get.apply_id','0','intval');
+        $info = $this->apply_mod->get_apply_info($apply_id);
+
+        if(!$info) {
+            $this->error('改申请记录不存在！');
+            exit();
+        }
+
+        $contact = D('Member')->get_Member_Info($info['receive_member']);
+
+        $college_info = M('college')->where(array('college_id' => $info['college_id']))->find();
+
+        $hl = get_hl();
+        if ($hl === false) {
+            $this->error('汇率获取失败！');
+            exit;
+        }
+
+        $price = $hl * (float)$college_info['apply_price'];
+
+        $order = array(
+            'total_price' => sprintf("%.2f", $price),
+            'goods' => array(
+                array(
+                'title' => '学校申请费',
+                'info' => $college_info['ename'],
+                'pay_price' => $college_info['apply_price'],
+                'rmb_price' => sprintf("%.2f", $price)
+            ))
+        );
+
+        $this->assign('contact',$contact);
+        $this->assign('college_info',$college_info);
+        $this->assign('order',$order);
+        $this->display();
+    }
+
     public function pay(){
 
         $order_no = I('get.order_no', '');
@@ -97,6 +137,5 @@ class OrderController extends FrontbaseController
         $this->assign('order_no',$order_no);
         $this->display();
     }
-}
 
-?>
+}

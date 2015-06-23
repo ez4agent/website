@@ -361,9 +361,9 @@ class SchoolController extends FrontbaseController
               foreach($array as $key=>$val)
               {
                   $share_length = "--";
-                  if($val['pay_type'] == 1){
+                  if($val['pay_type'] == 2){
                       $share_length = $val['share_length']. "学期";
-                  }elseif($val['pay_type'] == 2){
+                  }elseif($val['pay_type'] == 1){
                       $share_length = $val['share_length']. "学年";
                   }
 
