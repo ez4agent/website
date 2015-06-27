@@ -156,8 +156,13 @@
                  <td align="center" style="padding-bottom:0px;">
                  <font color="#FF0000">{$vo1.status_name}</font>
                  </td>
-                 <td align="center" style="padding-bottom:0px;">
-                 <a href="{:U('Home/Apply/view',array('apply_id'=>$vo1['stu_apply_id']))}" class="file_a opacity8" ><span>查看申请</span></a>
+                 <td align="center" style="padding-bottom:0px;" class="apply_list_action">
+                     <if condition="$vo1.paywait eq 1">
+                         <a href="{:U('Home/Order/apply',array('apply_id'=>$vo1['stu_apply_id']))}" class="file_a updatabtn" ><span>支付</span></a>
+                         <a href="{:U('Home/Apply/cancel',array('apply_id'=>$vo1['stu_apply_id']))}" class="file_a" ><span>取消</span></a>
+                     <else />
+                         <a href="{:U('Home/Apply/view',array('apply_id'=>$vo1['stu_apply_id']))}" class="file_a" ><span>查看申请</span></a>
+                     </if>
                  </td>
               </tr>
               </volist>

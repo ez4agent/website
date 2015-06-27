@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>支付--EZ4Agent</title>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/share.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/main.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/common.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/message.css">
+<link rel="stylesheet" href="__PUBLIC__/js/keditor/themes/default/default.css" />
+<script src="__PUBLIC__/js/jquery.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/common.js" type="text/javascript"></script>
+
+<!--[if lt IE 9]>
+    <script src="__PUBLIC__/js/html5.js"></script>
+<![endif]-->
+</head>
+
+<body>
+<section class="main_wrap main_wrap_inner">
+	<!--公用方法-->
+    <include file="Public:menu" />
+    <section class="content_wrap clearfix">
+    	<div class="con_item">
+    	<h2 class="con_item_tit clearfix">
+            <em class="font18 ffyh fl">订单详情</em>
+        </h2>
+        <div class="con_item_c">
+
+            <div class="baseInfor">
+                <div class="part_info">
+                    <h2>佣金支付</h2>
+                    <div class="inner commision">
+                        <table width="100%" border="0" style=" border-collapse: collapse;">
+                            <tr>
+                                <th width="100">
+                                    佣金支付方式
+                                </th>
+                                <td>
+                                    <input type="radio" name="paytype" value="ratio" checked /> 按支付比例 &nbsp;&nbsp;
+                                    <input type="radio" name="paytype" value="num" /> 按固定金额
+                                </td>
+                            </tr>
+                            <tr>
+                                <th width="100">
+                                    支付金额
+                                </th>
+                                <td>
+                                    <div id="paytype_ratio" >
+                                        <input type="text" id="ratio_price" placeholder="当地货币" class="baseInfor_input1" size="20" />
+                                        *
+                                        <input type="text" id="ratio_num" placeholder="佣金比例" class="baseInfor_input1" size="2" /> %
+
+                                        <a href="javascript:;" id="getprice_ratio" class="file_a" >计算金额</a>
+                                    </div>
+                                    <div id="paytype_num" style="display: none">
+                                        <input type="text" id="num_price" placeholder="当地货币" class="baseInfor_input1" size="20" />
+                                        <a href="javascript:;" id="getprice_num" class="file_a" >计算金额</a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th width="100">即使汇率: </th>
+                                <td><span id="hl">{$hl}</span></td>
+                            </tr>
+                            <tr>
+                                <th width="100">实际支付金额: </th>
+                                <td><span style="color:red" id="rmbprice">RMB ¥-- </span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="blod_js" style="text-align: left">
+                    <input name="apply_id" type="hidden" value="{$apply_info['stu_apply_id']}" />
+                    <input name="rmbprice" type="hidden" value="0" />
+                    <input name="hl" type="hidden" value="0" />
+                    <a href="javascript:void(0);" >支付宝支付</a>
+                    <a href="javascript:void(0);" >线下支付</a>
+                </div>
+                <div class="part_info">
+                    <h2>线下支付</h2>
+                    <div class="inner commision">
+                        <table width="100%" border="0" style=" border-collapse: collapse;">
+                            <tr>
+                                <th width="100">接收方</th>
+                                <td> </td>
+                            </tr>
+                            <tr>
+                                <th width="100">银行</th>
+                                <td> </td>
+                            </tr>
+                            <tr>
+                                <th width="100">账户名</th>
+                                <td> </td>
+                            </tr>
+                            <tr>
+                                <th width="100">银行账户</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th width="100">开户行</th>
+                                <td> </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+    	</div>
+    </section>
+    <include file="Public:footer" />
+</section>
+
+<script>
+
+    $('input[name=paytype]').on('click',function(){
+        var type = $(this).val();
+        if(type == 'ratio'){
+            $('#paytype_ratio').show();
+            $('#paytype_num').hide();
+        }else{
+            $('#paytype_ratio').hide();
+            $('#paytype_num').show();
+        }
+    });
+
+    $('.file_a').on('click',function(){
+
+        var type = $('input[name=paytype]:checked').val();
+
+        if(type == 'ratio'){
+            var price = $('#ratio_price').val();
+            var ratio = $('#ratio_num').val();
+        }else{
+            var price = $('#num_price').val();
+            var ratio = 0;
+        }
+
+        $.post("{:U('Home/Order/hl')}",{price:price,ratio:ratio},function(data){
+
+            if(data.status=='yes')
+            {
+               $('#rmbprice').html('RMB ¥'+data.price);
+                $('#hl').html(data.hl);
+                $('input[name=rmbprice]').val(data.rmbprice);
+                $('input[name=hl]').val(data.hl);
+            }
+            else
+            {
+                $('#rmbprice').html('RMB ¥'+' -- ');
+                $('#hl').html(' -- ');
+                $('input[name=rmbprice]').val(0);
+                $('input[name=hl]').val(0);
+
+            }
+
+        },'json');
+    });
+</script>
+</body>
+</html>

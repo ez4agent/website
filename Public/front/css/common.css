@@ -411,6 +411,9 @@ a.school_add:hover{filter:Alpha(opacity=80);-moz-opacity:0.8;opacity:0.8;}
 .other_t p{ width:50%;}
 .other_t em{ color:#f39700; vertical-align:middle;}
 
+.apply_list_action a{ padding: 0 8px; margin: 0}
+.apply_list_action a.updatabtn:hover{color: #fff}
+
 .titGlj{font-size:14px;margin-bottom:10px;font-weight:700;}
 
 .jilubtns{padding:20px 0 0 50px;}
@@ -768,3 +771,5 @@ a.school_add:hover{filter:Alpha(opacity=80);-moz-opacity:0.8;opacity:0.8;}
 
 .videobox{ width: 960px;margin-left: -480px; top:10%}
 .videobox .banner_box_inner {padding: 10px;}
+
+.commision table th{ width: 100px}

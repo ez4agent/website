@@ -175,6 +175,12 @@ class ApplyController extends FrontbaseController
     {
         $apply_id = I('get.apply_id','0','intval');
         $info = $this->apply_mod->get_apply_info($apply_id);
+
+        if($info['status'] == ApplyModel::APPLY_PAY_WAIT){
+            $this->error('未支付！');
+            exit();
+        }
+
         //佣金信息
         $commission= M('stu_apply_education')->where('apply_id='.$apply_id)->find();
         $array = unserialize($commission['commission']);
@@ -437,7 +443,7 @@ class ApplyController extends FrontbaseController
         if(IS_AJAX)
         { 
             $stu_apply_id = I('post.stu_apply_id',0,'intval');
-            $res = $this->check_apply($stu_apply_id);
+            $res = $this->check_apply($stu_apply_id,$this->member_id);
             if($res){
                 echo $this->ajaxReturn($res);
                 exit;
@@ -475,9 +481,16 @@ class ApplyController extends FrontbaseController
             //更改状态
             if($data['status'] > 0)
             {
+                $is_success = 0;
+                if($data['status'] == ApplyModel::APPLY_HAS_CONDITION){ //有条件
+                    $is_success = 0;
+                }elseif($data['status'] == ApplyModel::APPLY_NO_CONDITION){
+                    $is_success = 1;
+                }
+
                 $update = array(
-                  'status'=> ApplyModel::VISA_WAIT,
-                  'is_success' =>1,
+                  'status'=> $data['status'],
+                  'is_success' =>$is_success,
                   'is_email'=>1 
                 );
                 //更新成功申请次数
@@ -825,6 +838,21 @@ class ApplyController extends FrontbaseController
         $_apply= array();
         $_apply = D('School')->get_apply_college_list($member_id);
         return $_apply;
+    }
+
+    public function cancel(){
+        $apply_id = I('get.apply_id','0','intval');
+        $info = $this->apply_mod->get_apply_info($apply_id);
+
+        if($info['member_id'] != $this->member_id || $info['status'] != ApplyModel::APPLY_PAY_WAIT){
+            $this->error('操作失败！');
+            exit();
+        }
+
+        $this->apply_mod->delete_apply($apply_id);
+
+        header('location: '.U('Home/Student/index',array('stu'=>$info['member_stu_id'])));
+        exit();
     }
 }
 

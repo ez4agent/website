@@ -47,15 +47,19 @@
                     <div class="inner">
                         <table width="100%" border="0" style=" border-collapse: collapse;" class="paytable">
                             <tr>
-                                <th width="33%" align="left">项目</th>
-                                <th width="33%" align="left">说明</th>
-                                <th align="left">RMB</th>
+                                <th align="left">项目</th>
+                                <th align="left">说明</th>
+                                <th align="left">费用</th>
+                                <th align="left">当前汇率</th>
+                                <th align="left">人民币价格</th>
                             </tr>
                             <volist name='order.goods' id="vo1">
                                 <tr>
                                     <td>{$vo1.title}</td>
                                     <td>{$vo1.info}</td>
-                                    <td>AU ${$vo1.pay_price} &nbsp;&nbsp;&nbsp;<span style="color:red">RMB ¥{$vo1.rmb_price}</span></td>
+                                    <td>AU ${$vo1.pay_price}</td>
+                                    <td>{$order.hl}</td>
+                                    <td><span style="color:red">RMB ¥{$vo1.rmb_price}</span></td>
                                 </tr>
                             </volist>
                         </table>
@@ -77,7 +81,7 @@
                 <input id="hashtime" type="hidden" value="0" />
                 <input name="apply_id" type="hidden" value="{$apply_info['stu_apply_id']}" />
                 <a href="javascript:void(0);" id="submit_pay" >立即支付</a>
-                <a href="{:U('Home/Apply/view',array('apply_id'=>$apply_info['stu_apply_id']))}" >返回</a>
+                <a href="{:U('Home/Student/index',array('stu'=>$apply_info['member_stu_id']))}" >返回</a>
             </div>
     	</div>
     </section>

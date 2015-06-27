@@ -47,18 +47,24 @@
                     <div class="inner">
                         <table width="100%" border="0" style=" border-collapse: collapse;" class="paytable">
                             <tr>
-                                <th width="33%" align="left">项目</th>
-                                <th width="33%" align="left">说明</th>
-                                <th align="left">RMB</th>
+                                <th align="left">项目</th>
+                                <th align="left">说明</th>
+                                <th align="left">费用</th>
+                                <th align="left">当前汇率</th>
+                                <th align="left">人民币价格</th>
                             </tr>
                             <tr>
                                 <td>签证费</td>
                                 <td> -- </td>
-                                <td>AU ${$visa_info.visa_price} <span style="color:red">RMB ¥{$rmb_price}</span></td>
+                                <td>AU ${$visa_info.visa_price}</td>
+                                <td>{$order.hl}</td>
+                                <td><span style="color:red">RMB ¥{$rmb_price}</span></td>
                             </tr>
                             <tr>
                                 <td>服务费</td>
                                 <td>不成功，退回 {$visa_info.return_price_percent}% </td>
+                                <td><span style="color:red">RMB ¥{$visa_info.service_price}</span></td>
+                                <td> - </td>
                                 <td><span style="color:red">RMB ¥{$visa_info.service_price}</span></td>
                             </tr>
                         </table>

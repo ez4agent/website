@@ -524,7 +524,7 @@ function generate_key($size,$number_only=false){
 
 
 function get_hl(){
-    $url = 'http://qq.ip138.com/hl.asp?from=CNY&to=AUD&q=1';
+    $url = 'http://qq.ip138.com/hl.asp?from=AUD&to=CNY&q=1';
     $ch = curl_init();
     $timeout = 2;
 

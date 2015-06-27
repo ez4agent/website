@@ -84,7 +84,7 @@ class ApplyModel extends Model
         }
         elseif($status==self::APPLY_NO_CONDITION)
         {
-            $msg='无条件录取';
+            $msg='无条件录取/等待签证结果';
         }
         elseif($status==self::VISA_WAIT)
         {
@@ -98,6 +98,9 @@ class ApplyModel extends Model
         }
         elseif($status==self::VISA_FAILURE){
             $msg='签证失败';
+        }
+        elseif($status==self::PAY_WAIT){
+            $msg='等待佣金支付';
         }
         elseif($status==self::FINISH){
             $msg='完成';
@@ -467,6 +470,9 @@ class ApplyModel extends Model
                 {
                     $list[$key]['intermediary_name'] = '';
                 }
+
+                $list[$key]['paywait'] = $val['status'] == self::APPLY_PAY_WAIT ? 1:0;;
+
                 $list[$key]['status_name'] = $this->get_status_msg($val['status']);
             }
         }
@@ -494,6 +500,28 @@ class ApplyModel extends Model
         }
         
         return true;
+    }
+
+    public function delete_apply($stu_apply_id){
+
+        if(M('stu_apply')->where('stu_apply_id='.$stu_apply_id)->delete()){
+            //crm_stu_apply_count
+            $files = M('stu_apply_file')->where('stu_apply_id='.$stu_apply_id)->select();
+            foreach($files as $f){
+                $file = __ROOT__. '/'.$f['file_path'];
+                if(is_file($file)){
+                    @unlink($file);
+                }
+            }
+
+            M('stu_apply_file')->where('stu_apply_id='.$stu_apply_id)->delete();
+            M('stu_apply_operate_log')->where('apply_id='.$stu_apply_id)->delete();
+            M('stu_apply_uploadfile')->where('apply_id='.$stu_apply_id)->delete();
+
+            return true;
+        }
+
+        return false;
     }
      
 }

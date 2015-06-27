@@ -166,5 +166,17 @@ var stu_id = '{$stu_id}';
     </section>
     <include file="Public:footer" />
 </section>
+<script>
+    $(function(){
+
+        $('.apply_id').eq(0).trigger('click');
+
+        var select =$('input[name="edu"]:checked').val();
+        var college_id = $("#college_id").val();
+        var stu_id = $("#stu").val();
+        get_sharebyselectapply(select,college_id,stu_id);
+
+    });
+</script>
 </body>
 </html>
