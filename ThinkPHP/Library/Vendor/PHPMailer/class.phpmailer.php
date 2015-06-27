@@ -1,5 +1,5 @@
 <?php
-/*~ class.phpmailer.php
+/*~ PHPMailer.php
 .---------------------------------------------------------------------------.
 |  Software: PHPMailer - PHP email class                                    |
 |   Version: 5.1                                                            |
@@ -34,7 +34,7 @@
  * @author Andy Prevost
  * @author Marcus Bointon
  * @copyright 2004 - 2009 Andy Prevost
- * @version $Id: class.phpmailer.php 447 2009-05-25 01:36:38Z codeworxtech $
+ * @version $Id: PHPMailer.php 447 2009-05-25 01:36:38Z codeworxtech $
  * @license http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
  */
 

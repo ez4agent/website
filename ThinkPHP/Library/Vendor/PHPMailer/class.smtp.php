@@ -224,13 +224,12 @@ class SMTP {
       }
       return false;
     }
-
     // Send encoded username
     fputs($this->smtp_conn, base64_encode($username) . $this->CRLF);
-
+    //echo  fputs($this->smtp_conn, base64_encode($username) . $this->CRLF);exit;
     $rply = $this->get_lines();
+    
     $code = substr($rply,0,3);
-
     if($code != 334) {
       $this->error =
         array("error" => "Username not accepted from server",
