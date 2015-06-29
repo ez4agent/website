@@ -127,7 +127,7 @@
 		} 
 		else
 		{ 
-			var data = $("#visa_result_form").serialize();
+			var data = $("#submit_visa_result_form").serialize();
 			var url = $("#visa_form_url").val();
 			ajax_submit(url,data);
 		}
@@ -432,7 +432,7 @@ function chinesetoEN( xin ,id)
 
     //签证结果
     function visa_results(receive_member_id,stu_apply_id)
-    { 
+    {
     	if(receive_member_id && stu_apply_id)
     	{ 
     		layer_area('签证结果','visa_results_form',740,340);

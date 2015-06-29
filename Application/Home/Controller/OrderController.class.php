@@ -49,7 +49,7 @@ class OrderController extends FrontbaseController
             exit();
         }
 
-        if($info['status'] != ApplyModel::VISA_WAIT){
+        if($info['status'] != ApplyModel::APPLY_NO_CONDITION){
             $this->error('该申请不能进行此操作！');
             exit();
         }

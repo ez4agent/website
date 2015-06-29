@@ -1,49 +1,24 @@
 <div class="baseInfor">
     <form id="submit_visa_apply_form">
-    <div class="part_info">
-      <h2>中介B签证服务</h2>
-      <div class="inner">
-          <table width="100%" border="0" style=" border-collapse: collapse;">
-              <!--
-              <tr>
-                  <th>签证费: </th>
-                  <td> AU ${$visa_info.visa_price}</td>
-              </tr>
-              <tr>
-                  <th></th>
-                  <td> <span id="visa_rmb_price">RMB ¥--</span> <span id="hl">--</span></td>
-              </tr>
-              -->
-              <tr>
-                  <th>签证费: </th>
-                  <td><span id="visa_rmb_price">RMB ¥--</span></td>
-              </tr>
-              <tr>
-                  <th>服务费: </th>
-                  <td> {$visa_info.service_price} ( 不成功，退回 {$visa_info.return_price_percent}% )</td>
-              </tr>
-          </table>
-      </div>
-    </div>
-<!--
-        <div class="tip" style="color:red">
-            上传签证材料电子档
-        </div>
-        <div class="part_info">
-            <h2>上传签证材料</h2>
-            <div class="inner">
-                <a href="javascript:;" class="file_a1 opacity8" data_attr='visa_apply_file' style="margin-left:0px;" ><span>上传文档</span></a>
-                <table width="100%" border="0" style=" border-collapse: collapse;">
-                <tr>
-                    <td>
-                        <div id="visa_apply_file_form" style="margin-top:5px;">
-                        </div>
-                    </td>
-                </tr>
-                </table>
-            </div>
-        </div>
--->
+        <!--   <div class="part_info">
+               <div class="tip" style="color:red">
+                   上传签证材料电子档
+               </div>
+               <div class="part_info">
+                   <h2>上传签证材料</h2>
+                   <div class="inner">
+                       <a href="javascript:;" class="file_a1 opacity8" data_attr='visa_apply_file' style="margin-left:0px;" ><span>上传文档</span></a>
+                       <table width="100%" border="0" style=" border-collapse: collapse;">
+                       <tr>
+                           <td>
+                               <div id="visa_apply_file_form" style="margin-top:5px;">
+                               </div>
+                           </td>
+                       </tr>
+                       </table>
+                   </div>
+               </div>
+       -->
         <div class="tip" style="color:red">
             上传材料电子档，确认后原件邮寄到以下地址
         </div>
@@ -94,8 +69,6 @@
             </div>
         </div>
         <div class="blod_js">
-            <input id="visa_price" type="hidden" value="{$visa_info['visa_price']}" />
-            <input id="hashtime" type="hidden" value="0" />
             <input name="stu_apply_id" type="hidden" value="{$apply_info['stu_apply_id']}" />
             <a href="javascript:void(0);" id="submit_visa_apply" >委&nbsp;&nbsp;托</a>
         </div>

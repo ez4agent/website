@@ -161,11 +161,9 @@ var hl_url = "{:U('Home/Order/hl')}";
         <!--更新offer-->
 
         <!--委托签证-->
-        <?php if(!empty($visa_info)):?>
         <div id="visa_apply" style="display:none;">
             <include file="Public:visa_apply_form" />
         </div>
-        <?php endif;?>
         <!--签证结果-->
         <div id="visa_results_form" style="display:none;">
         	<include file="Public:visa_results_form" />

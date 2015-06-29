@@ -40,20 +40,18 @@
                     <?php endif;?>
                 <else />
                     <?php if($apply_info['member_id'] == $session):?>
-                        <?php if($apply_info['status'] < 15):?>
+                        <?php if($apply_info['status'] == 11 && $apply_info['needmore'] !=''):?>
                             <a href="javascript:;" onclick="submit_school_apply({$apply_info['member_id']},{$apply_info['stu_apply_id']})">提交审核材料</a>
                         <?php endif;?>
 
-                        <?php if($apply_info['status'] >=15 and $apply_info['status'] < 30):?>
+                        <?php if($apply_info['status'] >=16 and $apply_info['status'] < 20):?>
                             <?php if(!empty($visa_info)):?>
-                                <a href="javascript:;" onclick="visa_apply({$apply_info['member_id']},{$apply_info['stu_apply_id']})">委托签证</a>
+                                <a href="{:U('Home/order/visa',array('apply_id'=>$apply_info['stu_apply_id']))}">委托签证</a>
                             <?php endif;?>
                             <a href="javascript:;" onclick="visa_results({$apply_info['member_id']},{$apply_info['stu_apply_id']})">提交签证结果（自己办理）</a>
                         <?php endif;?>
-
-                        <?php if($apply_info['status'] == 22):?>
-                            <a href="{:U('Home/order/pay',array('order_no'=>$apply_info['stu_apply_id']))}">支付委托费用</a>
-                            <a href="javascript:;" onclick="visa_results({$apply_info['member_id']},{$apply_info['stu_apply_id']})">提交签证结果（自己办理）</a>
+                        <?php if($apply_info['status'] >= 20 && $apply_info['status'] < 30):?>
+                            <a href="javascript:;" onclick="visa_apply({$apply_info['member_id']},{$apply_info['stu_apply_id']})">提交签证材料原件</a>
                         <?php endif;?>
 
                         <a href="javascript:;" onclick="apply_end({$apply_info['member_id']},{$apply_info['stu_apply_id']})">终   止</a>
@@ -62,10 +60,10 @@
 
                     <?php if($apply_info['receive_member'] == $session):?>
 
-                        <?php if($apply_info['status'] == 13):?>
+                        <?php if($apply_info['status'] > 10 && $apply_info['needmore'] =='' && $apply_info['status'] < 30):?>
                             <a href="javascript:;" onclick="apply_result({$apply_info['receive_member']},{$apply_info['stu_apply_id']})">提交申请结果</a>
                         <?php endif;?>
-                        <?php if($apply_info['status'] == 21):?>
+                        <?php if($apply_info['status'] >= 20 && $apply_info['status'] < 30):?>
                             <a href="javascript:;" onclick="visa_results({$apply_info['receive_member']},{$apply_info['stu_apply_id']})">提交签证结果</a>
                         <?php endif;?>
 

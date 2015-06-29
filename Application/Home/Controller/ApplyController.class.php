@@ -207,7 +207,7 @@ class ApplyController extends FrontbaseController
         $this->assign('contact',$contact);
 
 
-        if($info['status'] == ApplyModel::VISA_WAIT && $info['receive_member'] != $this->member_id){
+        if($info['status'] == ApplyModel::APPLY_NO_CONDITION && $info['receive_member'] != $this->member_id){
             $college_info = M('college')->where(array('college_id' => $info['college_id']))->find();
 
             $visa_info = M('visa_service')->where(array('country_id' => $college_info['country_id'],'member_id'=>$info['receive_member']))->find();
@@ -481,16 +481,9 @@ class ApplyController extends FrontbaseController
             //更改状态
             if($data['status'] > 0)
             {
-                $is_success = 0;
-                if($data['status'] == ApplyModel::APPLY_HAS_CONDITION){ //有条件
-                    $is_success = 0;
-                }elseif($data['status'] == ApplyModel::APPLY_NO_CONDITION){
-                    $is_success = 1;
-                }
 
                 $update = array(
                   'status'=> $data['status'],
-                  'is_success' =>$is_success,
                   'is_email'=>1 
                 );
                 //更新成功申请次数
@@ -611,25 +604,25 @@ class ApplyController extends FrontbaseController
                 echo $this->ajaxReturn($res);
                 exit;
             }
-/*
+
             //更改状态
             M('stu_apply')->where('stu_apply_id='.$stu_apply_id)->setField(
-                array('status'=>ApplyModel::VISA_PAY_WAIT)
+                array('status'=>ApplyModel::VISA_CONFIRM)
             );
 
             //更新日志
             $log = array(
                 'apply_id'=>$stu_apply_id,
                 'operate_user_id'=>$this->member_id,
-                'update_status'=>ApplyModel::VISA_PAY_WAIT,
+                'update_status'=>ApplyModel::VISA_CONFIRM,
                 'type'=>0,
                 'title' => $this->apply_mod->get_status_msg(ApplyModel::VISA_PAY_WAIT),
                 'operate_content'=>$waybill_company ." : ".$waybill_no,
             );
 
             D('Log')->add_log($stu_apply_id,$log);
-*/
-            echo $this->ajaxReturn(array("status"=>"yes",'msg'=>'提交成功！','url'=>U('Home/Order/visa',array('apply_id'=>$stu_apply_id))));
+
+            echo $this->ajaxReturn(array("status"=>"yes",'msg'=>'提交成功！'));
         }
     }
     
@@ -640,14 +633,16 @@ class ApplyController extends FrontbaseController
         {
             //验证该申请的操作权限
             $data = $_POST;
+
             $res = $this->check_apply($data['stu_apply_id'],$this->member_id);
             if($res){
                 echo $this->ajaxReturn($res);
                 exit;
             }
+
             //更改状态
             M('stu_apply')->where('stu_apply_id='.$data['stu_apply_id'])->setField(
-            array('status'=>$data['visa_status'])
+                array('status'=>$data['visa_status'])
             );
             
             //更新日志

@@ -17,7 +17,8 @@ class ApplyModel extends Model
     const APPLY_UPDATE_OFFER = 12; //Offer更新
     const APPLY_CONFIRM = 13;
     const APPLY_HAS_CONDITION = 14;
-    const APPLY_NO_CONDITION = 15;
+    const APPLY_FAILURE = 15; //申请失败
+    const APPLY_NO_CONDITION = 16;
 
     //签证
     const VISA_WAIT = 20;
@@ -32,8 +33,7 @@ class ApplyModel extends Model
     const FINISH = 100;
 
     const APPLY_REJECT = -10; //拒绝接收
-    const APPLY_FAILURE = -11; //申请失败
-    const APPLY_FAILURE_UNQUALIFIED = -12; //无条件录取
+
 
     const VISA_FAILURE = -20; //拒签
     const PAY_FAILURE = -30; //支付失败
