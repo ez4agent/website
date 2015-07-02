@@ -74,21 +74,15 @@ class MemberModel extends Model
      */
     public function get_list($where=array(),$limit=0,$order='add_time desc')
     {
-        
         $_list = array();
-        $_list = M('member')->where($where)
-            ->field('member_id,username,is_open,grade,add_time')
-            ->limit($limit)
-            ->order($order)
-            ->select();
-        /*
+
         $_list = M('member')->alias('m')->where($where)
                             ->field('m.member_id,m.username,m.is_open,m.grade,m.add_time')
                             ->join('RIGHT JOIN __MEMBER_CHILD__ mc ON m.member_id = mc.member_id')
                             ->limit($limit)
                             ->order($order)
                             ->select();
-        */
+
         if(!empty($_list))
         {
             foreach ($_list as $key=>$val)
