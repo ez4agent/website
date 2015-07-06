@@ -24,12 +24,15 @@ class IndexController extends Controller
 
         $class = isset($_GET['class']) ? $_GET['class'] : 's1';
 
-        $video_url = array(
-          's1' => 'http://player.youku.com/player.php/sid/XMTI2OTExNjQ4NA==/v.swf',
-          's2' => 'http://player.youku.com/player.php/sid/XMTI2OTExNTcwNA==/v.swf'
-        );
+        if(in_array($class,array('s1','s2'))){
+            $video_url = array(
+                's1' => 'http://player.youku.com/player.php/sid/XMTI2OTExNjQ4NA==/v.swf',
+                's2' => 'http://player.youku.com/player.php/sid/XMTI2OTExNTcwNA==/v.swf'
+            );
 
-        $this->assign('video_url',$video_url[$class]);
+            $this->assign('video_url',$video_url[$class]);
+        }
+
         $this->assign('class',$class);
         $this->display();
     }

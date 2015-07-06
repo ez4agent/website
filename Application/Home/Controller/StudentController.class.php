@@ -441,12 +441,13 @@ class StudentController extends FrontbaseController
                 exit();
             }
 
-            $needmore = '';
+            $needmore = isset($_POST['needmore']) && intval($_POST['needmore']) > 0 ? 1 : 0;
+            $needmore_confition = '';
             $post_address_id = 0;
-            if(isset($_POST['needmore']) && $_POST['needmore'] == 1){
+            if($needmore){
 
                 $post_address_id = $_POST['address'];
-                $needmore = json_encode(array(
+                $needmore_confition = json_encode(array(
                     'needkind' => $_POST['needkind'],
                     'needkind_other' => $_POST['needkind_other'],
                     'needtype' => $_POST['needtype'],
@@ -457,8 +458,8 @@ class StudentController extends FrontbaseController
             //更新申请状态
             $condition = array('stu_apply_id'=>$info['apply_id'],'receive_member'=>$this->member_id);
             M('stu_apply')->where($condition)->setField(array(
-                'status' => ApplyModel::APPLY_WAIT,
-                'needmore' => $needmore,
+                'status' => $needmore ?  ApplyModel::APPLY_WAIT :ApplyModel::APPLY_CONFIRM,
+                'needmore' => $needmore_confition,
                 'post_address_id' => $post_address_id
             ));
             //添加日志信息
@@ -515,7 +516,7 @@ class StudentController extends FrontbaseController
             //更新申请状态
             $condition = array('stu_apply_id'=>$info['apply_id'],'receive_member'=>$this->member_id);
             M('stu_apply')->where($condition)->setField(
-                array('status'=>ApplyModel::APPLY_REJECT,'reason'=>$content)
+                array('status'=>ApplyModel::APPLY_REJECT,'reason'=>$content,'is_stop'=>1)
             );
             //添加日志信息
             $log = array(

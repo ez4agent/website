@@ -7,15 +7,66 @@ use Think\Model;
 
 class ApplyModel extends Model
 {
-    var $edu;
+    var $education;
+    var $edu_list = array(
+        'Auckland University of Technology'	=> array('专科','本科','研究生'),
+        'Lincoln University'	=> array('专科','本科','研究生'),
+        'Massey University'	=> array('专科','本科','研究生'),
+        'The University of Auckland'	=> array('专科','本科','研究生'),
+        'The University of Waikato'	=> array('专科','本科','研究生'),
+        'University of Canterbury'	=> array('专科','本科','研究生'),
+        'University of Otago'	=> array('专科','本科','研究生'),
+        'Victoria University of Wellington'	=> array('专科','本科','研究生'),
+
+        'Australian Catholic University'	=> array('专科','本科','研究生'),
+        'Bond University'	=> array('专科','本科','研究生'),
+        'Central Queensland University'	=> array('专科','本科','研究生'),
+        'Charles Darwin University'	=> array('专科','本科','研究生'),
+        'Charles Sturt University'	=> array('专科','本科','研究生'),
+        'Curtin University of Technology'	=> array('专科','本科','研究生'),
+        'Deakin University'	=> array('专科','本科','研究生'),
+        'Edith Cowan University'	=> array('专科','本科','研究生'),
+        'Flinders University'	=> array('专科','本科','研究生'),
+        'Griffith University'	=> array('专科','本科','研究生'),
+        'James Cook University'	=> array('专科','本科','研究生'),
+        'La Trobe University'	=> array('专科','本科','研究生'),
+        'Macquarie University'	=> array('专科','本科','研究生'),
+        'Monash University'	=> array('专科','本科','研究生'),
+        'Murdoch University'	=> array('专科','本科','研究生'),
+        'Queensland University of Technology'	=> array('专科','本科','研究生'),
+        'RMIT University'	=> array('专科','本科','研究生'),
+        'Southern Cross University'	=> array('专科','本科','研究生'),
+        'Swinburne University of Technology'	=> array('专科','本科','研究生'),
+        'The Australian National University'	=> array('专科','本科','研究生'),
+        'The University of Adelaide'	=> array('专科','本科','研究生'),
+        'The University of Melbourne'	=> array('专科','本科','研究生'),
+        'The University of New England'	=> array('专科','本科','研究生'),
+        'The University of New South Wales'	=> array('专科','本科','研究生'),
+        'The University of Newcastle'	=> array('专科','本科','研究生'),
+        'The University of Notre Dame Australia'	=> array('专科','本科','研究生'),
+        'The University of Queensland'	=> array('专科；本科','研究生'),
+        'The University of Sydney'	=> array('专科','本科','研究生'),
+        'The University of Western Australia'	=> array('专科','本科','研究生'),
+        'University of Ballarat'	=> array('专科','本科','研究生'),
+        'University of Canberra'	=> array('专科','本科','研究生'),
+        'University of South Australia'	=> array('专科','本科','研究生'),
+        'University of Southern Queensland'	=> array('专科','本科','研究生'),
+        'University of Tasmania'	=> array('专科','本科','研究生'),
+        'University of Technology Sydney'	=> array('专科','本科','研究生'),
+        'University of the Sunshine Coast'	=> array('专科','本科','研究生'),
+        'University of Western Sydney'	=> array('专科','本科','研究生'),
+        'University of Wollongong'	=> array('专科','本科','研究生'),
+        'Victoria University'	=> array('专科','本科','研究生')
+    );
 
     //申请
     const APPLY_PAY_WAIT = 5; //申请未支付
 
     const APPLY_START = 10; //提出申请
     const APPLY_WAIT = 11;
-    const APPLY_UPDATE_OFFER = 12; //Offer更新
-    const APPLY_CONFIRM = 13;
+    const APPLY_CONFIRM = 12;
+
+    const APPLY_UPDATE_OFFER = 13; //Offer更新
     const APPLY_HAS_CONDITION = 14;
     const APPLY_FAILURE = 15; //申请失败
     const APPLY_NO_CONDITION = 16;
@@ -49,7 +100,9 @@ class ApplyModel extends Model
         
         $this->edu = array(
             '专科','本科','研究生'
-        );    
+        );
+
+
     }
 
     public function get_status_msg($status)
@@ -164,21 +217,52 @@ class ApplyModel extends Model
         
         return true;
     }
+
+
+    public function check_can_apply($commission_id,$stu_id){
+
+        $commission = M('partner_college_commission')->where(array('commission_id'=>$commission_id))->find();
+        $ename = getField_value('college', 'ename',array('college_id'=>$commission['college_id']));
+
+        $where = array('member_stu_id'=>$stu_id,'college_id' => $commission['college_id'],'apply_name'=>$commission['education'],'is_stop'=>0);
+        $num = M('stu_apply')->where($where)->count();
+         //return M('stu_apply')->getLastSql();
+        if($num){
+            $msg = '很抱歉,该学生重复申请该学历！';
+        }elseif(isset($this->edu_list[$ename]) && in_array($commission['education'],$this->edu_list[$ename])) {
+            $where = array('member_stu_id'=>$stu_id,'college_id' => $commission['college_id'],'is_stop'=>0);
+            $apply_count = M('stu_apply')->where($where)->group('stu_id')->count();
+
+            if($apply_count == 2) {
+                $msg = '该学生已经申请该院校2次，不能再申请了';
+            }
+        }else {
+            $where = array('member_stu_id'=>$stu_id,'is_stop'=>0);
+            $apply_count = M('stu_apply')->where($where)->group('stu_id')->count();
+
+            if($apply_count == 5) {
+                $msg = '该学生已经申请5次院校，不能再申请了';
+            }
+        }
+
+        return $msg;
+    }
     
     /**
      *  根据学历验证 （一个学生只能成功报考2所院校）预科 语言除外 
      */
-    public function check_edu($edu,$stu_id)
+    public function check_edu($education,$college_info,$stu_id)
     {
         $msg = '';
-        if(in_array($edu, $this->edu))
-        {
+
+        if(in_array($education, $this->education)){
             $condition=array(
-                   'stu_id'=>$stu_id,
-                'apply_name'=>$edu,
-                'is_success'=>1
+                'stu_id'=>$stu_id,
+                'apply_name'=>$education,
+                'is_stop'=>0
             );
-            $count = M('stu_apply')->where($condition)->group(college_id)->count();
+            $count = M('stu_apply')->where($condition)->group('college_id')->count();
+
             if($count==C('MAX_COLLEGE_NUM'))
             {
                 $msg = '该学生已经成功申请2所院校，不能再申请了';
@@ -186,12 +270,15 @@ class ApplyModel extends Model
         }
         else
         {
+
             $count = getField_value('stu_apply_count', 'times',array('stu_id'=>$stu_id));
-            if($count==C('MAX_APPLY_TIMES'))
-            {
+
+            if(isset($this->edu_list[$college_info['ename']]) && $count ==2){
+                $msg = '该学生已经成功申请2次,不能再提出申请';
+            }elseif($count==C('MAX_APPLY_TIMES')){
                 $msg = '该学生已经成功申请5次,不能再提出申请';
             }
-        }       
+        }
         
         return $msg;      
     }

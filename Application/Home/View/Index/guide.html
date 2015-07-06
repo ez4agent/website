@@ -17,11 +17,16 @@
   <section class="banner_wrap">
     <div class="banner_box videobox">
         <div class="banner_box_inner">
-            <embed src="{$video_url}"
-                   allowFullScreen="true"
-                   quality="high" width="940" height="550"
-                   align="middle"
-                   allowScriptAccess="always" type="application/x-shockwave-flash"></embed>
+            <if condition="$class eq 's3'">
+                <img src="__PUBLIC__/step.jpg" width="100%" />
+            <else />
+                <embed src="{$video_url}"
+                       allowFullScreen="true"
+                       quality="high" width="940" height="550"
+                       align="middle"
+                       allowScriptAccess="always" type="application/x-shockwave-flash"></embed>
+
+            </if>
             <!--
             <video width="940" height="550" controls>
                 <source src="__PUBLIC__/guide_l1.ogg" type="video/ogg">

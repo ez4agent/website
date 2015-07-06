@@ -29,59 +29,14 @@ class ApplyController extends FrontbaseController
 
         //Country	Qualification
         //New Zealand (8 universities)
-        $new_zealand = array(
-            'Auckland University of Technology'	=> '专科；本科；研究生',
-            'Lincoln University'	=> '专科；本科；研究生',
-            'Massey University'	=> '专科；本科；研究生',
-            'The University of Auckland'	=> '专科；本科；研究生',
-            'The University of Waikato'	=> '专科；本科；研究生',
-            'University of Canterbury'	=> '专科；本科；研究生',
-            'University of Otago'	=> '专科；本科；研究生',
-            'Victoria University of Wellington'	=> '专科；本科；研究生'
-        );
-
-        //Australia (39 universities)
-        $australia = array(
-            'Australian Catholic University'	=> '专科；本科；研究生',
-            'Bond University'	=> '专科；本科；研究生',
-            'Central Queensland University'	=> '专科；本科；研究生',
-            'Charles Darwin University'	=> '专科；本科；研究生',
-            'Charles Sturt University'	=> '专科；本科；研究生',
-            'Curtin University of Technology'	=> '专科；本科；研究生',
-            'Deakin University'	=> '专科；本科；研究生',
-            'Edith Cowan University'	=> '专科；本科；研究生',
-            'Flinders University'	=> '专科；本科；研究生',
-            'Griffith University'	=> '专科；本科；研究生',
-            'James Cook University'	=> '专科；本科；研究生',
-            'La Trobe University'	=> '专科；本科；研究生',
-            'Macquarie University'	=> '专科；本科；研究生',
-            'Monash University'	=> '专科；本科；研究生',
-            'Murdoch University'	=> '专科；本科；研究生',
-            'Queensland University of Technology'	=> '专科；本科；研究生',
-            'RMIT University'	=> '专科；本科；研究生',
-            'Southern Cross University'	=> '专科；本科；研究生',
-            'Swinburne University of Technology'	=> '专科；本科；研究生',
-            'The Australian National University'	=> '专科；本科；研究生',
-            'The University of Adelaide'	=> '专科；本科；研究生',
-            'The University of Melbourne'	=> '专科；本科；研究生',
-            'The University of New England'	=> '专科；本科；研究生',
-            'The University of New South Wales'	=> '专科；本科；研究生',
-            'The University of Newcastle'	=> '专科；本科；研究生',
-            'The University of Notre Dame Australia'	=> '专科；本科；研究生',
-            'The University of Queensland'	=> '专科；本科；研究生',
-            'The University of Sydney'	=> '专科；本科；研究生',
-            'The University of Western Australia'	=> '专科；本科；研究生',
-            'University of Ballarat'	=> '专科；本科；研究生',
-            'University of Canberra'	=> '专科；本科；研究生',
-            'University of South Australia'	=> '专科；本科；研究生',
-            'University of Southern Queensland'	=> '专科；本科；研究生',
-            'University of Tasmania'	=> '专科；本科；研究生',
-            'University of Technology Sydney'	=> '专科；本科；研究生',
-            'University of the Sunshine Coast'	=> '专科；本科；研究生',
-            'University of Western Sydney'	=> '专科；本科；研究生',
-            'University of Wollongong'	=> '专科；本科；研究生',
-            'Victoria University'	=> '专科；本科；研究生'
-        );
+        $lists = $this->apply_mod->edu_list;
+        foreach($lists as $k => $v){
+            if(in_array($k,array('Auckland University of Technology','Lincoln University','Massey University','The University of Auckland','The University of Waikato','University of Canterbury','University of Otago','Victoria University of Wellington'))){
+                $new_zealand[$k] = join('；',$v);
+            }else{
+                $australia[$k] = join('；',$v);
+            }
+        }
 
         $this->assign('new_zealand',$new_zealand);
         $this->assign('australia',$australia);
@@ -245,6 +200,14 @@ class ApplyController extends FrontbaseController
                    echo $this->ajaxReturn(array('status'=>'no','msg'=>'请选择中介！'));
                    exit();
                 }
+
+                $msg = D('Apply')->check_can_apply($commission_id,$stu);
+                if($msg)
+                {
+                    echo $this->ajaxReturn(array('status'=>'no','msg'=>$msg));
+                    exit();
+                }
+
                 $url =U('Home/Apply/index',array('college_id'=>$college_id,
                       'commission_id'=>$commission_id,'stu'=>$stu));
                 echo $this->ajaxReturn(array('status'=>'yes','url'=>$url));
@@ -275,24 +238,29 @@ class ApplyController extends FrontbaseController
                 exit();
             }
 
+            /*
             //验证一个学生同一所院校同一个学历重复申请
             if(!D('Apply')->check_repeat1($stu_id,$college_id,$commission_id))
             {
                 echo $this->ajaxReturn(array('status'=>'no','msg'=>'很抱歉,该学生重复申请该学历！'));
                 exit();
             }
+
+            */
             
             //获取学历信息
             $info = D('Partner')->get_info_commission_id($college_id,$commission_id);
             $Cooperation =$this->apply_mod->check_Cooperation($this->member_id,$college_id);
-            
+
+            /*
             //验证申请成功次数小于5次, 大学数量小于等于2个（专科，本科，研究生，博士，MBA）预留
-            $msg = D('Apply')->check_edu($info['education'],$stu_id1);
+            $msg = D('Apply')->check_edu($info['education'],$college_info,$stu_id1);
             if($msg)
             {
                 echo $this->ajaxReturn(array('status'=>'no','msg'=>$msg));
                 exit();
             }
+            */
 
             if($college_info['apply_price'] == 0 ){
                 $status = ApplyModel::APPLY_START;
@@ -351,6 +319,7 @@ class ApplyController extends FrontbaseController
                             'apply_id'=>$apply_id,
                             'college_id'=>$college_id,
                             'college_name'=>$college_info['ename'],
+                            'education'=>$info['education'],
                             'add_time'=>time(),
                         );
                        $this->apply_mod->add_stu_receive($receive); //添加学生推送信息表
@@ -486,9 +455,6 @@ class ApplyController extends FrontbaseController
                   'status'=> $data['status'],
                   'is_email'=>1 
                 );
-                //更新成功申请次数
-                $stu_id = getField_value('stu_apply','stu_id',array('stu_apply_id'=>$data['stu_apply_id']));
-                $this->apply_mod->update_apply_success_count(intval($stu_id));
             }
             else
             {

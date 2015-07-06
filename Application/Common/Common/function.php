@@ -141,6 +141,9 @@ function get_educationbycollege_id($college_id)
     {
         foreach ($edu as $key=>$val)
         {
+            if(!isset($_edu[$val['education']])){
+                continue;
+            }
             $edu1[]=array(
                 'id'=>$val['education'],
                 'name'=>$_edu[$val['education']],
