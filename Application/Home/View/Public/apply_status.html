@@ -63,7 +63,7 @@
                         <?php if($apply_info['status'] > 10 && $apply_info['status'] < 30):?>
                                 <?php if($apply_info['needmore'] != '' && $apply_info['status'] != 11):?>
                                     <a href="javascript:;" onclick="apply_result({$apply_info['receive_member']},{$apply_info['stu_apply_id']})">提交申请结果</a>
-                                <?php if($apply_info['needmore'] == '' && $apply_info['status'] >= 12):?>
+                                <?php elseif($apply_info['needmore'] == '' && $apply_info['status'] >= 12):?>
                                     <a href="javascript:;" onclick="apply_result({$apply_info['receive_member']},{$apply_info['stu_apply_id']})">提交申请结果</a>
                                 <?php endif;?>
                         <?php endif;?>
