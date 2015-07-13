@@ -532,7 +532,7 @@ class SchoolController extends FrontbaseController
             $update['education'] = $education[$education_id];
 
             if(isset($data['commission_id'][$education_id]) && $data['commission_id'][$education_id] > 0){
-                $update['commission_id'] = $data['commission_id'][$education_id];
+               // $update['commission_id'] = $data['commission_id'][$education_id];
             }
 
             $update['pay_type'] = isset($data['payment_type'][$education_id]) ? $data['payment_type'][$education_id] : 0;
