@@ -136,7 +136,7 @@ function get_college_bycity($cityid)
 function get_educationbycollege_id($college_id)
 {
     $_edu = C('Education_TYPE');
-    $edu = M('college_education')->field('education')->where('college_id='.$college_id)->select();
+    $edu = M('college_education')->field('education')->where('college_id='.$college_id)->order('education asc')->select();
     if($edu)
     {
         foreach ($edu as $key=>$val)

@@ -312,6 +312,19 @@ $("#stu_submit").click(function(){
     ajax_submit(url,data);
 
 });
+
+$(document).keydown(function(event) {
+
+    if (event.keyCode == "13") {
+
+        if($("#search_student_byname").is(":focus")){
+            return;
+        }else{
+            $("#apply").trigger("click");
+        }
+
+    }
+});
 </script>
 </body>
 </html>

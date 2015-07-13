@@ -26,7 +26,6 @@ class CronController extends Controller {
         }
 
 		$exceArray = $this->readExcel($file);
-
         foreach($exceArray as $school){
             if(!$this->add_partner($user['member_id'],$school)){
                 echo "faild",PHP_EOL;
