@@ -170,7 +170,7 @@ class CronController extends Controller {
 
         $update_arr = array();
         foreach($school['list'] as $data){
-            if(!$data['education'] || !$data['share_ratio']){
+            if(!$data['education'] || !$data['share_ratio'] || !$data['pay_type'] || !$data['share_length']){
                 continue;
             }
             $data['member_id'] = $member_id;

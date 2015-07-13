@@ -26,8 +26,8 @@ class IndexController extends Controller
 
         if(in_array($class,array('s1','s2'))){
             $video_url = array(
-                's1' => 'http://player.youku.com/player.php/sid/XMTI2OTExNjQ4NA==/v.swf',
-                's2' => 'http://player.youku.com/player.php/sid/XMTI2OTExNTcwNA==/v.swf'
+                's1' => 'http://player.youku.com/player.php/sid/XMTI2OTExNTcwNA==/v.swf',
+                's2' => 'http://player.youku.com/player.php/sid/XMTI2OTExNjQ4NA==/v.swf'
             );
 
             $this->assign('video_url',$video_url[$class]);
