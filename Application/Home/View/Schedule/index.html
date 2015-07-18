@@ -48,7 +48,7 @@
     <include file="Public:menu" />
     <section class="content_wrap clearfix">
     <!--左边-->
-    <div class="content_left fl">
+    <div class="content_left fr">
         <div class="con_item">
             <h2 class="con_item_tit clearfix">
                 <em class="font18 ffyh fl">日历</em>
@@ -65,21 +65,21 @@
         </div>
     </div>
     <!--右边-->
-    <div class="content_right fr">
+    <div class="content_right fl">
           <div class="con_item">
               <h2 class="con_item_tit clearfix"><em class="font18 ffyh">日程列表</em>
               <a href="javascript:void(0);" onClick="add_event(0,0,'{:U('Home/Schedule/event_form')}');"><i class="icon icon2 fr"></i></a></h2>             
               <div class="con_item_c clearfix">
                   <div class="rc_list_tit1">
+                      <em class="font14"><a href="{:U('Home/Schedule/index',array('type'=>'over'))}">
+                          <font <if condition="$type eq over">color="#ff9600"</if>><strong>历史记录</strong></font>&nbsp;
+                          <span>{$past}</span></a></em>
                       <em class="font14"><a href="{:U('Home/Schedule/index',array('type'=>'now'))}">
                       <font <if condition="$type eq now">color="#ff9600"</if>><strong>今日待办</strong></font>&nbsp;
                       <span>{$now}</span></a></em>
                       <em class="font14"><a href="{:U('Home/Schedule/index',array('type'=>'plan'))}">
                       <font <if condition="$type eq plan">color="#ff9600"</if>><strong>计划提醒</strong></font>&nbsp;
                       <span>{$plan_count}</span></a></em>
-                      <em class="font14"><a href="{:U('Home/Schedule/index',array('type'=>'over'))}">
-                      <font <if condition="$type eq over">color="#ff9600"</if>><strong>历史记录</strong></font>&nbsp;
-                      <span>{$past}</span></a></em>   
                   </div>
                   <div class="today_rc_con">
                       <div class="today_con_hd">

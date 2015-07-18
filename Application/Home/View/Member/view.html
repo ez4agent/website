@@ -243,6 +243,7 @@
                     <tbody class="visa_service_list">
                     <if condition="!empty($visa_service)">
                         <volist name="visa_service" id="vo">
+                         <tr>
                             <td>{$vo.country_name}</td>
                             <td>
                                 <if condition="$vo.visa_type eq 1">
@@ -258,9 +259,10 @@
                                 <a href="{:U('Home/Member/view#editvisa',array('visa_id'=>$vo['visa_id']))}" class="file_a visa_edit_bt"><span>编 辑</span></a>　
                                 <a href="{:U('Home/Member/visa',array('action'=>'del','visa_id'=>$vo['visa_id']))}" class="file_a visa_del_bt"><span>删 除</span></a>　
                             </td>
+                         </tr>
                         </volist>
                         <else />
-                        <td colspan="6">您还没有添加签证国家</td>
+                        <tr><td colspan="6">您还没有添加签证国家</td></tr>
                     </if>
 
                     </tbody>

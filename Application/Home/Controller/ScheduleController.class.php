@@ -27,7 +27,7 @@ class ScheduleController extends FrontbaseController
         $where['member_id'] = $this->member_id;
         //页码
         $page = isset($_GET['P'])?intval($_GET['P']):1;
-        $pageSzie = 15;
+        $pageSzie = 10;
         //类别
         $type = isset($_GET['type'])?trim($_GET['type']):'now';
         

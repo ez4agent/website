@@ -33,12 +33,12 @@
                 </li>
                 <li class="clearfix">
                    <em><span style="color:#ff0000; margin-right:3px;">*</span>用户名：</em>
-                   <input id='input_username' name="username" type="text" class="regsiter_input"/>
+                   <input id='input_username' name="username" type="text"  placeholder="6-20位字母数字和下划线"  class="regsiter_input"/>
                    <span id="username_inpt" class="popover"></span>
                 </li>
                 <li class="clearfix">
                    <em><span style="color:#ff0000; margin-right:3px;">*</span>密码：</em>
-                   <input id="input_pwd" name="pwd" type="password" class="regsiter_input" />
+                   <input id="input_pwd" name="pwd" type="password"  placeholder="大于6位小于15位" class="regsiter_input" />
                     <span id="pwd_inpt" class="popover"></span>
                 </li>
                 <li class="clearfix">
@@ -74,7 +74,7 @@
                    <span id="company_inpt" class="popover"></span>
                 </li>
                 <li class="clearfix">
-                   <em><span style="color:#ff0000; margin-right:3px;">*</span>联系人：</em>
+                   <em><span style="color:#ff0000; margin-right:3px;">*</span><span id="contact_name">联系人</span>：</em>
                    <input id="input_contact" type="text" maxlength="12" name="contact" class="regsiter_input"/>
                    <span id="contact_inpt" class="popover"></span>
                 </li>
@@ -123,9 +123,11 @@ $('input[name="member_type"]').click(function(){
 	
 	var type=$("input[name='member_type']:checked").val();
 	if(type==2) {
-		$("#company_show").hide();	
+		$("#company_show").hide();
+        $("#contact_name").html('真实姓名');
 	} else { 
 		$("#company_show").show();
+        $("#contact_name").html('联系人');
 	}
 })
 
