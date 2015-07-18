@@ -312,7 +312,7 @@ class SchoolController extends FrontbaseController
            $map = array('college_id'=>$college_id,'apply_id'=>$select);
            $total = M('partner_college_commission')->where($map)->count();
            //获取commission_id
-           $array = $this->partner_mod->get_share_college($college_id, $select,$page,$pagesize);
+           $array = $this->partner_mod->get_share_college($college_id, $select);
             $pay_type = C('pay_type');
 
            $str ="<table width='100%'>

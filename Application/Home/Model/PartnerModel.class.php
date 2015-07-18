@@ -127,7 +127,7 @@ class PartnerModel extends Model
     }
     
     //根据院校读出佣金分享
-    public function get_share_college($college_id,$commission_id='',$page='',$pagesize=10)
+    public function get_share_college($college_id,$commission_id='',$page='',$pagesize='')
     {
         $type = C('pay_type');
         
@@ -137,8 +137,13 @@ class PartnerModel extends Model
         {
             $where['apply_id']=$commission_id; 
         }
-        
-        $share = M('partner_college_commission')->where($where)->page($page.','.$pagesize)->select(); 
+
+        if($page && $pagesize){
+            $share = M('partner_college_commission')->where($where)->page($page.','.$pagesize)->select();
+        }else{
+            $share = M('partner_college_commission')->where($where)->select();
+        }
+
         //echo M('partner_college_commission')->getLastSql();exit;
 
         $share1 = array();
