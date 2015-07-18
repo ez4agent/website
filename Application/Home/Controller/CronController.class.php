@@ -20,6 +20,10 @@ class CronController extends Controller {
         }
 
         $username = pathinfo($file,PATHINFO_FILENAME);
+
+        $username = trim($username,'_a');
+        $username = trim($username,'_x');
+
         $user = M('member')->where(array('username'=>$username))->find();
         if(!$user){
             exit('no user found');
@@ -40,7 +44,13 @@ class CronController extends Controller {
         import("Common.Util.PHPExcel");        
         import("Common.Util.PHPExcel.IOFactory");
 
-        $reader = \PHPExcel_IOFactory::createReader('Excel2007'); //设置以Excel5格式(Excel97-2003工作簿)
+        $ext = pathinfo($path,PATHINFO_EXTENSION);
+        if($ext == 'xls'){
+            $reader = \PHPExcel_IOFactory::createReader('Excel5');
+        }else{
+            $reader = \PHPExcel_IOFactory::createReader('Excel2007'); //设置以Excel5格式(Excel97-2003工作簿)
+        }
+
         $PHPExcel = $reader->load($path); // 载入excel文件
         $sheet = $PHPExcel->getSheet(0); // 读取第一個工作表
         $highestRow = $sheet->getHighestRow(); // 取得总行数
