@@ -43,6 +43,7 @@ class RegisterController extends BaseController
             $pwd_confirm = isset($_POST['pwd_confirm']) ? trim($_POST['pwd_confirm']): '';
             $company = isset($_POST['company']) ? trim($_POST['company']): '';
             $contact = isset($_POST['contact']) ? trim($_POST['contact']): '';
+            $realname = isset($_POST['realname']) ? trim($_POST['realname']): '';
             $email = isset($_POST['email']) ? trim($_POST['email']): '';
 
             $member_type = isset($_POST['member_type']) && $_POST['member_type'] == 2 ? intval($_POST['member_type']): 1;
@@ -87,6 +88,10 @@ class RegisterController extends BaseController
                 $errors[] = array('message'=>'该邮箱已被注册','label' => 'email');
             }
 
+            if($member_type == 2 && empty($realname)){
+                $errors[] = array('message'=>'请输入真实姓名','label' => 'realname');
+            }
+
 
             if(!empty($errors)){
                 $this->ajaxReturn(array('error'=>101,'response'=>$errors));
@@ -98,7 +103,7 @@ class RegisterController extends BaseController
                 'pwd'=>$pwd,
                 'member_type'=>$member_type,
                 'company'=>htmlspecialchars($company),
-                'contact'=>htmlspecialchars($contact),
+                'contact'=> $member_type == 2 ? htmlspecialchars($realname) : htmlspecialchars($contact),
                 'telephone'=>$country_num.'-'.$qu_num.'-'.$phone,
                 'mobile' => $mobile_country_num.'-'.$mobile_num,
                 'email_jiban'=>$email,

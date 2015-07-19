@@ -29,12 +29,19 @@ class ApplyController extends FrontbaseController
 
         //Country	Qualification
         //New Zealand (8 universities)
+        $australia = $new_zealand = array();
         $lists = $this->apply_mod->edu_list;
         foreach($lists as $k => $v){
             if(in_array($k,array('Auckland University of Technology','Lincoln University','Massey University','The University of Auckland','The University of Waikato','University of Canterbury','University of Otago','Victoria University of Wellington'))){
-                $new_zealand[$k] = join('；',$v);
+                $new_zealand[] = array(
+                    'school' => $k,
+                    'qualification' => join('；',$v)
+                );
             }else{
-                $australia[$k] = join('；',$v);
+                $australia[] = array(
+                    'school' => $k,
+                    'qualification' => join('；',$v)
+                );
             }
         }
 

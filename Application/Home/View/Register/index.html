@@ -73,10 +73,15 @@
                    <input id="input_company" name="company" type="text" class="regsiter_input"/>
                    <span id="company_inpt" class="popover"></span>
                 </li>
-                <li class="clearfix">
-                   <em><span style="color:#ff0000; margin-right:3px;">*</span><span id="contact_name">联系人</span>：</em>
+                <li class="clearfix" id="contact_show" >
+                   <em><span id="contact_name">联系人</span>：</em>
                    <input id="input_contact" type="text" maxlength="12" name="contact" class="regsiter_input"/>
                    <span id="contact_inpt" class="popover"></span>
+                </li>
+                <li class="clearfix" id="realname_show" style="display: none;">
+                    <em><span style="color:#ff0000; margin-right:3px;">*</span>真实姓名：</em>
+                    <input id="input_realname" type="text" maxlength="12" name="realname" class="regsiter_input"/>
+                    <span id="realname_inpt" class="popover"></span>
                 </li>
                 <li class="clearfix">
                    <em>固定电话：</em>
@@ -124,10 +129,12 @@ $('input[name="member_type"]').click(function(){
 	var type=$("input[name='member_type']:checked").val();
 	if(type==2) {
 		$("#company_show").hide();
-        $("#contact_name").html('真实姓名');
+        $("#contact_show").hide();
+        $("#realname_show").show();
 	} else { 
 		$("#company_show").show();
-        $("#contact_name").html('联系人');
+        $("#contact_show").show();
+        $("#realname_show").hide();
 	}
 })
 
@@ -146,6 +153,7 @@ var error_str = {
     'require_pwd':"请输入密码",
     'require_company':"请输入公司名称",
     'require_contact':"请输入联系人",
+    'require_realname':"请输入真实姓名",
     'require_from':"请选择地区",
     'vaild_pwd':'密码格式小于6位',
     'vaild_email':'邮箱格式不正确'
@@ -161,14 +169,14 @@ function passport_ajax(url,btn,callback){
     var type=$("input[name='member_type']:checked").val();
     data['member_type']=type;
 
-    var fieldarr = ['username', 'pwd','company','contact','email'];
+    var fieldarr = ['username', 'pwd','company','contact','realname','email'];
     $.each(fieldarr,function(i,k){
         var field = $('#Regfrom').find('#input_'+k);
         if(!field.length){
             return true;
         }
 
-        if(type == 2 && k == 'company'){
+        if(type == 2 && (k == 'company' || k== 'contact')){
            return true;
         }
 

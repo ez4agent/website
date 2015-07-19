@@ -48,7 +48,7 @@
     <include file="Public:menu" />
     <section class="content_wrap clearfix">
     <!--左边-->
-    <div class="content_left fr">
+    <div class="content_left fl">
         <div class="con_item">
             <h2 class="con_item_tit clearfix">
                 <em class="font18 ffyh fl">日历</em>
@@ -65,7 +65,7 @@
         </div>
     </div>
     <!--右边-->
-    <div class="content_right fl">
+    <div class="content_right fr">
           <div class="con_item">
               <h2 class="con_item_tit clearfix"><em class="font18 ffyh">日程列表</em>
               <a href="javascript:void(0);" onClick="add_event(0,0,'{:U('Home/Schedule/event_form')}');"><i class="icon icon2 fr"></i></a></h2>             
@@ -83,12 +83,12 @@
                   </div>
                   <div class="today_rc_con">
                       <div class="today_con_hd">
-                          <span class="col1">日&nbsp;&nbsp;期</span>   
                           <span class="col2">
                           <select id="stuid" name="stuid" class="address_gj">
-                            <option value="0">全部学生</option>
-                          {$str}
-                          </select></span>   
+                              <option value="0">全部学生</option>
+                              {$str}
+                          </select></span>
+                          <span class="col1">日&nbsp;&nbsp;期</span>
                           <span class="col3">主&nbsp;&nbsp;题</span>   
                           <span class="col4">完成日期</span>
                       </div>
@@ -99,10 +99,10 @@
                             <else />
                           	<volist name='list' id="vo">
                               <li <if condition="$vo['is_use'] eq 0">class="stat_on"<else /> class="stat_on1" </if>>
+                                  <span class="rc_st_name col2">{$vo['stu_name']}</span>
                                   <span class="rc_time col1">
                                       <b>{$vo['date_value']}</b>
                                   </span>
-                                  <span class="rc_st_name col2">{$vo['stu_name']}</span>
                                   <span class="rc_zhuti col3">
                                       <a href="javascript:void(0);" onClick="add_event({$vo['stu_id']},{$vo['event_id']},'{:U('Home/Schedule/event_form')}');">
                                       <em>{$vo['title']}</em>
