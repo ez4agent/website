@@ -30,7 +30,7 @@
         <select name="countryid" class="address_zhu" id="country_id">
               <option value="">===请选择国家===</option>
               <volist name='country' id="vo">
-                  <option value="{$vo['countryid']}" <if condition="$info['countryid'] eq $vo['countryid']">selected</if>>{$vo['name']}</option>
+                  <option value="{$vo['countryid']}" >{$vo['name']}</option>
               </volist>
         </select>
         <select name="areaid" class="address_zhu" id="area_id">

@@ -29,8 +29,8 @@ $(function () {
 	$(".countryid").on('click',function(){ 
 
 		var myurl=new objURL(window.location.href);
-		alert(myurl);
-		return false;
+		//alert(myurl);
+		//return false;
 		var value = $(this).attr('country_id');
 		myurl.set('country_id',value);
 		//alert(myurl.url());

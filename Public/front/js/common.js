@@ -136,6 +136,7 @@ $(function () {
 	})
 	
 	//院校列表搜索
+    /*
 	var _timer;
 	$(".select_item2 .select_item > a").hover(function(){
 		clearTimeout(_timer);
@@ -144,7 +145,7 @@ $(function () {
 		var _thisTop = $(this).position().top+22;
 		$(".select_ac_list").show().css("top",_thisTop);
 		
-		/*字母*/
+
 		var zimu = $(this).attr('zimu');
 		var s_type = $(this).attr('type');
 		var country_id = $(this).attr('country');
@@ -199,7 +200,7 @@ $(function () {
 		$(this).hide();
 		$(".select_item a").removeClass("hovers");
 	});
-
+*/
 	$(".select_ac_list_inner b").click(function(){
 		$(".select_item a").removeClass("hovers");
 		$(".select_ac_list").hide();

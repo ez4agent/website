@@ -70,13 +70,20 @@
 								<li class="select_item2">
 									<div class="select_item">
 										<span>国&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;家：</span>
+                                        <!--
                                         <foreach name="country" item="vo" key="k" >
 										<a href="javascript:void(0)" zimu="{$vo}" type="country"><span></span><b>{$vo}</b></a>
                                         </foreach>
+                                        -->
+                                        <a class="countryid" country_id="2" href="javascript:void(0)">澳大利亚</a>
+                                        <a class="countryid" country_id="3" href="javascript:void(0)">新西兰</a>
+                                        <a class="countryid" country_id="4" href="javascript:void(0)">美国</a>
+                                        <a class="countryid" country_id="5" href="javascript:void(0)">加拿大</a>
+                                        <a class="countryid" country_id="6" href="javascript:void(0)">英国</a>
 									</div>
 								</li>
                                 </notempty>
-                                <notempty name="area">
+                                <!--<notempty name="area">
 								<li class="select_item2">
 									<div class="select_item">
 										<span>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;区：</span>
@@ -86,6 +93,7 @@
                                     </div>
 								</li>
                                 </notempty>
+
                                 <notempty name='city'>
 								<li class="select_item2">
 									<div class="select_item">
@@ -96,12 +104,14 @@
                                     </div>
 								</li>
                                 </notempty>
+                                -->
                                 <notempty name='education'>
 								<li>
 									<div class="select_item">
 										<span>学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;历：</span>
 										<foreach name="education" item="vo" key="k">
-                                        <a href="javascript:void(0)" education="{$vo['id']}" class="education" ><span></span><b>{$vo['name']}</b></a>
+                                            <a href="javascript:void(0)" education="{$k}" class="education" ><span></span><b>{$vo}</b></a>
+                                        <!--<a href="javascript:void(0)" education="{$vo['id']}" class="education" ><span></span><b>{$vo['name']}</b></a>-->
                                         </foreach>
 									</div>
 								</li>

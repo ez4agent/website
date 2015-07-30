@@ -165,19 +165,15 @@ function passport_ajax(url,btn,callback){
 
     var has_error = 0;
     var data = {};
-
+/*
     var type=$("input[name='member_type']:checked").val();
     data['member_type']=type;
 
-    var fieldarr = ['username', 'pwd','company','contact','realname','email'];
+    var fieldarr = ['username', 'pwd','email'];
     $.each(fieldarr,function(i,k){
         var field = $('#Regfrom').find('#input_'+k);
         if(!field.length){
             return true;
-        }
-
-        if(type == 2 && (k == 'company' || k== 'contact')){
-           return true;
         }
 
         var value = field.val();
@@ -229,12 +225,12 @@ function passport_ajax(url,btn,callback){
     if(has_error){
         return;
     }
-
+*/
     btn.attr('disabled',true);
 
     $.ajax(url, {
         type: 'POST',
-        data: data,
+        data: $('#Regfrom').serialize(),
         dataType:'json',
         success:function(json){
             if(json.error){

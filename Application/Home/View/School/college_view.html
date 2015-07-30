@@ -58,8 +58,13 @@ var stu_id = '{$stu_id}';
                                   	<th height="25px;" colspan="2">所&nbsp;&nbsp;在&nbsp;&nbsp;地：{$info.city_name} , {$info.area_name} , {$info.country_name}</th>
                                   </tr>
                                   <tr>
-                                      <th height="25px;" colspan="2">
+                                      <th width="50%" height="25px;">
                                       官&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;网：<a href="{$info.website}" target="_blank">{$info.website}</a></th>
+                                      <td width="50%" height="25px;">
+                                          <?php if($info['apply_price'] > 0):?>
+                                            <font color="red">申请费：AU${$info.apply_price}</font>
+                                          <?php endif; ?>
+                                      </td>
                                   </tr>
                                   <tr>
                                       <th colspan="2">简&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;介：<p>{$info.introduction}</p></th>

@@ -152,7 +152,9 @@ class SchoolController extends FrontbaseController
         //学历
         if($where['education']==0)
         {
-            $this->assign('education',$this->school_mod->get_CollegeType_Attribute($where));
+            $edu = C('Education_TYPE');
+            //$this->assign('education',$this->school_mod->get_CollegeType_Attribute($where));
+            $this->assign('education',$edu);
         }
         else 
         {
