@@ -62,12 +62,14 @@
                     </select>
                     <span id="from_inpt" class="popover"></span>
                 </li>
+                <!--
                 <li class="clearfix">
                   <em><span style="color:#ff0000; margin-right:3px;">*</span>以下信息：</em>
                     <label><input type="radio" name="is_show"  value="0" />&nbsp;不公开</label> &nbsp;&nbsp;                  
                     <label><input type="radio" name="is_show"  value="2" checked />&nbsp;仅对合作方显示</label> &nbsp;&nbsp;
                     <label><input type="radio" name="is_show"  value="1" />&nbsp;对所有人显示</label>　
                 </li>
+                -->
                 <li class="clearfix" id="company_show">
                    <em><span style="color:#ff0000; margin-right:3px;">*</span>公司名称：</em>
                    <input id="input_company" name="company" type="text" class="regsiter_input"/>
@@ -84,15 +86,17 @@
                     <span id="realname_inpt" class="popover"></span>
                 </li>
                 <li class="clearfix">
-                   <em>固定电话：</em>
+                   <em><span style="color:#ff0000; margin-right:3px;" id="need_phone">*</span>固定电话：</em>
                    + <input id="country_num" type="text" maxlength="3" class="baseInfor_input" style="width:50px" placeholder="国家编号" name="country_num" value="" />-
                    <input id="qu_num" type="text" maxlength="3" class="baseInfor_input" style="width:50px" placeholder="区号" name="qu_num" value="" />-
                    <input id="phone" type="telephone" maxlength="8" class="regsiter_input" name="phone"/>
+                    <span id="phone_inpt" class="popover"></span>
                 </li>
                 <li class="clearfix">
-                   <em>移动电话：</em>
+                   <em><span style="color:#ff0000; margin-right:3px;display: none" id="need_moblie">*</span>移动电话：</em>
                    + <input type="text" maxlength="3" class="baseInfor_input" style="width:50px"  placeholder="国家编号" name="mobile_country_num" value="" />-
                    <input id="moblie_num" type="text" maxlength="11" class="regsiter_input" name="mobile_num"/>
+                    <span id="moblie_num_inpt" class="popover"></span>
                 </li>
                 <li class="clearfix">
                     <em><span style="color:#ff0000; margin-right:3px;">*</span>邮箱：</em>
@@ -110,6 +114,7 @@
                   <a href="javascript:void(0);" class="login_bt" id="login_bt" >注册</a>
                   <a class="regsiter_bt" href="{:U('Home/Login/index')}">返回</a>
                 </p>
+                <input type="hidden" name="invite_code" value="{$invite_code}" />
                 </form>
             </div>
         </div>
@@ -131,10 +136,14 @@ $('input[name="member_type"]').click(function(){
 		$("#company_show").hide();
         $("#contact_show").hide();
         $("#realname_show").show();
-	} else { 
+        $("#need_phone").hide();
+        $("#need_moblie").show();
+	} else {
 		$("#company_show").show();
         $("#contact_show").show();
         $("#realname_show").hide();
+        $("#need_phone").show();
+        $("#need_moblie").hide();
 	}
 })
 
@@ -244,7 +253,7 @@ function passport_ajax(url,btn,callback){
                 }
 
             }else if(json.response){
-                callback(json.response);
+                callback(json);
             }
         },
         complete:function(xhr, textStatus){
@@ -255,9 +264,18 @@ function passport_ajax(url,btn,callback){
 
 $('#login_bt').on('click',function(){
     passport_ajax(submit_url,$(this),function(res){
-        setTimeout(function() {
-            window.location.href = res;
-        },1e3);
+        if(res.invite_confirm){
+            confirm(res.response);
+
+            setTimeout(function() {
+                window.location.href = '/';
+            },1e3);
+        }else{
+            setTimeout(function() {
+                window.location.href = res.response;
+            },1e3);
+        }
+
     });
 });
 

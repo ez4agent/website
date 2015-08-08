@@ -262,8 +262,10 @@ a.school_add:hover{filter:Alpha(opacity=80);-moz-opacity:0.8;opacity:0.8;}
 .yj_bt .rc_list_tit{ padding:0 34px;}
 .yj_bt .rc_list_tit em{ padding:0;}
 .blod_js{ text-align:center; padding:20px 0;}
-.blod_js a{ display:inline-block; background:url("../images/bt_bg.gif") repeat-x  0 0; height:39px; line-height:39px; color:#fff; padding:0 30px; font-size:14px; border-radius:2px; margin:0 10px;}
-.blod_js a.disable{background:url("../images/btn2.png") repeat-x  0 0;}
+.blod_js a,
+.blod_js .btn{ display:inline-block; background:url("../images/bt_bg.gif") repeat-x  0 0; height:39px; line-height:39px; color:#fff; padding:0 30px; font-size:14px; border-radius:2px; margin:0 10px;}
+.blod_js a.disable,
+.blod_js .btn.disable{background:url("../images/btn2.png") repeat-x  0 0;}
 
 .message_rc{ background: -moz-linear-gradient(top,#fefefe,#dcdcdc); background:-webkit-linear-gradient(top,#fefefe,#dcdcdc);background:-o-linear-gradient(top,#fefefe,#dcdcdc); height:46px; border-radius:0 0 2px 2px; border-top:1px solid #d7d7d7; padding:0 34px; position:relative;}
 .message_rc .c_tem_text{line-height:46px;}
@@ -773,3 +775,5 @@ a.school_add:hover{filter:Alpha(opacity=80);-moz-opacity:0.8;opacity:0.8;}
 .videobox .banner_box_inner {padding: 10px;}
 
 .commision table th{ width: 100px}
+
+#invite_pop .invite_box h1{ font-size: 14px; margin-bottom: 10px; line-height: 27px}

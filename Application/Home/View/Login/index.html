@@ -5,7 +5,9 @@
 <title>用户登录-EZ4Agent</title>
 <link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/share.css">
 <link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/main.css">
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/front/css/common.css">
 <script src="__PUBLIC__/js/jquery.js" type="text/javascript"></script>
+<script src="__PUBLIC__/front/js/layer.min.js" type="text/javascript"></script>
 <script src="__PUBLIC__/front/js/common.js" type="text/javascript"></script>
 <!--[if lt IE 9]>
     <script src="__PUBLIC__/js/html5.js"></script>
@@ -32,7 +34,7 @@
               <p><label><input name="checkbox1" type="checkbox" id="check" value="1"> <em>记住我的登录状态</em></label></p>
               <p class="login_btwrap">
                 <a href="javascript:void(0);" class="login_bt" id="submit_login">登录</a>
-                <a href="{:U('Home/Register/index')}" class="regsiter_bt">注册</a>
+                <a href="javascript:void(0);" class="regsiter_bt">注册</a>
               </p>
               <p class="wj_pwd"><a href="<?=U('Home/Auth/findpass')?>">忘记密码? </a></p>
             </div>
@@ -44,10 +46,39 @@
     </section>      
 	<include file="Public:footer" />		
 </section>
+
+<div id="invite_pop">
+    <form action="/" method="get">
+        <div class="invite_box" style="margin-top:5px;">
+            <div class="baseInfor">
+                <h1>请输入您收到邀请注册信的手机号，QQ号，或邮箱</h1>
+                <input type="text" class="baseInfor_input" style="width:300px;" name="invite_code" />
+            </div>
+        </div>
+        <div class="blod_js">
+            <input type="hidden" name="m" value="Home" />
+            <input type="hidden" name="c" value="Register" />
+            <input type="hidden" name="a" value="index" />
+            <input type="submit" class="btn" value="确 定" />
+            <a href="{:U('Home/Register/index')}">没 有</a>
+        </div>
+    </form>
+</div>
+
 <script type="text/javascript">
 
 $(document).ready(function(){
 
+$('.regsiter_bt').click(function(){
+    $.layer({
+        type: 1,
+        title: '邀请信息',
+        border : [5, 0.5, '#666'],
+        area: [400,200],
+        shadeClose: true,
+        page: {dom: '#invite_pop'}
+    });
+});
 
  $("#login_form").keydown(function(e){
    var e = e || event,

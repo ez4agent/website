@@ -24,6 +24,8 @@ class RegisterController extends BaseController
     public function index()
     {
         if(!$this->auth()->member_id){
+            $invite_code = isset($_GET['invite_code']) ? trim($_GET['invite_code']) : '';
+            $this->assign('invite_code',$invite_code);
             $this->assign('country',country());
             $this->display();
         }else{
@@ -50,8 +52,8 @@ class RegisterController extends BaseController
             $country_id = isset($_POST['country_id']) ? intval($_POST['country_id']): 0;
             $area_id = isset($_POST['area_id']) ? intval($_POST['area_id']): 0;
             $city_id = isset($_POST['city_id']) ? intval($_POST['city_id']): 0;
-            $is_show = isset($_POST['is_show']) && in_array($_POST['is_show'],array(0,1,2)) ? intval($_POST['is_show']): 0;
-
+            //$is_show = isset($_POST['is_show']) && in_array($_POST['is_show'],array(0,1,2)) ? intval($_POST['is_show']): 0;
+            $is_show = 1;
             $country_num = isset($_POST['country_num']) ? trim($_POST['country_num']): '';
             $qu_num = isset($_POST['qu_num']) ? trim($_POST['qu_num']): '';
             $phone = isset($_POST['phone']) ? trim($_POST['phone']): '';
@@ -61,6 +63,7 @@ class RegisterController extends BaseController
             $address = isset($_POST['address']) ? trim($_POST['address']): '';
 
             $introduction = isset($_POST['introduction']) ? trim($_POST['introduction']): '';
+            $invite_code = isset($_POST['invite_code']) ? trim($_POST['invite_code']): '';
 
             $errors = array();
 
@@ -92,6 +95,11 @@ class RegisterController extends BaseController
                 $errors[] = array('message'=>'请输入真实姓名','label' => 'realname');
             }
 
+            if($member_type == 1 && empty($phone)){
+                $errors[] = array('message'=>'请输入固定电话','label' => 'phone');
+            }elseif($member_type == 2 && empty($mobile_num)){
+                $errors[] = array('message'=>'请输入移动电话','label' => 'mobile_num');
+            }
 
             if(!empty($errors)){
                 $this->ajaxReturn(array('error'=>101,'response'=>$errors));
@@ -115,7 +123,8 @@ class RegisterController extends BaseController
                 'introduction'=>htmlspecialchars($introduction),
                 'login_time'=>time(),
                 'login_ip'=> get_client_ip(),
-                'login_times' => 1
+                'login_times' => 1,
+                'invite_code' => $invite_code
             );
 
             //处理用户数据
@@ -128,12 +137,18 @@ class RegisterController extends BaseController
             else
             {
 
-                session('signup_user', array(
-                    'username' => $username,
-                    'password' => $pwd
-                ));
 
-                $this->ajaxReturn(array('error'=>0,'response'=>'/index.php?m=Home&c=Auth&a=certifiemail'));
+
+                if($invite_code){
+                    $this->ajaxReturn(array('error'=>0,'invite_confirm'=>1,'response'=>'账户审核需大约1-3个工作日， 谢谢您的注册'));
+                }else{
+                    session('signup_user', array(
+                        'username' => $username,
+                        'password' => $pwd
+                    ));
+                    $this->ajaxReturn(array('error'=>0,'response'=>'/index.php?m=Home&c=Auth&a=certifiemail'));
+                }
+
                 exit();
                 /*
                 //登陆信息

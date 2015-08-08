@@ -97,9 +97,10 @@ class MemberModel extends Model
         $member_id = $this->insert_data('member', array(
                           'username'=>trim($data['username']),
                           'pwd'     =>md5($data['pwd']),                 
-                          'is_open' =>1,
-                          'grade'   =>1,
+                          'is_open' => $data['invite_code'] ? 1 : 0,
+                          'grade'   => 1,
                           'certifiemail' => 0,
+                          'invite_code' => $data['invite_code'],
                           'add_time' =>time(),
                        ));
         if($member_id)

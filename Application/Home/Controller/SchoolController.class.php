@@ -29,6 +29,7 @@ class SchoolController extends FrontbaseController
     public function _query_condition()
     {
         //查询数据库的筛选条件
+        $college_ids = array();
         $where['condition']=array();
         $where['webshow']=array();
         //国家
@@ -63,13 +64,10 @@ class SchoolController extends FrontbaseController
             $college_id = M('college_education')->where('education='.$education)->field('college_id')->select();
             if(!empty($college_id))
             {
-                $html = '';
-                foreach($college_id as $key=>$val)
-                {
-                    $html.=$val['college_id'].',';
+                foreach($college_id as $key=>$val){
+                    $college_ids[] = $val['college_id'];
                 }
             }
-            $where['condition']['college_id']=array('in',$html);
         }
         
         //关键字
@@ -78,7 +76,23 @@ class SchoolController extends FrontbaseController
         {
             $where['condition']['_string'] = ' (cname like "%'.$keyword.'%")  OR ( ename like "%'.$keyword.'%") ';
         }
-        
+
+        //有合作的院校
+        $partnerRows = M('partner_college')->group('college_id')->select();
+        $partner_college_ids = array();
+        foreach($partnerRows as $v){
+            $partner_college_ids[] = $v['college_id'];
+        }
+
+        if(!empty($college_ids)){
+            $college_ids = array_intersect($partner_college_ids,$college_ids);
+        }else{
+            $college_ids = $partner_college_ids;
+        }
+
+        $where['condition']['college_id'] = array('in',$college_ids);
+
+
         return $where;
     }
     
