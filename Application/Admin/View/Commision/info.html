@@ -1,0 +1,62 @@
+<h3>{$college_name} 佣金方案</h3>
+<admin:panel >
+  <admin:form url="{:U()}" method="post" id="form"  class="m-form-horizontal" >
+      <admin:formrow title="选择学历：" >
+          <select name="education" class="form-element">
+              <foreach name="educations" item="vo">
+                  <option value="{$vo.education}" <if condition="$info.education == $vo['education']"> selected="selected" </if> >{$vo.name}
+                  </option>
+              </foreach>
+          </select>
+      </admin:formrow>
+    <admin:formrow title="所属规则：" >
+      <select name="rule_id" class="form-element" id="rule_id">
+        <foreach name="rules" item="vo">
+            <option value="{$vo.id}" <if condition="$info.rule_id == $vo['id']"> selected="selected" </if> >{$vo.rule_name}
+          </option>
+        </foreach>
+      </select>
+    </admin:formrow>
+    <admin:formrow title="支付周期：" >
+      <admin:text name="pay_length"  value="{$info.pay_length}" len="10" width="mini" datatype="*"  /> 周
+    </admin:formrow>
+      <admin:formrow title="返佣方式：">
+          <label>
+              <input type="radio" name="commision_type" value="1" <?php if($info['commision_type'] == 1){ ?> checked="checked" <?php } ?> > <span>比例</span>
+          </label>
+          <label>
+              <input type="radio" name="commision_type" value="2" <?php if($info['commision_type'] == 2){ ?> checked="checked" <?php } ?> > <span>金额</span>
+          </label>
+      </admin:formrow>
+      <admin:formrow title="人数区间：">
+          <admin:text name="apply_min"  value="{$info.apply_min}" len="10" width="mini" datatype="*"  />
+          -
+          <admin:text name="apply_max"  value="{$info.apply_max}" len="10" width="mini" datatype="*"  />
+      </admin:formrow>
+      <admin:formrow title="入学日期：">
+          <admin:text name="enroll_time_start"  value="{$info.enroll_time_start}" width="mini" len="20" datatype="*" />
+          -
+          <admin:text name="enroll_time_end"  value="{$info.enroll_time_end}" width="mini" len="20" datatype="*"  />
+      </admin:formrow>
+      <admin:formrow title="第一：">
+          <admin:text name="first_pay"  value="{$info.first_pay}" width="mini" len="10" datatype="*"  />
+      </admin:formrow>
+      <admin:formrow title="后续：">
+          <admin:text name="after_pay"  value="{$info.after_pay}" width="mini" len="10" datatype="*"  />
+      </admin:formrow>
+      <admin:formrow title="附加金额：">
+          <admin:text name="ext_price"  value="{$info.ext_price}" width="mini" len="10" datatype="*"  />
+      </admin:formrow>
+      <admin:formsubmit/>
+      <admin:text name="college_id" type="hidden"  value="{$college_id}"  />
+    <admin:text name="id" type="hidden"  value="{$info.id}"  />
+  </admin:form>
+</admin:panel>
+<script type="text/javascript">
+Do.ready('base',function() {
+	$('#form').duxForm();
+});
+
+
+
+</script>

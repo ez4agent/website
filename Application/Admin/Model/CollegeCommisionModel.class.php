@@ -2,28 +2,33 @@
 namespace Admin\Model;
 use Think\Model;
 
-class CommisoinModel extends Model
+class CollegeCommisionModel extends Model
 {
 
     public function countList($where = array())
     {
-        return M('commision')->where($where)->count();
+        return M('college_commision')->where($where)->count();
     }
     
     public function loadList($where = array(), $limit = 0)
     {  
-        $data  = M('commisoin')->where($where)->limit($limit)->select();
+        $data  = M('college_commision')->where($where)->limit($limit)->select();
+        $education_conf=C('Education_TYPE');
+        foreach($data as $k => $v){
+            $v['education_name'] = $education_conf[$v['education']];
+            $data[$k] = $v;
+        }
         return $data;
     }
     
     public function get_info($id)
     {
-        return M('commisoin')->where('id='.$id)->find();
+        return M('college_commision')->where('id='.$id)->find();
     }
     
     public function del_info($id)
     {
-        return M('commisoin')->where('id='.$id)->delete();
+        return M('college_commision')->where('id='.$id)->delete();
     }
     
     /**

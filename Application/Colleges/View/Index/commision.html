@@ -1,0 +1,59 @@
+<h3>{$college_name} 返佣设置</h3>
+<admin:panel title="设置规则" body="1">
+    <admin:form url="{:U()}" method="post" id="form"  class="m-form-horizontal" >
+        <admin:formrow title="选择学历：" >
+            <select name="education" class="form-element">
+                <foreach name="educations" item="vo">
+                    <option value="{$vo.education}" <if condition="$info.education == $vo['education']"> selected="selected" </if> >{$vo.name}
+                    </option>
+                </foreach>
+            </select>
+        </admin:formrow>
+        <admin:formrow title="支付方式：" >
+            <select name="commision" class="form-element">
+                <foreach name="commisions" item="vo">
+                    <option value="{$vo.id}" <if condition="$info.commision_id == $vo['id']"> selected="selected" </if> >{$vo.rule_name}
+                    </option>
+                </foreach>
+            </select>
+        </admin:formrow>
+        <admin:formrow title="选择规则：" >
+            <select name="commision" class="form-element">
+                <foreach name="commisions" item="vo">
+                    <option value="{$vo.id}" <if condition="$info.commision_id == $vo['id']"> selected="selected" </if> >{$vo.rule_name}
+                    </option>
+                </foreach>
+            </select>
+        </admin:formrow>
+        <admin:text name="action" type="hidden"  value="add"  />
+        <admin:text name="college_id" type="hidden"  value="{$college_id}"  />
+        <admin:text name="id" type="hidden"  value="{$info.id}"  />
+        <admin:formsubmit/>
+    </admin:form>
+</admin:panel>
+<admin:panel title="规则列表" body="1">
+    <admin:table id="table" show="编号|30,学历名称|150,规则名称|150,操作|120">
+        <foreach name="commision_arr" item="vo">
+            <tr>
+                <td>{$vo.iid}</td>
+                <td>{$vo.name}</td>
+                <td>{$vo.rule_name}</td>
+                <td>
+                    <a class="u-btn u-btn-primary  u-btn-small" href="{:U('commision',array('college_id'=>$vo['college_id'],'id'=>$vo['iid']))}">修改</a>
+                    <a class="u-btn u-btn-danger  u-btn-small del" href="javascript:;" data="{$vo.iid}">删除</a>
+                </td>
+            </tr>
+        </foreach>
+    </admin:table>
+</admin:panel >
+
+<script type="text/javascript">
+    Do.ready('base',function() {
+        $('#form').duxForm();
+
+        //表格处理
+        $('#table').duxTable({
+            deleteUrl: "{:U('commision',array('action'=>'del'))}"
+        });
+    });
+</script>

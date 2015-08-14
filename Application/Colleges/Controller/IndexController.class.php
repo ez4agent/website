@@ -525,4 +525,110 @@ class IndexController extends AdminController
         }
         return $num;
     }
+
+    public function commision(){
+
+        $action = I('get.action','','trim');
+
+        if(!IS_POST)
+        {
+            $college_id = I('get.college_id',0,'intval');
+            $id = I('get.id',0,'intval');
+
+            $education_conf=C('Education_TYPE');
+
+            $commison_arr = array();
+            $education_rows = M('crm_college_commision')->table('crm_college_commision c')
+                ->join('INNER JOIN crm_college_education e on c.college_id=e.college_id and e.education = c.education')
+                ->join('LEFT JOIN crm_commision cm on cm.id=c.commision_id')
+                ->where(array('e.college_id'=>$college_id))->field('e.*,c.id as iid,c.commision_id,cm.rule_name')->order('c.education asc')->select();
+
+            foreach($education_rows as $r){
+                $r['name'] = $education_conf[$r['education']];
+                $commison_arr[] = $r;
+            }
+
+            $college_name = getField_value('college','cname',array('college_id'=>$college_id));
+
+            $education_rows = M('college_education')->where(array('college_id'=>$college_id))->select();
+            $educations = array(
+                array(
+                    'education'=>0,
+                    'name'=>'请选择'
+                )
+            );
+
+            foreach($education_rows as $r){
+                $r['name'] = $education_conf[$r['education']];
+                $educations[] = $r;
+            }
+
+            $rows = M('commision')->select();
+            $commisions = array(
+                array(
+                    'id'=>0,
+                    'rule_name'=>'请选择'
+                )
+            );
+            foreach($rows as $v){
+                $commisions[] = array(
+                    'id' => $v['id'],
+                    'rule_name' => $v['rule_name'],
+                );
+            }
+
+            $info = array();
+            if($id){
+                $info = M('college_commision')->where(array('id'=>$id))->find();
+            }
+
+            $pay_type = C('pay_type');
+
+            $breadCrumb = array('院校大全'=>U('index'),$college_name =>U('edit',array('college_id'=>$id)),'返佣设置'=>U());
+            $this->assign('college_id',$college_id);
+            $this->assign('college_name',$college_name);
+            $this->assign('commision_arr',$commison_arr);
+            $this->assign('commisions',$commisions);
+            $this->assign('educations',$educations);
+            $this->assign('pay_type',$pay_type);
+            $this->assign('info',$info);
+            $this->assign('breadCrumb',$breadCrumb);
+            $this->adminDisplay();
+        }elseif($action == 'del') {
+            $id = I('post.data',0,'intval');
+            if(empty($id)){
+                $this->error('参数不能为空！');
+            }
+
+            if(M('college_commision')->where('id='.$id)->delete()){
+                $this->success('删除成功！');
+            }else{
+                $this->error('删除失败！');
+            }
+        }elseif($action == 'add') {
+            $college_id = I('post.college_id',0,'intval');
+            $id = I('post.id',0,'intval');
+            $education = I('post.education',0,'intval');
+            $commision = I('post.commision',0,'intval');
+
+            $update = array(
+                'college_id' => $college_id,
+                'commision_id'=>$commision,
+                'education'=>$education
+            );
+
+            if($id){
+                $res = M('college_commision')->where('id='.$id)->save($update);
+            }else{
+                $res = M('college_commision')->add($update);
+            }
+
+            if(!$res){
+                $this->error('操作失败！');
+                exit();
+            }
+
+            $this->success('操作成功！');
+        }
+    }
 }

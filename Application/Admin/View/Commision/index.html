@@ -1,0 +1,26 @@
+<h3>{$college_name} 佣金方案</h3>
+<admin:panel >
+<admin:table id="table" show="编号|80,学历,规则名称,人数区间,返佣方式,第一,后续,附加金额,操作|130">
+  <foreach name="list" item="vo">
+    <tr>
+      <td>{$vo.id}</td>
+      <td>{$vo.education_name}</td>
+      <td>{$vo.rule_id}</td>
+      <td>{$vo.apply_min}-{$vo.apply_max}</td>
+        <td>{$vo.commision_type}</td>
+        <td>{$vo.first_pay}</td>
+        <td>{$vo.after_pay}</td>
+        <td>{$vo.ext_price}</td>
+      <td><a class="u-btn u-btn-primary u-btn-small" href="{:U('edit',array('id'=>$vo['id'],'college_id'=>$vo['college_id']))}">修改</a> <a class="u-btn u-btn-danger u-btn-small del" href="javascript:;" data="{$vo.id}">删除</a></td>
+    </tr>
+  </foreach>
+</admin:table>
+<admin:tablefoot action="false" />
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#table').duxTable({
+		deleteUrl: "{:U('del',array('college_id'=>$college_id))}"
+	});
+});
+</script>

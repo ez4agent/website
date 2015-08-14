@@ -15,7 +15,7 @@
         </select>
   	<admin: />
   </admin:tabletool>
-  <admin:table id="table" show="选择|30,编号|30,院校名称|150,所在地|80,院校类型|80,官网|150,求助|60,操作|80">
+  <admin:table id="table" show="选择|30,编号|30,院校名称|150,所在地|80,院校类型|80,官网|150,求助|60,操作|120">
      <foreach name="list" item="vo">
      <tr>
         <td><input type="checkbox" name="id[]" value="{$vo.college_id}" /></td>
@@ -27,6 +27,7 @@
         <td><a href="{:U('help',array('college_id'=>$vo['college_id']))}"><font color="#FF0000">{$vo.num}</font></a></td>
         <td>
         <a class="u-btn u-btn-primary  u-btn-small" href="{:U('edit',array('college_id'=>$vo['college_id']))}">修改</a>
+        <a class="u-btn u-btn-primary  u-btn-small" href="{:U('Admin/Commision/index',array('college_id'=>$vo['college_id']))}">返佣</a>
         <a class="u-btn u-btn-danger  u-btn-small del" href="javascript:;" data="{$vo.college_id}">删除</a>
         </td>
      </tr>

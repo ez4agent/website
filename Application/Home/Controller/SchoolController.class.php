@@ -418,7 +418,114 @@ class SchoolController extends FrontbaseController
            $this->ajaxReturn(array('status'=>'yes','str'=>$str,'total'=>$total));
         }
     }
-    
+
+
+    //获取佣金分享按学历
+    public function share_info_byselect2()
+    {
+        if(IS_AJAX)
+        {
+            $select = I('post.select',0,'intval');
+            $college_id = I('post.college_id',0,'intval');
+            $stu_id = I('post.stu_id',0,'intval');
+            $page = isset($_POST['page'])?intval($_POST['page']):1;
+            $pagesize =isset($_POST['items_per_page'])?intval($_POST['items_per_page']):8;
+            //获取总条数
+            $map = array('college_id'=>$college_id,'apply_id'=>$select);
+            $total = M('partner_college_commission')->where($map)->count();
+            //获取commission_id
+            $array = $this->partner_mod->get_share_college($college_id, $select);
+            $pay_type = C('pay_type');
+
+            $str ="<table width='100%'>
+                    <thead>
+                         <tr>
+                            <th width='15%' height='25px'><strong>中介</strong></th>
+                            <th width='15%' height='25px'><strong>支付方式</strong></th>
+                            <th width='40%' height='25px' style='padding:0px;'>
+                                <div style='width:100%; height:20px; border-bottom:1px #eee solid; padding:5px 0 3px 0;'>
+                                    <span><strong>佣金分享</strong></span>
+                                </div>
+                                <table width='100%' style='border:none'>
+                                    <tr>
+                                        <th width='25%' height='20px' style='border:none;border-right:1px #eee solid;'><strong>百分比</strong></th>
+                                        <th width='25%' height='20px' style='border:none;border-right:1px #eee solid;'><strong>长度</strong></th>
+                                        <th width='25%' height='20px' style='border:none;border-right:1px #eee solid;'><strong>规则</strong></th>
+                                        <th width='25%' height='20px' style='border:none;'><strong>固定金额</strong></th>
+                                    </tr>
+                                </table>
+                            </th>
+                            <th width='10%' height='25px'><strong>支付周期</strong></th>
+                            <th width='10%' height='25px'><strong>备注</strong></th>
+                            <th width='10%' height='25px'><strong>操  作</strong></th>
+                            </tr>
+                         </thead>
+                         <tbody>";
+            if(empty($array))
+            {
+                if($stu_id!=0)
+                {
+                    $str.="<tr><td colspan='7' height='30px' align='center'><strong>无分享信息,请点
+                          <input id='upload_info' class='updatabtn' type='button' value='帮助' onClick='college_help(".$college_id.");' />
+                          &nbsp;&nbsp;<a href='".U('Home/Student/index',array('stu'=>$stu_id))."'><input class='updatabtn' type='button' value='返回'/></a>
+                          </strong></td></tr>";
+                }
+                else
+                {
+                    $str.="<tr><td colspan='7' height='30px' align='center'><strong>无分享信息,请点
+                          <input id='upload_info' class='updatabtn' type='button' value='帮助' onClick='college_help(".$college_id.");' />
+                          &nbsp;&nbsp;<a href='".U('Home/Student/index')."'><input class='updatabtn' type='button' value='返回'/></a>
+                          </strong></td></tr>";
+                }
+            }
+            else
+            {
+                foreach($array as $key=>$val)
+                {
+                    $share_length = "--";
+                    if($val['pay_type'] == 2){
+                        $share_length = $val['share_length']. "学期";
+                    }elseif($val['pay_type'] == 1){
+                        $share_length = $val['share_length']. "学年";
+                    }
+
+                    $share_desc = !empty($val['share_desc']) ? '<a href="javascript:;" class="desc_show">查看</a>' : '无';
+
+                    $str.="<tr>
+                             <td height='30px'><strong><a href='javascript:void(0);' onclick='view_member(".$val['member_id'].");'>".$val['username']."</a></strong></td>
+                             <td height='30px'><strong>".$pay_type[$val['pay_type']]."</strong></td>
+                             <td height='30px' style='padding:0px;'>
+                                 <table width='100%'  style='border:none;'>
+                                 <tr>
+                                     <th width='25%' height='35px;' style='border:none;border-right:1px #eee solid;padding:0px;'>
+                                     ".$val['share_ratio']." %
+                                     </th>
+                                     <th width='25%' height='35px;' style='border:none;padding:0px;border-right:1px #eee solid;'>
+                                     ".$share_length."
+                                     </th>
+                                     <th width='25%' height='35px;' style='border:none;padding:0px;border-right:1px #eee solid;'>
+                                     且不高于
+                                     </th>
+                                     <th width='25%' height='35px;' style='border:none;padding:0px;'>
+                                     ".($val['set_price'] > 0 ? "$".$val['set_price'] : '')."
+                                     </th>
+                                 </tr>
+                                 </table>
+                             </td>
+                             <td height='30px'>".$val['pay_cycle']." 周</td>
+                             <td height='30px'>".$share_desc."<div style='display:none' class='share_desc'>".stripslashes (htmlspecialchars ($val['share_desc']))."</div></td>";
+                    $str.="<td><input id='upload_info' class='updatabtn' type='button' value='申请'
+                    onClick='college_apply_header(".$college_id.",".$val['commission_id'].");'
+                  /></td>";
+                    $str.="</tr>";
+                }
+            }
+            $str.="</tboby></table>";
+            $this->ajaxReturn(array('status'=>'yes','str'=>$str,'total'=>$total));
+        }
+    }
+
+
     //读取合作院校信息列表
     public function get_partner_info($member_id)
     {
