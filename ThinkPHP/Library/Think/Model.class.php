@@ -863,6 +863,7 @@ class Model {
         }elseif(is_object($data)){
             $data   =   get_object_vars($data);
         }
+
         // 验证数据
         if(empty($data) || !is_array($data)) {
             $this->error = L('_DATA_TYPE_INVALID_');

@@ -40,11 +40,13 @@ var stu_id = '{$stu_id}';
                           <div class="c_tem_text fl">
                               <span>基本信息</span>
                           </div>
+                          <!--
                           <if condition="($add eq 0) and ($flag neq 'apply')">
                           	<div class="c_tem_text fl" style="float:right">
 							 	<p><input class="updatabtn" value="添加合作院校" type="button" onClick="add_partner({$info.college_id},'{:U('school/add_partner')}');"> </p>
 						  	</div>
-                          </if>							
+                          </if>
+                          -->
                       </div>
                       <div class="">
                           <div class="newPa">
@@ -75,6 +77,25 @@ var stu_id = '{$stu_id}';
                       </div>
                       <div class=" message_rc">
                           <div class="c_tem_text fl">
+                              <span>附件下载</span>
+                          </div>
+                      </div>
+                      <div class="baseInfor">
+                          <table cellspacing="0" cellpadding="0" class="filetable">
+                              <tbody>
+                              <volist name='attachArr' id="vo">
+                              <tr>
+                                  <td>{$vo.title}</td>
+                                  <td>
+                                      <a target="_blank" class="file_a opacity8" href="{$vo.file_url}"><span>查看/下载</span></a>
+                                  </td>
+                              </tr>
+                              </volist>
+                              </tbody>
+                          </table>
+                      </div>
+                      <div class=" message_rc">
+                          <div class="c_tem_text fl">
                               <span>学历选项</span>
                           </div>							
                       </div>
@@ -92,8 +113,8 @@ var stu_id = '{$stu_id}';
                       </div>
                       <div class=" message_rc">
                           <div class="c_tem_text fl">
-                              <span>佣金分享</span>
-                          </div>							
+                              <span>数据统计</span>
+                          </div>
                       </div>
                       <div class="baseInfor" style="padding: 0">
                       	 <div class="div_inTab" style="padding-bottom:20px;margin: 0">
@@ -117,7 +138,7 @@ var stu_id = '{$stu_id}';
                             		<strong><span style="color:#F00">请选择学历来查看分享信息！</span></strong>
                                 	</div>
                                 </if>
-                                
+
                             </div>
                             <input id="reg_from_url" type="hidden" value="{:U('Home/Apply/get_header_apply_url')}" >
                             <input id="stu" type="hidden" value="{$stu_id}" />

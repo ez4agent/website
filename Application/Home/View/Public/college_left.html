@@ -4,7 +4,7 @@
 						<em class="font18 ffyh fl">院校分类</em>
 					</h2>
 					<div class="con_item_c">
-						
+						<!--
 						<div class="c_tem school_type">
 							<div class="c_tem_text stuInfo_text ">
 								<div class="c_tem_text_inner clearfix">									
@@ -29,15 +29,15 @@
                                 </volist>
 							</ul>
 						</div>
-                        <if condition="$flag neq 'apply'">
+						-->
 						<div class="c_tem school_type">
 							<div class="c_tem_text stuInfo_text">
 								<div class="c_tem_text_inner clearfix">									
-									<span class="fl">已申请院校</span><i class="icon fr"></i>
+									<span class="fl">已申请院校</span><i class="icon fr active"></i>
 								</div>								
 							</div>							
 						</div>
-						<div class="school_list_left school_left_ac">
+						<div class="school_list_left school_left_ac"  style="display: block;">
 							<ul>
                             	<volist name="apply" id="vo">
 								<li>
@@ -53,6 +53,7 @@
 								</volist>
 							</ul>
 						</div>
+
 						<div class="c_tem school_type">
 							<div class="c_tem_text stuInfo_text">
 								<div class="c_tem_text_inner clearfix">									

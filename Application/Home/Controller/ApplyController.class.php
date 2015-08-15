@@ -192,7 +192,7 @@ class ApplyController extends FrontbaseController
             $college_id = I('post.college_id',0,'intval');
             $commission_id = I('post.commission_id',0,'intval');
             $stu = I('post.stu','','intval');
-            
+            /*
             //首先判断是否是自己的合作院校
             $Cooperation = $this->apply_mod->check_Cooperation($this->member_id,$college_id);
             if($Cooperation==1) //是自己的合作院校
@@ -219,7 +219,12 @@ class ApplyController extends FrontbaseController
                       'commission_id'=>$commission_id,'stu'=>$stu));
                 echo $this->ajaxReturn(array('status'=>'yes','url'=>$url));
                 exit();
-            }  
+            }*/
+
+            $url =U('Home/Apply/index',array('college_id'=>$college_id,
+                'commission_id'=>$commission_id,'stu'=>$stu));
+            echo $this->ajaxReturn(array('status'=>'yes','url'=>$url));
+            exit();
         }
     }
 

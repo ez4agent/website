@@ -1,0 +1,31 @@
+<h3>{$college_name} 附件列表</h3>
+<admin:panel >
+  <admin:form url="{:U()}" method="post" id="form"  class="m-form-horizontal" >
+    <admin:formrow title="附件名称：" >
+        <admin:text name="title"  value="{$info.title}" len="10" datatype="*"  />
+    </admin:formrow>
+    <admin:formrow title="上传附件：" >
+        <admin:text name="file_path" type="text" value="{$info.file_path}" len="250" width="medium" />
+        <a class="u-btn u-btn-primary" data="file_path" href="javascript:;" id="upload">上传</a>
+      </admin:formrow>
+      <admin:formsubmit/>
+      <admin:text name="college_id" type="hidden"  value="{$college_id}"  />
+    <admin:text name="id" type="hidden"  value="{$info.id}"  />
+  </admin:form>
+</admin:panel>
+<script type="text/javascript">
+Do.ready('base',function() {
+	$('#form').duxForm();
+
+    //上传缩略图
+    $('#upload').duxFileUpload({
+        type: 'jpg,png,xlsx,xls,doc,docx',
+        complete: function (data) {
+            //$('#content_image').attr('src', data.url);
+        }
+    });
+});
+
+
+
+</script>

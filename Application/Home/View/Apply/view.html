@@ -52,8 +52,9 @@ var hl_url = "{:U('Home/Order/hl')}";
 					</tr>
                     <tr>
 						<td height="30px">学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;历：<strong>{$apply_info['apply_name']}</strong></td>
-						<td height="30px">申请专业：{$apply_info['profession']}</td>
+						<td height="30px"><!--申请专业：{$apply_info['profession']}--></td>
 					</tr>
+                    <!--
                     <tr>
 						<td height="30px">分享比例：<strong>{$apply_info['commission']['share_value']}</strong>
                         </td>
@@ -63,10 +64,12 @@ var hl_url = "{:U('Home/Order/hl')}";
                           </if> / {$apply_info['commission']['pay_cycle']}{$apply_info['commission']['unit']}
                         </td>
 					</tr>
+					-->
                     <tr>
 						<td height="30px">入学时间：{$apply_info['start_time']|date='Y/m/d',###}</td>
 						<td height="30px">申请时间：{$apply_info['add_time']|date='Y/m/d',###}</td>
 					</tr>
+                    <!--
                     <if condition="$apply_info['apply_type'] eq 2">
                     <tr>
 						<td height="30px">输送中介：<strong>{$apply_info['intermediary_name']}</strong></td>
@@ -78,6 +81,7 @@ var hl_url = "{:U('Home/Order/hl')}";
 						<td height="30px">&nbsp;</td>
 					</tr>
                     </if>
+                    -->
                     </tbody>
                     </table>
                 </div>

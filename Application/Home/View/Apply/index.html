@@ -51,6 +51,7 @@
                     <th height="30px;" width="50%"><span style="font-size:12px;">院校名称：{$college_info.ename}</span></th>
                     <th height="30px;" width="50%"><span style="font-size:12px;">学历名称：{$commission_info.education}</span></th>
                 </tr>
+                <!--
                 <if condition="$Cooperation eq 0">
                 <tr>
                 	<th height="30px" width="50%">
@@ -89,6 +90,7 @@
                     <th height="30px" width="50%"></th> 
                 </tr>
                 </if>
+                -->
                 </tbody>
                 </table>
                 </div>
@@ -111,10 +113,12 @@
                         &nbsp;&nbsp;&nbsp;<input type="button" onClick="add_stu(0,'/index.php?m=Home&c=Student&a=get_infoBystu_id');"  value="添加新生" class="updatabtn">
                         </td>
                     </tr>
+                    <!--
                     <tr>
                         <th width="10%" height="30px;"><span style="font-size:12px;">申请专业：</span></th>
                         <td width="90%" height="30px;"><input class="baseInfor_input birthday_input" type="text" id="profession" name="profession" value="" ></td>
                     </tr>
+                    -->
                     <tr>
                         <th width="10%" height="30px;"><span style="font-size:12px;">入学时间：</span></th>
                         <td width="90%" height="30px;"><input class="baseInfor_input birthday_input" type="text" id="start_time" name="start_time" placeholder="年/月/日" ></td>

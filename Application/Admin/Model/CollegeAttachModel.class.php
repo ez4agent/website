@@ -1,34 +1,29 @@
 <?php
-namespace Home\Model;
+namespace Admin\Model;
 use Think\Model;
 
-class CollegeCommisionModel extends Model
+class CollegeAttachModel extends Model
 {
 
     public function countList($where = array())
     {
-        return M('college_commision')->where($where)->count();
+        return M('college_attach')->where($where)->count();
     }
     
     public function loadList($where = array(), $limit = 0)
     {  
-        $data  = M('college_commision')->where($where)->limit($limit)->select();
-        $education_conf=C('Education_TYPE');
-        foreach($data as $k => $v){
-            $v['education_name'] = $education_conf[$v['education']];
-            $data[$k] = $v;
-        }
+        $data  = M('college_attach')->where($where)->limit($limit)->select();
         return $data;
     }
     
     public function get_info($id)
     {
-        return M('college_commision')->where('id='.$id)->find();
+        return M('college_attach')->where('id='.$id)->find();
     }
     
     public function del_info($id)
     {
-        return M('college_commision')->where('id='.$id)->delete();
+        return M('college_attach')->where('id='.$id)->delete();
     }
     
     /**
@@ -39,6 +34,7 @@ class CollegeCommisionModel extends Model
     public function saveData($type='add')
     {
         $data = $this->create();
+
         if(!$data){
             return false;
         }

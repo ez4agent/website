@@ -72,6 +72,7 @@ class SchoolController extends FrontbaseController
         
         //关键字
         $keyword=I('param.keywords','','trim');
+        $where['webshow']['keyword'] = $keyword;
         if(!empty($keyword))
         {
             $where['condition']['_string'] = ' (cname like "%'.$keyword.'%")  OR ( ename like "%'.$keyword.'%") ';
@@ -175,8 +176,11 @@ class SchoolController extends FrontbaseController
             $edu = C('Education_TYPE');
             $select['education']=array('type'=>'education','name'=>$edu[$where['education']]);
         }
-       
-               
+
+        if($where['keyword']){
+            $this->assign('keyword',$where['keyword']);
+        }
+
         $this->assign('select',$select);
     }
     
@@ -302,6 +306,13 @@ class SchoolController extends FrontbaseController
             M('college_view')->add(array('member_id'=>$this->member_id,'college_id'=>$id));
         }
 
+        $attachArr = D('CollegeAttach')->loadList(array('college_id'=>$id));
+        $url = "http://".$_SERVER['HTTP_HOST'];
+        foreach($attachArr as $k =>$v){
+            $attachArr[$k]['file_url'] = $url.$v['file_path'];
+        }
+
+
         $this->assign('add',$is_partner?1:0);
         $this->assign('info',$this->school_mod->get_college_info($id));
         $this->assign('partner',$this->get_partner_info($this->member_id));
@@ -311,6 +322,7 @@ class SchoolController extends FrontbaseController
         $this->assign('share',!empty($share)?$share:0);
         $this->assign('stu_id',$stu_id);
         $this->assign('flag',I('get.flag','','trim'));
+        $this->assign('attachArr',$attachArr);
         $this->display();
     }
 
@@ -427,100 +439,60 @@ class SchoolController extends FrontbaseController
         {
             $select = I('post.select',0,'intval');
             $college_id = I('post.college_id',0,'intval');
-            $stu_id = I('post.stu_id',0,'intval');
-            $page = isset($_POST['page'])?intval($_POST['page']):1;
-            $pagesize =isset($_POST['items_per_page'])?intval($_POST['items_per_page']):8;
-            //获取总条数
-            $map = array('college_id'=>$college_id,'apply_id'=>$select);
-            $total = M('partner_college_commission')->where($map)->count();
-            //获取commission_id
-            $array = $this->partner_mod->get_share_college($college_id, $select);
+
+            $map = array('college_id'=>$college_id,'education'=>$select);
+            $total = D('CollegeCommision')->countList($map);
+            $array = D('CollegeCommision')->loadList($map);
+
             $pay_type = C('pay_type');
 
             $str ="<table width='100%'>
                     <thead>
                          <tr>
-                            <th width='15%' height='25px'><strong>中介</strong></th>
-                            <th width='15%' height='25px'><strong>支付方式</strong></th>
-                            <th width='40%' height='25px' style='padding:0px;'>
-                                <div style='width:100%; height:20px; border-bottom:1px #eee solid; padding:5px 0 3px 0;'>
-                                    <span><strong>佣金分享</strong></span>
-                                </div>
-                                <table width='100%' style='border:none'>
-                                    <tr>
-                                        <th width='25%' height='20px' style='border:none;border-right:1px #eee solid;'><strong>百分比</strong></th>
-                                        <th width='25%' height='20px' style='border:none;border-right:1px #eee solid;'><strong>长度</strong></th>
-                                        <th width='25%' height='20px' style='border:none;border-right:1px #eee solid;'><strong>规则</strong></th>
-                                        <th width='25%' height='20px' style='border:none;'><strong>固定金额</strong></th>
-                                    </tr>
-                                </table>
-                            </th>
-                            <th width='10%' height='25px'><strong>支付周期</strong></th>
-                            <th width='10%' height='25px'><strong>备注</strong></th>
-                            <th width='10%' height='25px'><strong>操  作</strong></th>
+                            <th width='15%' height='25px'><strong>日期</strong></th>
+                            <th width='10%' height='25px'><strong>申请数量</strong></th>
+                            <th width='10%' height='25px'><strong>实际入学</strong></th>
+                            <th width='10%' height='25px'><strong>首年佣金</strong></th>
+                            <th width='10%' height='25px'><strong>首年服务费</strong></th>
+                            <th width='10%' height='25px'><strong>后续年佣金</strong></th>
+                            <th width='10%' height='25px'><strong>后续服务费</strong></th>
+                            <th width='7%' height='25px'><strong>奖励</strong></th>
+                            <th width='8%' height='25px'><strong>详情</strong></th>
                             </tr>
                          </thead>
                          <tbody>";
             if(empty($array))
             {
-                if($stu_id!=0)
-                {
-                    $str.="<tr><td colspan='7' height='30px' align='center'><strong>无分享信息,请点
-                          <input id='upload_info' class='updatabtn' type='button' value='帮助' onClick='college_help(".$college_id.");' />
-                          &nbsp;&nbsp;<a href='".U('Home/Student/index',array('stu'=>$stu_id))."'><input class='updatabtn' type='button' value='返回'/></a>
-                          </strong></td></tr>";
-                }
-                else
-                {
-                    $str.="<tr><td colspan='7' height='30px' align='center'><strong>无分享信息,请点
-                          <input id='upload_info' class='updatabtn' type='button' value='帮助' onClick='college_help(".$college_id.");' />
-                          &nbsp;&nbsp;<a href='".U('Home/Student/index')."'><input class='updatabtn' type='button' value='返回'/></a>
-                          </strong></td></tr>";
-                }
+                $str.="<tr><td colspan='9' height='30px' align='center'><strong>无分享信息,请点
+                      <input id='upload_info' class='updatabtn' type='button' value='帮助' onClick='college_help(".$college_id.");' />
+                      &nbsp;&nbsp;<a href='".U('Home/Student/index')."'><input class='updatabtn' type='button' value='返回'/></a>
+                      </strong></td></tr>";
             }
             else
             {
-                foreach($array as $key=>$val)
-                {
-                    $share_length = "--";
-                    if($val['pay_type'] == 2){
-                        $share_length = $val['share_length']. "学期";
-                    }elseif($val['pay_type'] == 1){
-                        $share_length = $val['share_length']. "学年";
-                    }
-
-                    $share_desc = !empty($val['share_desc']) ? '<a href="javascript:;" class="desc_show">查看</a>' : '无';
-
+                foreach($array as $key=>$val) {
                     $str.="<tr>
-                             <td height='30px'><strong><a href='javascript:void(0);' onclick='view_member(".$val['member_id'].");'>".$val['username']."</a></strong></td>
-                             <td height='30px'><strong>".$pay_type[$val['pay_type']]."</strong></td>
-                             <td height='30px' style='padding:0px;'>
-                                 <table width='100%'  style='border:none;'>
-                                 <tr>
-                                     <th width='25%' height='35px;' style='border:none;border-right:1px #eee solid;padding:0px;'>
-                                     ".$val['share_ratio']." %
-                                     </th>
-                                     <th width='25%' height='35px;' style='border:none;padding:0px;border-right:1px #eee solid;'>
-                                     ".$share_length."
-                                     </th>
-                                     <th width='25%' height='35px;' style='border:none;padding:0px;border-right:1px #eee solid;'>
-                                     且不高于
-                                     </th>
-                                     <th width='25%' height='35px;' style='border:none;padding:0px;'>
-                                     ".($val['set_price'] > 0 ? "$".$val['set_price'] : '')."
-                                     </th>
-                                 </tr>
-                                 </table>
-                             </td>
-                             <td height='30px'>".$val['pay_cycle']." 周</td>
-                             <td height='30px'>".$share_desc."<div style='display:none' class='share_desc'>".stripslashes (htmlspecialchars ($val['share_desc']))."</div></td>";
-                    $str.="<td><input id='upload_info' class='updatabtn' type='button' value='申请'
-                    onClick='college_apply_header(".$college_id.",".$val['commission_id'].");'
-                  /></td>";
-                    $str.="</tr>";
+                             <td height='30px'>".$val['enroll_time_start'] .' - '.$val['enroll_time_end']."</td>
+                             <td height='30px'><strong>".$val['apply_max']."</strong></td>
+                             <td height='30px'>0</td>
+                             <td height='30px'><strong>".$val['first_pay']."</strong></td>
+                             <td height='30px'><strong>".$val['first_service_price']."</strong></td>
+                             <td height='30px'><strong>".$val['after_pay']."</strong></td>
+                             <td height='30px'><strong>".$val['after_service_price']."</strong></td>
+                             <td height='30px'><strong>".$val['ext_price']."</strong></td>
+                             <td height='30px'><a href='javascript:;' class='desc_show'>查看</a></td>
+                           </tr>";
                 }
+
+                $str.="<td colspan='9' height='30px' align='center'>
+                    <input id='upload_info' class='updatabtn' type='button' value='申请' onClick='college_apply_header(".$college_id.",0);'
+                  /></td>";
+                $str.="</tr>";
             }
             $str.="</tboby></table>";
+
+
+
             $this->ajaxReturn(array('status'=>'yes','str'=>$str,'total'=>$total));
         }
     }

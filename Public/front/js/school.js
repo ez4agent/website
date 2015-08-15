@@ -77,6 +77,16 @@ $(function () {
 		window.location.href=myurl.url();
 	})
 
+    $(document).keydown(function(event) {
+
+        if (event.keyCode == "13") {
+            if($("#search_college_name").is(":focus")){
+                $("#icon_search").trigger("click");
+                return;
+            }
+        }
+    });
+
 	var select =$('input[name="edu"]:checked').val();
 	var college_id = $("#college_id").val();
 	var stu_id = $("#stu").val();
@@ -120,13 +130,13 @@ $(function () {
 			alert('请选择学生！');
 			return false;
 		}
-
+/*
 		if(!profession)
 		{ 
 			alert('请填写专业！');
 			return false;
 		}
-
+*/
 		if(!start_time)
 		{ 
 			alert('请填写入学日期');

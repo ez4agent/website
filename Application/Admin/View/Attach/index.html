@@ -1,0 +1,21 @@
+<h3>{$college_name} 附件列表</h3>
+<admin:panel >
+<admin:table id="table" show="编号|80,附件名称,附件路径,操作|130">
+  <foreach name="list" item="vo">
+    <tr>
+      <td>{$vo.id}</td>
+      <td>{$vo.title}</td>
+      <td>{$vo.file_path}</td>
+      <td><a class="u-btn u-btn-primary u-btn-small" href="{:U('edit',array('id'=>$vo['id'],'college_id'=>$vo['college_id']))}">修改</a> <a class="u-btn u-btn-danger u-btn-small del" href="javascript:;" data="{$vo.id}">删除</a></td>
+    </tr>
+  </foreach>
+</admin:table>
+<admin:tablefoot action="false" />
+</admin:panel>
+<script>
+Do.ready('base',function() {
+	$('#table').duxTable({
+		deleteUrl: "{:U('del',array('college_id'=>$college_id))}"
+	});
+});
+</script>
