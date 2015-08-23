@@ -99,13 +99,21 @@ class ApplyController extends FrontbaseController
     //申请页面
     public function index()
     {
-        $college_id = I('get.college_id',0,'intval');//院校ID
-        $commission_id = I('get.commission_id',0,'intval'); //佣金
-        $stu = I('get.stu',0,'intval');
+        $college_id = I('param.college_id',0,'intval');//院校ID
+        $commission_id = I('param.commission_id',0,'intval'); //佣金
+        $edu = I('param.edu',0,'intval');
+        $stu = I('param.stu',0,'intval');
+
+        $education = C('Education_TYPE');
+        if(!isset($education[$edu])){
+            $this->error('非法请求！');
+            exit();
+        }
+
         //获取院校信息
         $college_info =D('School')->get_college_info($college_id);
         //获取佣金记录
-        $commission_info=D('Partner')->get_info_commission_id($college_id,$commission_id);
+        //$commission_info=D('Partner')->get_info_commission_id($college_id,$commission_id);
         //学生附件
         if($stu)
         {
@@ -118,17 +126,21 @@ class ApplyController extends FrontbaseController
         //学生姓名
         $stu_option = D('Stu')->select_stu($stu,$this->member_id,1);
         //判断是不是自己的合作院校
-        $Cooperation = $this->apply_mod->check_Cooperation($this->member_id,$college_id);
+        //$Cooperation = $this->apply_mod->check_Cooperation($this->member_id,$college_id);
         
         $this->assign('college_info',$college_info);
-        $this->assign('commission_info',$commission_info);
+        //$this->assign('commission_info',$commission_info);
         $this->assign('stu_option',$stu_option);
         $this->assign('partner',$this->get_partner_info($this->member_id));
         $this->assign('view',$this->get_view_college($this->member_id));
         $this->assign('apply',$this->get_apply_college($this->member_id));
-        $this->assign('Cooperation',$Cooperation);
+        //$this->assign('Cooperation',$Cooperation);
         $this->assign('stu',$stu);
         $this->assign('country',country());//国家配置
+
+
+        $this->assign('education',$education[$edu]);
+        $this->assign('edu',$edu);
         $this->display();   
     }
     
@@ -138,12 +150,18 @@ class ApplyController extends FrontbaseController
         $apply_id = I('get.apply_id','0','intval');
         $info = $this->apply_mod->get_apply_info($apply_id);
 
+        if(!$info){
+            $this->error('申请记录不存在！');
+            exit();
+        }
+
         if($info['status'] == ApplyModel::APPLY_PAY_WAIT){
             $this->error('未支付！');
             exit();
         }
 
         //佣金信息
+        /*
         $commission= M('stu_apply_education')->where('apply_id='.$apply_id)->find();
         $array = unserialize($commission['commission']);
         $share='';
@@ -156,11 +174,8 @@ class ApplyController extends FrontbaseController
         }
         $commission['share_value'] = $share;
         $info['commission']= $commission;
-        if(!$info)
-        {
-            $this->error('改申请记录不存在！');
-            exit();
-        }
+        */
+
 
         $this->assign('apply_info',$info);
 
@@ -230,6 +245,137 @@ class ApplyController extends FrontbaseController
 
     //申请院校操作
     public function apply_act()
+    {
+        if(IS_AJAX)
+        {
+            $stu_id = I('post.stu_id',0,'intval'); //学生ID
+            $stu_id1= M('stu')->where('id='.$stu_id)->getField('stu_id');
+            $college_id = I('post.college_id',0,'intval'); //院校ID
+
+            $profession = I('post.profession','','trim'); //专业
+            $start_time = I('post.start_time','','trim'); //入学日期
+            $content = I('post.content','','trim');//留言（可以为空）
+            $items = I('post.items','','trim'); //文档字符串，逗号隔开
+            $payment = I('post.payment',0,'intval');
+            $edu = I('post.edu',0,'intval');
+
+            //获取院校信息
+            $college_info =D('School')->get_college_info($college_id);
+            if(!$college_info){
+                echo $this->ajaxReturn(array('status'=>'no','msg'=>'很抱歉,申请的院校不存在！'));
+                exit();
+            }
+
+            $education = C('Education_TYPE');
+            if(!isset($education[$edu])){
+                $this->error('非法请求！');
+                exit();
+            }
+
+
+            if($college_info['apply_price'] == 0 ){
+                $status = ApplyModel::APPLY_START;
+            }elseif($college_info['apply_price'] > 0 && $payment == 1){
+                $status = ApplyModel::APPLY_PAY_WAIT;
+            }elseif($college_info['apply_price'] > 0 && $payment == 2){
+                $status = ApplyModel::APPLY_START;
+            }
+
+            $partner_member =C('SYSTEM_PARTNER_MEMBER');
+
+            $insert_apply = array(
+                'member_stu_id'=> $stu_id,
+                'stu_id'=>$stu_id1,
+                'member_id'=>$this->member_id, //发申请一方
+                'college_id'=>$college_id,
+                'apply_name'=>$education[$edu],
+                'education'=>$edu,
+                'profession'=>$profession,
+                'start_time'=>strtotime($start_time),
+                'intermediary'=> 0,
+                'status'=> $status,
+                'content'=>$content,
+                'apply_type'=> 2,
+                'receive_member'=>$partner_member, //接收申请一方
+                'is_success'=>0,
+                'add_time'=>time(),
+            );
+
+            //附件
+            $file_array = explode(',',$items);
+            if(!empty($file_array))
+            {
+                $file=array();
+                foreach($file_array as $key=>$val)
+                {
+                    $array = M('stu_file')->where(array('stu_id'=>$stu_id,'id'=>$val))->find();
+                    $file[$key] = array(
+                        'stu_id'=>$array['stu_id'],
+                        "file_id" => $array['file_id'],
+                        'file_name'=>$array['file_name'],
+                        'file_path'=>$array['file_path'],
+                    );
+                }
+            }
+            //提交申请操作
+            $apply_id = $this->apply_mod->apply_action($insert_apply,$file);
+
+            if($apply_id)
+            {
+                if( $status == ApplyModel::APPLY_START){
+
+                    $receive = array(
+                        'from_member_id'=>$this->member_id, //推送人
+                        'member_id'=>$partner_member, //接受人
+                        'stu_id'=>$stu_id1,
+                        'apply_id'=>$apply_id,
+                        'college_id'=>$college_id,
+                        'college_name'=>$college_info['ename'],
+                        'education'=>$education[$edu],
+                        'add_time'=>time(),
+                    );
+                    $this->apply_mod->add_stu_receive($receive); //添加学生推送信息表
+                }
+
+                $log = array(
+                    'apply_id'=>$apply_id,
+                    'operate_user_id'=>$this->member_id,
+                    'update_status'=>$status,
+                    'title' => $this->apply_mod->get_status_msg($status),
+                    'operate_content'=>$content,
+                );
+
+                if(!M('college_apply_view')->where(array('member_id'=>$this->member_id,'college_id'=>$college_id))->count())
+                {
+                    M('college_apply_view')->add(array('member_id'=>$this->member_id,'college_id'=>$college_id));
+                }
+
+
+                if(!empty($file)){
+                    $log['file'] = $file;
+                }
+
+                $this->log_mod->add_log($apply_id,$log);
+
+                if( $status == ApplyModel::APPLY_START) {
+                    $jump_url = U('Home/Student/index?stu=' . $stu_id);
+                }else{
+                    $jump_url = U('Home/Order/apply?apply_id=' . $apply_id);
+                }
+                echo $this->ajaxReturn(array('status'=>'yes','msg'=>'申请成功！','url'=>$jump_url));
+                exit;
+            }
+            else
+            {
+                echo $this->ajaxReturn(array('status'=>'no','msg'=>'申请失败,请重新申请!'));
+                exit();
+            }
+        }
+    }
+
+
+    //申请院校操作
+    public function apply_bak_act()
     {
         if(IS_AJAX)
         {

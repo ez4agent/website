@@ -76,6 +76,9 @@ class ApplyModel extends Model
     const VISA_CONFIRM = 21;
     const VISA_PAY_WAIT = 22;
 
+    //入学
+    const ENROLLED_CONFIRM = 25;
+
     //支付
     const PAY_WAIT = 30;
     const PAY_CONFIRM = 31;
@@ -282,11 +285,41 @@ class ApplyModel extends Model
         
         return $msg;      
     }
-    
+
+
+    /**
+     *  申请操作
+     */
+    public function apply_action($data,$file='')
+    {
+        $apply_id = M('stu_apply')->add($data);
+
+        if($apply_id)
+        {
+            //加入附件
+            if(!empty($file))
+            {
+                foreach($file as $key=>$val)
+                {
+                    $insert=array(
+                        'stu_apply_id'=>$apply_id,
+                        'stu_id'=>$val['stu_id'],
+                        'file_id'=>$val['file_id'],
+                        'file_name'=>$val['file_name'],
+                        'file_path'=>$val['file_path'],
+                    );
+                    M('stu_apply_file')->add($insert);
+                }
+            }
+        }
+        return $apply_id;
+    }
+
+
     /**
      *  申请操作 
      */
-    public function apply_action($data,$commission_id,$apply_id1,$file='')
+    public function apply_action_bak($data,$commission_id,$apply_id1,$file='')
     {
         $apply_id = M('stu_apply')->add($data);
         //获取学历信息

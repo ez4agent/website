@@ -49,7 +49,7 @@
                 <tbody>
                 <tr>
                     <th height="30px;" width="50%"><span style="font-size:12px;">院校名称：{$college_info.ename}</span></th>
-                    <th height="30px;" width="50%"><span style="font-size:12px;">学历名称：{$commission_info.education}</span></th>
+                    <th height="30px;" width="50%"><span style="font-size:12px;">学历名称：{$education}</span></th>
                 </tr>
                 <!--
                 <if condition="$Cooperation eq 0">
@@ -203,8 +203,10 @@
              </div>
              </if>
             <div class="blod_js"> 
-      			<input id="commission_id" name="commission_id" type="hidden" value="{$commission_info['commission_id']}" />
-                <input id="college_id" name="college_id" type="hidden" value="{$commission_info['college_id']}" />
+      			<!--<input id="commission_id" name="commission_id" type="hidden" value="{$commission_info['commission_id']}" />
+                <input id="college_id" name="college_id" type="hidden" value="{$commission_info['college_id']}" />-->
+                <input id="edu" name="edu" type="hidden" value="{$edu}" />
+                <input id="college_id" name="college_id" type="hidden" value="{$college_info['college_id']}" />
       			<input id="submit_url1" type="hidden" value="{:U('Home/Apply/apply_act')}"/>
       			<a href="javascript:void(0);" id="apply_act">提交申请</a> 
   			</div>		

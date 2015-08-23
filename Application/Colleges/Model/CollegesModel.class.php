@@ -143,6 +143,20 @@ class CollegesModel extends Model
 				$education[] = array('college_id'=>$college_id,'education'=>$val);
 			}
 			M('college_education')->addAll($education);
+
+
+            $is_partner = isset($data['is_partner'])  && $data['is_partner'] ? 1 :0;
+            //是否合作院校
+            if($is_partner) {
+                $partner_member = C('SYSTEM_PARTNER_MEMBER');
+                M('partner_college')->add(
+                    array(
+                        'member_id' => $partner_member,
+                        'college_id' => $college_id,
+                        'addtime' => time()
+                    ));
+            }
+
             return true;
         } 
         return false;
@@ -216,7 +230,31 @@ class CollegesModel extends Model
         {
         	$education[] = array('college_id'=>intval($data['college_id']),'education'=>$val);
         }
-        M('college_education')->addAll($education); 
+        M('college_education')->addAll($education);
+
+        $is_partner = isset($data['is_partner']) && $data['is_partner'] ? 1 :0;
+        $college_id = intval($data['college_id']);
+        $partner_member =C('SYSTEM_PARTNER_MEMBER');
+
+        //是否合作院校
+        if($is_partner){
+            $partner_college = M('partner_college')->where(array('college_id'=>$college_id,'member_id'=>$partner_member))->find();
+            if(!$partner_college){
+                M('partner_college')->add(
+                    array(
+                        'member_id'=>$partner_member,
+                        'college_id'=>$college_id,
+                        'addtime'=>time()
+                    ));
+            }
+        }else{
+            M('partner_college')->where(
+                array(
+                    'member_id'=>$partner_member,
+                    'college_id'=>$college_id
+                ))->delete();
+        }
+
         return true;
     }
     

@@ -167,11 +167,12 @@ $(function () {
 		var college_id = $("#college_id").val();
 		var commission_id = $("#commission_id").val();
 		var content = $("#content").val();
+        var edu = $("#edu").val();
         var payment = $("input[name=payment]:checked").val();
 		
 		$("#apply_act").html('申请提交中...');
 		$(this).unbind('click');
-		$.post(apply_url,{stu_id:stu_id,college_id:college_id,commission_id:commission_id,profession:profession,
+		$.post(apply_url,{stu_id:stu_id,college_id:college_id,edu:edu,commission_id:commission_id,profession:profession,
 			start_time:start_time,content:content,items:items,payment:payment},function(data){
 			if(data.status=='yes')
 			{ 
@@ -283,12 +284,6 @@ function get_sharebyselectapply(select,college_id,stu_id)
     		{ 
     		    document.getElementById("share_div").innerHTML="";
     		    $("#share_div").append(data.str);
-
-                $("#share_div").find('td a.desc_show').on('click',function(){
-                    var html = $(this).parent().find('.share_desc').html();
-                    layer.alert(html,-1,'备注');
-                });
-
     		    $("#total").val(data.total);
     		}
 

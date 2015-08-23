@@ -44,6 +44,9 @@
         <admin:formrow title="院校简介：">
           <admin:textarea name="content" class="u-editor" rows="5">{$info.introduction|html_out}</admin:textarea>
         </admin:formrow>
+        <admin:formrow title="是否为合作院校：" tip="">
+          <label><input name="is_partner" type="checkbox" value="1" <if condition="$partner_college"> checked="checked" </if> /></label>
+        </admin:formrow>
         <admin:formsubmit/>
       </admin:panel>
     </div>

@@ -18,6 +18,24 @@
 var stu_uplode_file_url = "{:U('Home/Student/upload_StuFile_info',array('type'=>'file'))}";
 var get_log_url = "{:U('Home/Apply/get_log_info')}";
 var hl_url = "{:U('Home/Order/hl')}";
+
+
+function college_commision_view(id){
+    var commision_view_url = "{:U('Home/School/commision_view')}";
+
+    $.post(commision_view_url,{commision:id},function(data){
+        $.layer({
+            type: 1,
+            title: '申请详情',
+            border : [5, 0.5, '#666'],
+            area: [330,450],
+            shadeClose: true,
+            page: {
+                html:data
+            }
+        });
+    });
+}
 </script>
 </head>
 <body>
@@ -84,6 +102,11 @@ var hl_url = "{:U('Home/Order/hl')}";
                     -->
                     </tbody>
                     </table>
+                </div>
+                <div class="baseInfor">
+                    <div style="padding-bottom:20px;margin: 0" class="div_inTab">
+                        <div id="share_div"></div>
+                    </div>
                 </div>
                 <div class="c_tem message_rc">
                     <div class="c_tem_text fl">
@@ -232,6 +255,16 @@ KindEditor.ready(function(K) {
 	});
 });
 
+$(function() {
+    var commision_view_url = "{:U('Home/School/share_info_byselect2')}";
+
+    var college_id = "{$apply_info['college_id']}";
+    var education = "{$apply_info['education']}";
+
+    $.post(commision_view_url, {college_id: college_id,select:education,apply:0}, function (data) {
+        $('#share_div').html(data.str);
+    });
+});
 </script>
 </body>
 </html>

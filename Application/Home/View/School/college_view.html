@@ -19,6 +19,24 @@
 <script type="text/javascript" >
 var member_view_url = "{:U('Home/School/get_user_info')}";
 var stu_id = '{$stu_id}';
+
+    function college_commision_view(id){
+        var commision_view_url = "{:U('Home/School/commision_view')}";
+
+        $.post(commision_view_url,{commision:id},function(data){
+            $.layer({
+                type: 1,
+                title: '申请详情',
+                border : [5, 0.5, '#666'],
+                area: [330,450],
+                shadeClose: true,
+                page: {
+                    html:data
+                }
+            });
+        });
+    }
+
 </script>
 </head>
 <body>
@@ -99,6 +117,7 @@ var stu_id = '{$stu_id}';
                               <span>学历选项</span>
                           </div>							
                       </div>
+                      <form action="{:U('Home/Apply/index')}" method="post">
                       <div class="baseInfor">
                           <div style="width:680px; height:40px; margin-left:8px; ">
                           <div style=" margin:22px 0px 0px 4px;">
@@ -106,7 +125,7 @@ var stu_id = '{$stu_id}';
                            	<input class="apply_id" name="edu" type="radio" value="{$vo['id']}"> <span style=" font-weight:bold">{$vo['name']}</span>&nbsp;&nbsp;&nbsp;&nbsp;
                            </volist>
                            </div>
-                            <input id="college_id" type="hidden" value="{$info.college_id}" />
+                            <input id="college_id" name="college_id" type="hidden" value="{$info.college_id}" />
                             <input id="select_share_url" type="hidden" value="{:U('Home/School/share_info_byselect2')}" />
                             <input id="total" type="hidden" value="" />
                           </div>
@@ -140,11 +159,11 @@ var stu_id = '{$stu_id}';
                                 </if>
 
                             </div>
-                            <input id="reg_from_url" type="hidden" value="{:U('Home/Apply/get_header_apply_url')}" >
-                            <input id="stu" type="hidden" value="{$stu_id}" />
+                            <!--<input id="reg_from_url" type="hidden" value="{:U('Home/Apply/get_header_apply_url')}" >-->
+                            <input id="stu" name="stu" type="hidden" value="{$stu_id}" />
                          </div>
                       </div>
-                      
+                      </form>
                   	  </empty>
                 </div>
             </div>

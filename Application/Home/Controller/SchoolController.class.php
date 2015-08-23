@@ -439,6 +439,7 @@ class SchoolController extends FrontbaseController
         {
             $select = I('post.select',0,'intval');
             $college_id = I('post.college_id',0,'intval');
+            $apply = I('post.apply',1,'intval');
 
             $map = array('college_id'=>$college_id,'education'=>$select);
             $total = D('CollegeCommision')->countList($map);
@@ -480,14 +481,15 @@ class SchoolController extends FrontbaseController
                              <td height='30px'><strong>".$val['after_pay']."</strong></td>
                              <td height='30px'><strong>".$val['after_service_price']."</strong></td>
                              <td height='30px'><strong>".$val['ext_price']."</strong></td>
-                             <td height='30px'><a href='javascript:;' class='desc_show'>查看</a></td>
+                             <td height='30px'><a href='javascript:college_commision_view(\"".$val['id']."\");' class='desc_show'>查看</a></td>
                            </tr>";
                 }
 
-                $str.="<td colspan='9' height='30px' align='center'>
-                    <input id='upload_info' class='updatabtn' type='button' value='申请' onClick='college_apply_header(".$college_id.",0);'
-                  /></td>";
-                $str.="</tr>";
+                if($apply){
+                    $str.="<td colspan='9' height='30px' align='center'>
+                    <input id='upload_info' class='updatabtn' type='submit' value='申请' /></td>";
+                    $str.="</tr>";
+                }
             }
             $str.="</tboby></table>";
 
@@ -495,6 +497,58 @@ class SchoolController extends FrontbaseController
 
             $this->ajaxReturn(array('status'=>'yes','str'=>$str,'total'=>$total));
         }
+    }
+
+    public function commision_view(){
+        $commision_id = I('param.commision',0,'intval');
+
+        $CollegeCommision = D('CollegeCommision')->get_info($commision_id);
+        if(!$CollegeCommision){
+            echo '指定记录不存在';
+            exit;
+        }
+
+        $str ="
+            <div class='commision_view'>
+            <table width='100%'>
+                  <tr>
+                    <th>开学日期：</th><td>".$CollegeCommision['enroll_time_start']."</td>
+                  </tr>
+                  <tr>
+                    <th>申请数量：</th><td>0</td>
+                  </tr>
+                  <tr>
+                    <th>实际入学：</th><td>0</td>
+                  </tr>
+                  <tr>
+                    <td colspan='2'>
+                        <table  width='100%'>
+                              <tr>
+                                <th>首年佣金：</th><td>".$CollegeCommision['first_pay']." %</td>
+                                <th>首年服务费：</th><td>".$CollegeCommision['first_serivce_price']." %</td>
+                              </tr>
+                              <tr>
+                                <th>后续年佣金：</th><td>".$CollegeCommision['after_pay']." %</td>
+                                <th>后续服务费：</th><td>".$CollegeCommision['after_serivce_price']." %</td>
+                              </tr>
+                        </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>奖励：</th><td>".$CollegeCommision['ext_price']."</td>
+                  </tr>
+              </table>
+              <h1>申请名单</h1>
+              <table width='100%' class='apply_commision_list'>
+                  <tr>
+                    <th>中介</th>
+                    <th>申请日期</th>
+                    <th>入学</th>
+                  </tr>";
+
+        $str .= "</table></div>";
+        echo $str;
+        exit;
     }
 
 

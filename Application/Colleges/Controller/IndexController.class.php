@@ -253,6 +253,7 @@ class IndexController extends AdminController
         }else{
             
             if(D('Colleges')->add_data($_POST)){
+
                 $this->success('院校添加成功！');
             }else{
                 $msg = D('Colleges')->getError();
@@ -301,6 +302,11 @@ class IndexController extends AdminController
             			'select'=>$select,
             	);
             }
+
+            //是否合作院校
+            $partner_member =C('SYSTEM_PARTNER_MEMBER');
+            $partner_college = M('partner_college')->where(array('college_id'=>$_info['college_id'],'member_id'=>$partner_member))->find();
+
             //位置导航
             $breadCrumb = array('院校列表'=>U('index'),'修改'=>U());
             $this->assign('name','修改');
@@ -309,10 +315,12 @@ class IndexController extends AdminController
             $this->assign('info',$_info);
             $this->assign('type',$type);
             $this->assign('breadCrumb',$breadCrumb);
+            $this->assign('partner_college',$partner_college);
             $this->adminDisplay('collegeinfo');
         }
         else
         {
+
             if(D('Colleges')->edit_data($_POST)){
                 $this->success('院校修改成功！');
             }else{
