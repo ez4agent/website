@@ -471,10 +471,15 @@ class SchoolController extends FrontbaseController
             }
             else
             {
+
+                $receive_group = array();
+                $stu_receive_count = M('stu_receive')->where(array('college_id'=>$college_id,'education_id'=>$select,'status'=>1))->count();
+
+
                 foreach($array as $key=>$val) {
                     $str.="<tr>
                              <td height='30px'>".$val['enroll_time_start'] .' - '.$val['enroll_time_end']."</td>
-                             <td height='30px'><strong>".$val['apply_max']."</strong></td>
+                             <td height='30px'><strong>".$stu_receive_count."</strong></td>
                              <td height='30px'>0</td>
                              <td height='30px'><strong>".$val['first_pay']."</strong></td>
                              <td height='30px'><strong>".$val['first_service_price']."</strong></td>
@@ -508,6 +513,29 @@ class SchoolController extends FrontbaseController
             exit;
         }
 
+        $stu_receive_count = M('stu_receive')->where(array('college_id'=>$CollegeCommision['college_id'],'education_id'=>$CollegeCommision['education'],'status'=>1))->count();
+        $stu_receive_finish_count = M('stu_receive')->where(array('college_id'=>$CollegeCommision['college_id'],'education_id'=>$CollegeCommision['education'],'is_finish'=>1,'status'=>1))->count();
+
+        $stu_receives = M('stu_receive')->where(array('college_id'=>$CollegeCommision['college_id'],'education_id'=>$CollegeCommision['education'],'status'=>1))->order('add_time desc')->select();
+        $mids = $member_infos = array();
+        foreach($stu_receives as $r){
+            $mids[] = $r['from_member_id'];
+        }
+
+        if($mids){
+            $mids = array_unique($mids);
+            //print_r($mids);exit;
+            $member_rows = M('member_info')->where("member_id IN (".join(',',$mids).")")->select();
+            foreach($member_rows as $r){
+                if($r['member_type'] == 1){
+                    $member_infos[$r['member_id']] = $r['company'];
+                }else{
+                    $member_infos[$r['member_id']] = $r['contact'];
+                }
+            }
+        }
+
+
         $str ="
             <div class='commision_view'>
             <table width='100%'>
@@ -515,21 +543,21 @@ class SchoolController extends FrontbaseController
                     <th>开学日期：</th><td>".$CollegeCommision['enroll_time_start']."</td>
                   </tr>
                   <tr>
-                    <th>申请数量：</th><td>0</td>
+                    <th>申请数量：</th><td>".$stu_receive_count."</td>
                   </tr>
                   <tr>
-                    <th>实际入学：</th><td>0</td>
+                    <th>实际入学：</th><td>".$stu_receive_finish_count."</td>
                   </tr>
                   <tr>
                     <td colspan='2'>
                         <table  width='100%'>
                               <tr>
                                 <th>首年佣金：</th><td>".$CollegeCommision['first_pay']." %</td>
-                                <th>首年服务费：</th><td>".$CollegeCommision['first_serivce_price']." %</td>
+                                <th>首年服务费：</th><td>".$CollegeCommision['first_service_price']." %</td>
                               </tr>
                               <tr>
                                 <th>后续年佣金：</th><td>".$CollegeCommision['after_pay']." %</td>
-                                <th>后续服务费：</th><td>".$CollegeCommision['after_serivce_price']." %</td>
+                                <th>后续服务费：</th><td>".$CollegeCommision['after_service_price']." %</td>
                               </tr>
                         </table>
                     </td>
@@ -545,7 +573,13 @@ class SchoolController extends FrontbaseController
                     <th>申请日期</th>
                     <th>入学</th>
                   </tr>";
-
+                  foreach($stu_receives as $r){
+                      $str .= "<tr>
+                        <th>".$member_infos[$r['from_member_id']]."</th>
+                        <th>".date('Y-m-d',$r['add_time'])."</th>
+                        <th>".($r['is_finish']? "是": "否")."</th>
+                      </tr>";
+                  }
         $str .= "</table></div>";
         echo $str;
         exit;

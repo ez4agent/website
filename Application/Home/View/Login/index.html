@@ -34,7 +34,7 @@
               <p><label><input name="checkbox1" type="checkbox" id="check" value="1"> <em>记住我的登录状态</em></label></p>
               <p class="login_btwrap">
                 <a href="javascript:void(0);" class="login_bt" id="submit_login">登录</a>
-                <a href="javascript:void(0);" class="regsiter_bt">注册</a>
+                <a href="{:U('Home/Register/index')}" class="regsiter_bt">注册</a>
               </p>
               <p class="wj_pwd"><a href="<?=U('Home/Auth/findpass')?>">忘记密码? </a></p>
             </div>
@@ -68,7 +68,7 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-
+/*
 $('.regsiter_bt').click(function(){
     $.layer({
         type: 1,
@@ -79,7 +79,7 @@ $('.regsiter_bt').click(function(){
         page: {dom: '#invite_pop'}
     });
 });
-
+*/
  $("#login_form").keydown(function(e){
    var e = e || event,
    keycode = e.which || e.keyCode;

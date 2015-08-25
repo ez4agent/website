@@ -332,6 +332,8 @@ class ApplyController extends FrontbaseController
                         'college_id'=>$college_id,
                         'college_name'=>$college_info['ename'],
                         'education'=>$education[$edu],
+                        'education_id' => $edu,
+                        'is_finish' => 0,
                         'add_time'=>time(),
                     );
                     $this->apply_mod->add_stu_receive($receive); //添加学生推送信息表
