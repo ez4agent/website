@@ -50,6 +50,8 @@ class StudentController extends FrontbaseController
        {
            $stu_id=0;   
        }
+
+       $show_receive = C('SYSTEM_PARTNER_MEMBER') ==  $this->member_id ? 1 : 0;
        
        //自生学员列表
        $condition = array('a.member_id'=>$this->member_id);
@@ -61,7 +63,8 @@ class StudentController extends FrontbaseController
        $this->assign('apply_list',$this->apply_mod->get_apply_list($_info['stu_id'],$this->member_id, $_info['type']));
        $this->assign('stu_id',$stu_id);
        $this->assign('receive_num',$this->receive_num);
-       $this->display(); 
+       $this->assign('show_receive',$show_receive);
+       $this->display();
     }
     
     //查看学生推送列表
@@ -458,7 +461,8 @@ class StudentController extends FrontbaseController
             //更新申请状态
             $condition = array('stu_apply_id'=>$info['apply_id'],'receive_member'=>$this->member_id);
             M('stu_apply')->where($condition)->setField(array(
-                'status' => $needmore ?  ApplyModel::APPLY_WAIT :ApplyModel::APPLY_CONFIRM,
+                //'status' => $needmore ?  ApplyModel::APPLY_WAIT :ApplyModel::APPLY_CONFIRM,
+                'status' => ApplyModel::ENROLLED_CONFIRM,
                 'needmore' => $needmore_confition,
                 'post_address_id' => $post_address_id
             ));

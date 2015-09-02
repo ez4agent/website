@@ -8,11 +8,13 @@
   <div class="con_item_c">
     <div class="c_tem">
       <div class="c_tem_text stuInfo_text">
-        <div class="c_tem_text_inner clearfix"> 
+        <div class="c_tem_text_inner clearfix">
+            <if condition="$show_receive">
         	<div class="fl">
             	<a href="{:U('Home/Student/receive_list')}"><input class="updatabtn" type="button" value="新生"/></a>
             </div> 
             <div class="fr"><a href="{:U('Home/Student/receive_list')}"><span class="shuzi1">{$receive_num}</span></a></div>
+            </if>
         </div>
       </div>
     </div>

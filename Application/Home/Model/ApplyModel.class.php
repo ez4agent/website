@@ -155,6 +155,9 @@ class ApplyModel extends Model
         elseif($status==self::VISA_FAILURE){
             $msg='签证失败';
         }
+        elseif($status==self::ENROLLED_CONFIRM){
+            $msg='确认入学';
+        }
         elseif($status==self::PAY_WAIT){
             $msg='等待佣金支付';
         }
