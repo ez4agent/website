@@ -65,6 +65,7 @@
                       	<td>地　　区：{$info['city_name']} , {$info['area_name']} , {$info['country_name']} </td>
                         <td>&nbsp;</td>
                       </tr>
+                      <!--
                       <tr>
                       	<td>显　　示：<strong>
                             <if condition="$info['is_show'] eq 1"> 
@@ -77,6 +78,7 @@
                             </strong>
                         </td>
                       </tr>
+                      -->
                       <tr>
                       	<td>企业名称：<strong>{$info['company']}</strong></td>
                         <td>联 &nbsp;系&nbsp; 人：<strong>{$info['contact']}</strong></td>
@@ -130,6 +132,7 @@
                         <select name="city_id" class="address_gj" id="city_id"><option value="0">==请选择城市==</option></select>
                      </td>
                     </tr>
+                    <!--
                     <tr>
                       <td colspan="2" height="30px">显　　示：
                       	<input name="is_show" type="radio" value="0" <if condition="$info['is_show'] eq 0"> checked </if> /> 不公开&nbsp;
@@ -137,6 +140,7 @@
                         <input name="is_show" type="radio" value="2" <if condition="$info['is_show'] eq 2"> checked </if> /> 对合作方显示&nbsp;
                       </td>
                     </tr>
+                    -->
                     <tr>
                     	<td>企业名称：<input class="baseInfor_input birthday_input_stc" type="text" id="company" name="company" value="{$info['company']}" /></td>
                         <td>联 &nbsp;系&nbsp; 人：<input class="baseInfor_input birthday_input_stc" type="text" id="contact" name="contact" value="{$info['contact']}" /></td>
@@ -224,6 +228,7 @@
                 	</empty>
                 </div>
             </div>
+            <!--
             <div class="c_tem message_rc">
                 <div class="c_tem_text fl">
                     <span>签证服务</span>
@@ -384,7 +389,7 @@
                     </table>
                 </form>
             </div>
-
+            -->
     	</div>
     </section>
     <include file="Public:footer" />

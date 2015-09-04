@@ -34,7 +34,7 @@
               <p><label><input name="checkbox1" type="checkbox" id="check" value="1"> <em>记住我的登录状态</em></label></p>
               <p class="login_btwrap">
                 <a href="javascript:void(0);" class="login_bt" id="submit_login">登录</a>
-                <a href="{:U('Home/Register/index')}" class="regsiter_bt">注册</a>
+                <a href="javascript:void(0);" class="regsiter_bt">注册</a>
               </p>
               <p class="wj_pwd"><a href="<?=U('Home/Auth/findpass')?>">忘记密码? </a></p>
             </div>
@@ -48,27 +48,22 @@
 </section>
 
 <div id="invite_pop">
-    <form action="/" method="get">
-        <div class="invite_box" style="margin-top:5px;">
-            <div class="baseInfor">
-                <h1>请输入您收到邀请注册信的手机号，QQ号，或邮箱</h1>
-                <input type="text" class="baseInfor_input" style="width:300px;" name="invite_code" />
-            </div>
+    <div class="invite_box" style="margin-top:5px;">
+        <div class="baseInfor">
+            <h1>请输入您收到邀请注册信的手机号，QQ号，或邮箱</h1>
+            <input type="text" class="baseInfor_input" style="width:300px;" id="invite_code" name="invite_code" />
         </div>
-        <div class="blod_js">
-            <input type="hidden" name="m" value="Home" />
-            <input type="hidden" name="c" value="Register" />
-            <input type="hidden" name="a" value="index" />
-            <input type="submit" class="btn" value="确 定" />
-            <a href="{:U('Home/Register/index')}">没 有</a>
-        </div>
-    </form>
+    </div>
+    <div class="blod_js">
+        <input type="button" id="invite_form_btn" class="btn" value="确 定" />
+        <!--<a href="{:U('Home/Register/index')}">没 有</a>-->
+    </div>
 </div>
 
 <script type="text/javascript">
 
 $(document).ready(function(){
-/*
+
 $('.regsiter_bt').click(function(){
     $.layer({
         type: 1,
@@ -79,7 +74,33 @@ $('.regsiter_bt').click(function(){
         page: {dom: '#invite_pop'}
     });
 });
-*/
+
+$('#invite_form_btn').on('click',function(){
+
+    var invite_code = $('#invite_code').val();
+
+    //ajax
+    $.ajax({
+        type: 'post',
+        url: "{:U('Home/Register/checkInviteCode')}",
+        data: {invite_code:invite_code},
+        dataType: "json",
+        success: function(data){
+            if(data.error == 0 )
+            {
+                window.location.href=data.response;
+            }
+            else
+            {
+                alert(data.response);
+                return false;
+            }
+
+        }
+    });
+
+});
+
  $("#login_form").keydown(function(e){
    var e = e || event,
    keycode = e.which || e.keyCode;
@@ -87,7 +108,7 @@ $('.regsiter_bt').click(function(){
       $("#submit_login").trigger("click");
    }
 });
-				   
+
 	//验证登陆
 	$('#submit_login').click(function(){
 				

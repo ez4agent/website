@@ -17,7 +17,27 @@ class RegisterController extends BaseController
         //实例化会员模型
         $this->member_mod=D('Member');
     }
-    
+
+    public $invite_codes = array(
+        '38375873@qq.com',
+        '768842306@qq.com',
+        '619343631@qq.com',
+        '993766477@qq.com',
+        '805922289@qq.com',
+        '376894471@qq.com',
+        '1321251777@qq.com',
+        '1145412247@qq.com',
+        '806007489@qq.com',
+        '63431058@qq.com',
+        '150046557@qq.com',
+        '279918923@qq.com',
+        '282651986@qq.com',
+        '86547450@qq.com',
+        '448661685@qq.com',
+        '49785845@qq.com',
+        '9715634@qq.com'
+    );
+
     /**
      *  注册页面 
      */
@@ -25,12 +45,30 @@ class RegisterController extends BaseController
     {
         if(!$this->auth()->member_id){
             $invite_code = isset($_GET['invite_code']) ? trim($_GET['invite_code']) : '';
+
+            if(!$invite_code || !in_array($invite_code,$this->invite_codes)){
+                $this->error('无效的邀请码');
+            }
+
             $this->assign('invite_code',$invite_code);
             $this->assign('country',country());
             $this->display();
         }else{
             $this->redirect('Home/Schedule/index');
         }
+    }
+
+    public function checkInviteCode(){
+
+        $invite_code = isset($_REQUEST['invite_code']) ? trim($_REQUEST['invite_code']) : '';
+
+        if($invite_code && in_array($invite_code,$this->invite_codes)){
+            $this->ajaxReturn(array('error'=>0,'response'=>U('Home/Register/index',array('invite_code'=>$invite_code))));
+            exit();
+        }
+
+        $this->ajaxReturn(array('error'=>1,'response'=>'无效的邀请码'));
+        exit();
     }
     
     /**
@@ -64,6 +102,13 @@ class RegisterController extends BaseController
 
             $introduction = isset($_POST['introduction']) ? trim($_POST['introduction']): '';
             $invite_code = isset($_POST['invite_code']) ? trim($_POST['invite_code']): '';
+
+            $agree_terms = isset($_POST['agree_terms']) && $_POST['agree_terms'] ? 1: 0;
+
+            if(!$invite_code || !in_array($invite_code,$this->invite_codes)){
+                $this->ajaxReturn(array('error'=>102,'response'=>'无效的邀请码'));
+                exit();
+            }
 
             $errors = array();
 
@@ -99,6 +144,10 @@ class RegisterController extends BaseController
                 $errors[] = array('message'=>'请输入固定电话','label' => 'phone');
             }elseif($member_type == 2 && empty($mobile_num)){
                 $errors[] = array('message'=>'请输入移动电话','label' => 'mobile_num');
+            }
+
+            if(!$agree_terms){
+                $errors[] = array('message'=>'请接受服务条款','label' => 'agree_terms');
             }
 
             if(!empty($errors)){

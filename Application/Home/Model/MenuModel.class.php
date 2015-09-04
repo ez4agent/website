@@ -15,7 +15,7 @@ class MenuModel extends Model
     public function get_menu()
     {
         $_menu = array(
-            
+            /*
             '0'=>array(
                 
                 'name'      =>'提醒',
@@ -23,6 +23,7 @@ class MenuModel extends Model
                 'url'       =>U('Home/Schedule/index'),
                 
              ),
+            */
             '1'=>array(
                'name'       =>'学生',
                'controller' =>'Student',

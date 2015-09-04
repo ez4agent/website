@@ -36,4 +36,8 @@ class IndexController extends Controller
         $this->assign('class',$class);
         $this->display();
     }
+
+    public function terms(){
+        $this->display();
+    }
 }
