@@ -107,4 +107,33 @@
 		ajax_submit(act_url,data);
  	})
 
+
+     $("#upload_bank").click(function(){
+
+         var view = $("#viewBank").css('display');
+         if(view=='block')
+         {
+             $("#upload_bank").val('返 回');
+             $("#viewBank").hide();
+             $("#updateBank").show();
+         }
+         else
+         {
+             $("#upload_bank").val('修 改');
+             $("#viewBank").show();
+             $("#updateBank").hide();
+         }
+
+     });
+
+
+     $("#set_bank_act").click(function(){
+
+         var act_url = $("#set_bank_url").val();
+         var data = $("#member_bank").serialize();
+
+         ajax_submit(act_url,data);
+
+
+     });
  });

@@ -179,13 +179,33 @@ class MemberModel extends Model
                 
                 $this->update_data('member_info', $update, $member_id);
                 break;
-            
+            case 'bank':
+
+                $hasbank = M('member_bank')->where('member_id='.$member_id)->count();
+
+                $update =array(
+                    'member_id' => $member_id,
+                    'payee_name'=>trim($data['payee_name']),
+                    'payee_comany'=>trim($data['payee_comany']),
+                    'payee_bankname'=>trim($data['payee_bankname']),
+                    'payee_account'=>trim($data['payee_account']),
+                    'bankname'=>trim($data['bankname']),
+                    'bankaddress'=>trim($data['bankaddress']),
+                    'swift'=>trim($data['swift'])
+                );
+
+                if($hasbank){
+                    $this->update_data('member_bank', $update, $member_id);
+                }else{
+                    $this->insert_data('member_bank', $update);
+                }
+
+                break;
             default:
                 break;     
         }
         return $result;
     }
-    
     
     /**
      *  添加数据

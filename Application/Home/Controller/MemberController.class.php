@@ -22,11 +22,13 @@ class MemberController extends FrontbaseController
     public function view()
     {
         $info = $this->member_mod->get_Member_Info($this->member_id);
-        $visa_service = M('visa_service')->where(array('member_id'=>$this->member_id))->select();
+        //$visa_service = M('visa_service')->where(array('member_id'=>$this->member_id))->select();
         $address_list = M('member_address')->where(array('member_id'=>$this->member_id))->select();
 
+        $member_bank = M('member_bank')->where(array('member_id'=>$this->member_id))->find();
+
         if(isset($_GET['visa_id'])){
-            $visa_info = M('visa_service')->where(array('visa_id' => $_GET['visa_id'],'member_id'=>$this->member_id))->find();
+           // $visa_info = M('visa_service')->where(array('visa_id' => $_GET['visa_id'],'member_id'=>$this->member_id))->find();
         }
 
         if(isset($_GET['address'])){
@@ -35,8 +37,10 @@ class MemberController extends FrontbaseController
 
         $this->assign('info',$info);
         $this->assign('country',country());
-        $this->assign('visa_service',$visa_service);
-        $this->assign('visa_info',$visa_info);
+        //$this->assign('visa_service',$visa_service);
+        //$this->assign('visa_info',$visa_info);
+
+        $this->assign('bank_info',$member_bank);
         $this->assign('address_info',$address_info);
         $this->assign('address_list',$address_list);
         $this->display();
@@ -78,7 +82,30 @@ class MemberController extends FrontbaseController
             exit();
         }
     }
-     
+
+    public function save_MemberBank()
+    {
+        if(IS_AJAX)
+        {
+
+            if(!$this->member_id){
+                $this->ajaxReturn(array('status'=>'no','msg'=>'请登录'));
+                exit();
+            }
+
+            $data = $_POST;
+            $result = $this->member_mod->save_Member_Info($data,$this->member_id,'bank');
+
+            if($result['error'])
+            {
+                $this->ajaxReturn(array('status'=>'no','msg'=>$result['error']));
+                exit();
+            }
+            $this->ajaxReturn(array('status'=>'yes','msg'=>'更新成功!','url'=>U('Home/Member/view')));
+            exit();
+        }
+    }
+
     //会员附件的上传
     public function upload_MemberFile()
     {

@@ -228,6 +228,84 @@
                 	</empty>
                 </div>
             </div>
+            <div class="c_tem message_rc">
+                <div class="c_tem_text fl">
+                    <span>银行信息</span>
+                </div>
+                <div class="c_tem_text fr" >
+                    <p>
+                        <input id="upload_bank" class="updatabtn" type="button" value="修 改">
+                    </p>
+                </div>
+            </div>
+            <div class="baseInfor">
+                <div id="viewBank" style="display: block;" >
+                    <table width="100%">
+                        <tbody>
+                        <tr>
+                            <td colspan="2">
+                                收款人姓名：
+                                {$bank_info['payee_name']}
+                                或公司名称：
+                                {$bank_info['payee_comany']}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="50%">
+                                收款银行：{$bank_info['payee_bankname']}
+                            </td>
+                            <td>
+                                收款账号：{$bank_info['payee_account']}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>开户银行名称：{$bank_info['bankname']}</td>
+                            <td>开户银行地址：{$bank_info['bankaddress']}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">SWIFT码：{$bank_info['swift']}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="updateBank"  style=" display:none;">
+                <form id="member_bank">
+                    <table width="100%">
+                        <tbody>
+                        <tr>
+                            <td  colspan="2">
+                                收款人姓名：
+                                <input class="baseInfor_input birthday_input_stc" type="text" name="payee_name" value="{$bank_info['payee_name']}" />
+                                 或公司名称：
+                                <input class="baseInfor_input birthday_input_stc" type="text" name="payee_comany" value="{$bank_info['payee_comany']}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="50%">
+                                收款银行：<input class="baseInfor_input birthday_input_stc" type="text" name="payee_bankname" value="{$bank_info['payee_bankname']}" />
+                            </td>
+                            <td>
+                                收款账号：<input class="baseInfor_input birthday_input_stc" type="text" name="payee_account" value="{$bank_info['payee_account']}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>开户银行名称：<input class="baseInfor_input birthday_input_stc" type="text" name="bankname" value="{$bank_info['bankname']}" /> </td>
+                            <td>开户银行地址：<input class="baseInfor_input birthday_input_stc" type="text" name="bankaddress" value="{$bank_info['bankaddress']}" /></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                SWIFT码：<input class="baseInfor_input birthday_input_stc" type="text" name="swift" value="{$bank_info['swift']}" />
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="blod_js" style=" width:1025px;">
+                        <input id="set_bank_url" type="hidden" value="{:U('Home/Member/save_MemberBank')}" />
+                        <a href="javascript:void(0);" id='set_bank_act'>编&nbsp;&nbsp;&nbsp;&nbsp;辑</a>
+                    </div>
+                </form>
+                </div>
+            </div>
             <!--
             <div class="c_tem message_rc">
                 <div class="c_tem_text fl">

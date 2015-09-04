@@ -318,3 +318,41 @@ background:-webkit-linear-gradient(top,#d7d7d7,#ffffff);background:-o-linear-gra
     margin: 5px 0;
     border-bottom: 1px solid #c0c0c0;
 }
+
+.qrcode_box {
+    position:  absolute;
+    top: 30%;
+    width: 220px;
+    margin-left: -300px;
+    z-index: 10;
+}
+
+.qrcode_box p{
+    display: block;
+    padding: 5px 10px;
+    background: #fff;
+    text-align: center;
+    line-height: 24px;
+    font-size: 12px;
+    margin: 10px 0;
+}
+.qrcode_box img{
+    border: 10px solid #fff;
+}
+
+.head_wrap .qrcode_box{
+    position:  absolute;
+    width: 300px;
+    margin-left: inherit;
+    top: 20px;
+    z-index: 10;
+    right: 10px;
+}
+
+.head_wrap .qrcode_box img {
+    display: inline-block;
+}
+
+.head_wrap .qrcode_box p{
+    display: inline-block;
+}
