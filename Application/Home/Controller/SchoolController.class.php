@@ -481,10 +481,10 @@ class SchoolController extends FrontbaseController
                              <td height='30px'>".$val['enroll_time_start'] .' - '.$val['enroll_time_end']."</td>
                              <td height='30px'><strong>".$stu_receive_count."</strong></td>
                              <td height='30px'>0</td>
-                             <td height='30px'><strong>".$val['first_pay']."</strong></td>
-                             <td height='30px'><strong>".$val['first_service_price']."</strong></td>
-                             <td height='30px'><strong>".$val['after_pay']."</strong></td>
-                             <td height='30px'><strong>".$val['after_service_price']."</strong></td>
+                             <td height='30px'><strong>".$val['first_pay']."</strong>%</td>
+                             <td height='30px'><strong>".$val['first_service_price']."</strong>%</td>
+                             <td height='30px'><strong>".$val['after_pay']."</strong>%</td>
+                             <td height='30px'><strong>".$val['after_service_price']."</strong>%</td>
                              <td height='30px'><strong>".$val['ext_price']."</strong></td>
                              <td height='30px'><a href='javascript:college_commision_view(\"".$val['id']."\");' class='desc_show'>查看</a></td>
                            </tr>";
@@ -528,9 +528,9 @@ class SchoolController extends FrontbaseController
             $member_rows = M('member_info')->where("member_id IN (".join(',',$mids).")")->select();
             foreach($member_rows as $r){
                 if($r['member_type'] == 1){
-                    $member_infos[$r['member_id']] = $r['company'];
+                    $member_infos[$r['member_id']] = $r['username'];
                 }else{
-                    $member_infos[$r['member_id']] = $r['contact'];
+                    $member_infos[$r['member_id']] = $r['username'];
                 }
             }
         }
