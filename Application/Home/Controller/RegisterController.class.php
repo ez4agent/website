@@ -176,8 +176,9 @@ class RegisterController extends BaseController
                 'invite_code' => $invite_code
             );
 
+
             //处理用户数据
-            $result=$this->member_mod->reg_Member_Info($member_data);
+            $result=$this->member_mod->reg_Member_Info($member_data,1);
             if($result['error'])
             {
                 $this->ajaxReturn(array('error'=>102,'response'=>'注册失败'));
@@ -186,10 +187,17 @@ class RegisterController extends BaseController
             else
             {
 
-
-
                 if($invite_code){
-                    $this->ajaxReturn(array('error'=>0,'invite_confirm'=>1,'response'=>'账户审核需大约1-3个工作日， 谢谢您的注册'));
+                    //登陆信息
+                    $auth = new Auth();
+                    $auth->logging($result['data'],true);
+
+                    M('member')->where('member_id='.$result['data'])->setInc('login_times');
+
+                    $this->ajaxReturn(array('error'=>0,'response'=>'/index.php?m=Home&c=Schedule&a=index'));
+                    exit();
+
+                    //$this->ajaxReturn(array('error'=>0,'invite_confirm'=>1,'response'=>'账户审核需大约1-3个工作日， 谢谢您的注册'));
                 }else{
                     session('signup_user', array(
                         'username' => $username,
@@ -199,16 +207,6 @@ class RegisterController extends BaseController
                 }
 
                 exit();
-                /*
-                //登陆信息
-                $auth = new Auth();
-                $auth->logging($_info['member_id'],$checked);
-
-                M('member')->where('member_id='.$result['data'])->setInc('login_times');
-
-                $this->ajaxReturn(array('error'=>0,'response'=>'/index.php?m=Home&c=Schedule&a=index'));
-                exit();
-                */
             }
 
         }

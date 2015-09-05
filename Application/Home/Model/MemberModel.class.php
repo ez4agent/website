@@ -86,7 +86,7 @@ class MemberModel extends Model
      *  @param array data
      *  @return boolean
      */
-    public function reg_Member_Info($data)
+    public function reg_Member_Info($data,$certifiemail = 0)
     {
         $result = array('data'=>'','error'=>'');
         
@@ -99,7 +99,7 @@ class MemberModel extends Model
                           'pwd'     =>md5($data['pwd']),                 
                           'is_open' => $data['invite_code'] ? 1 : 0,
                           'grade'   => 1,
-                          'certifiemail' => 0,
+                          'certifiemail' => intval($certifiemail),
                           'invite_code' => $data['invite_code'],
                           'add_time' =>time(),
                        ));
