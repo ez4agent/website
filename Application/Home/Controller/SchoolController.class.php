@@ -525,7 +525,7 @@ class SchoolController extends FrontbaseController
         if($mids){
             $mids = array_unique($mids);
             //print_r($mids);exit;
-            $member_rows = M('member_info')->where("member_id IN (".join(',',$mids).")")->select();
+            $member_rows = M('member')->where("member_id IN (".join(',',$mids).")")->select();
             foreach($member_rows as $r){
                 if($r['member_type'] == 1){
                     $member_infos[$r['member_id']] = $r['username'];

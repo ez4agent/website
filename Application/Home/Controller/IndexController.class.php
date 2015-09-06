@@ -40,4 +40,8 @@ class IndexController extends Controller
     public function terms(){
         $this->display();
     }
+
+    public function qa(){
+        $this->display();
+    }
 }
