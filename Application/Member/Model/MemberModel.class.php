@@ -114,12 +114,8 @@ class MemberModel extends Model
             $_info['area_name']=M('area')->where('aid='.$_info['area_id'])->getfield('cname');
             $_info['city_name']=M('area')->where('aid='.$_info['city_id'])->getfield('cname'); 
         }
-        $email = M('email_set')->where('member_id='.$member_id)->find();
-        $account = M('account_set')->where('member_id='.$member_id)->find();
-        
-        $info = array_merge($_info,$email,$account);
-        
-        return $info;
+
+        return $_info;
     }
     
     public function edit_member_Data($data,$member_id)

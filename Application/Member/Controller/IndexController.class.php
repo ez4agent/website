@@ -223,9 +223,13 @@ class IndexController extends AdminController
     {
         $member_id = I('get.member_id',0,'intval');
         $info = D('Member')->get_member_info($member_id);
+
+        $bank_info = M('member_bank')->where('member_id='.$member_id)->find();
+
         $breadCrumb = array('会员列表'=>U('index'),'查看会员信息'=>U());
         $this->assign('breadCrumb',$breadCrumb);
         $this->assign('info',$info);
+        $this->assign('bankinfo',$bank_info);
         $this->adminDisplay('memberinfo');
     }
     

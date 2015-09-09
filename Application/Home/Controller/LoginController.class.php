@@ -27,7 +27,7 @@ class LoginController extends BaseController
         }
         else
         {
-            $this->redirect('Home/Schedule/index');    
+            $this->redirect('Home/School/index');
         }
     }
     
@@ -82,7 +82,7 @@ class LoginController extends BaseController
                     $this->member_mod->update_data('member',$update,$_info['member_id']);
                     M('member')->where('member_id='.$_info['member_id'])->setInc('login_times');
                    
-                    $this->ajaxReturn(array('status'=>'yes','msg'=>'','url'=>U('Home/Schedule/index')));
+                    $this->ajaxReturn(array('status'=>'yes','msg'=>'','url'=>U('Home/School/index')));
                     exit();
                 } 
             }

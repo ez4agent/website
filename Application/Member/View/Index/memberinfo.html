@@ -1,80 +1,73 @@
 <h3>会员基本信息（标号：{$info.member_id}）</h3>
-<admin:form url="{:U()}" method="post" id="form">
-	<div class="g-main-body">
-     	<div class="g-main-content m-form-horizontal">
-     	<admin:panel title="基本信息" icon="list" padding="true">
-        	<admin:formrow title="会员名称：" labelwidth="1" width="2" >
+<admin:panel title="基本信息" icon="list" padding="true">
+    <admin:form url="{:U()}" method="post" id="form"  class="m-form-horizontal" >
+        	<admin:formrow title="会员名称：" >
     			{$info.username}
   			</admin:formrow>
-            
-            <admin:formrow title="会员类型：" labelwidth="1" width="2" >
-            	<font color="#FF0000"><if condition="$info['member_type'] eq 1"> 企业 <else /> 个人 </if> </font> 
+
+            <admin:formrow title="会员类型：" >
+            	<font color="#FF0000"><if condition="$info['member_type'] eq 1"> 企业 <else /> 个人 </if> </font>
             </admin:formrow>
-            
+
             <if condition="$info['member_type'] eq 1">
-            <admin:formrow title="企业名称：" labelwidth="1" width="2" >
-            	{$info.company} 
+            <admin:formrow title="企业名称："  >
+            	{$info.company}
             </admin:formrow>
             </if>
 
-            <admin:formrow title="联系人：" labelwidth="1" width="2" >
+            <admin:formrow title="联系人：" >
     			{$info.contact}
   			</admin:formrow>
-            
-            <admin:formrow title="移动电话："  tip="" labelwidth="1" width="2" >
+
+            <admin:formrow title="移动电话："  >
     			{$info.mobile}
   			</admin:formrow>
-            
-            <admin:formrow title="固定电话：" tip="" labelwidth="1" width="2" >
+
+            <admin:formrow title="固定电话："  >
     			{$info.telephone}
   			</admin:formrow>
-            
-            <admin:formrow title="所在地：" labelwidth="1" width="2" >
-            	{$info.country_name}&nbsp;&nbsp;{$info.area_name}&nbsp;&nbsp;{$info.city_name} 
-            </admin:formrow>
-            
-            <admin:formrow title="详细地址：" labelwidth="1" width="2" >
-            	{$info.address}
-            </admin:formrow>
-            
-            <admin:formrow title="介&nbsp;&nbsp;绍：" labelwidth="1" width="2" >
-                 {$info.introduction}
+
+            <admin:formrow title="所在地："  >
+            	{$info.country_name}&nbsp;&nbsp;{$info.area_name}&nbsp;&nbsp;{$info.city_name}
             </admin:formrow>
 
-        </admin:panel>
-        </div>
-    </div>
-    <div class="g-main-sidebar">
-         <admin:panel title="账户信息" icon="list" padding="true">
-         	<admin:formrow title="银行名称:" >
-        		{$info.bank}
+            <admin:formrow title="详细地址：" >
+            	{$info.address}
+            </admin:formrow>
+
+            <admin:formrow title="介&nbsp;&nbsp;绍：" >
+                 {$info.introduction}
+            </admin:formrow>
+    </admin:form>
+</admin:panel>
+
+<admin:panel title="账户信息" icon="list" padding="true">
+    <admin:form url="{:U()}" method="post" id="form"  class="m-form-horizontal" >
+         	<admin:formrow title="收款人姓名:" >
+        		{$bankinfo.payee_name}
       		</admin:formrow>
-            <admin:formrow title="账户名:" >
-        		{$info.account_name}
+            <admin:formrow title="公司名称:" >
+        		{$bankinfo.payee_comany}
       		</admin:formrow>
-            <admin:formrow title="账号:" >
-        		{$info.account_number}
+            <admin:formrow title="收款银行:" >
+        		{$bankinfo.payee_bankname}
       		</admin:formrow>
-            <admin:formrow title="支付宝账号:" >
-        		{$info.alipay}
+            <admin:formrow title="收款账号:" >
+        		{$bankinfo.payee_account}
       		</admin:formrow>
-         </admin:panel>
-         <admin:panel title="邮箱设置" icon="list" padding="true">
-         	<admin:formrow title="发件邮箱:" >
-        		{$info.email}
-      		</admin:formrow>
-            <admin:formrow title="POP3:" >
-        		{$info.pop3}
-      		</admin:formrow>
-            <admin:formrow title="STMP:" >
-        		{$info.smtp}
-      		</admin:formrow>
-         </admin:panel>
-    </div>
-    <admin:text name="member_id" type="hidden" value="{$info.member_id}" />
-</admin:form>
+        <admin:formrow title="开户银行名称:" >
+            {$bankinfo.bankname}
+        </admin:formrow>
+        <admin:formrow title="开户银行地址:" >
+            {$bankinfo.bankaddress}
+        </admin:formrow>
+        <admin:formrow title="SWIFT码:" >
+            {$bankinfo.swift}
+        </admin:formrow>
+    </admin:form>
+</admin:panel>
 <script>
 Do.ready('base',function() {
 	$('#form').duxForm();
 });
-</script> 
+</script>
