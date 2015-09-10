@@ -19,6 +19,7 @@ class RegisterController extends BaseController
     }
 
     public $invite_codes = array(
+        'ez4agent2015',
         '934206808@qq.com',
         '49848989@qq.com',
         '274626022@qq.com',
