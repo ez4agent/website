@@ -45,6 +45,19 @@ class MemberController extends FrontbaseController
         $this->assign('address_list',$address_list);
         $this->display();
     }
+
+
+    function invite(){
+
+        $invite_code = alphaID($this->member_id,false,6);
+        $this->assign('invite_code',$invite_code);
+
+        $this->display();
+    }
+
+    function bill(){
+        $this->display();
+    }
     
     //会员信息数据设置修改
     public function save_MembeData()

@@ -342,9 +342,9 @@ background:-webkit-linear-gradient(top,#d7d7d7,#ffffff);background:-o-linear-gra
 
 .head_wrap .qrcode_box{
     position:  absolute;
-    width: 300px;
+    width: 135px;
     margin-left: inherit;
-    top: 20px;
+    top: 10px;
     z-index: 10;
     right: 10px;
 }
@@ -354,5 +354,7 @@ background:-webkit-linear-gradient(top,#d7d7d7,#ffffff);background:-o-linear-gra
 }
 
 .head_wrap .qrcode_box p{
-    display: inline-block;
+    padding: 0 0 5px;
+    margin: 0;
+    line-height: 15px;
 }

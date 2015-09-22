@@ -24,6 +24,13 @@ class MenuModel extends Model
                 
              ),
             */
+            '0'=>array(
+
+                'name'      =>'Q&A',
+                'controller'=>'Qa',
+                'url'       =>U('Home/Qa/index'),
+
+             ),
             '1'=>array(
                'name'       =>'学生',
                'controller' =>'Student',
@@ -46,26 +53,24 @@ class MenuModel extends Model
             '5'=>array(
                 'name'      =>'管理',
                 'controller'=>'Member',
-                'url'       =>U('Home/Member/view'),
-               /* 'child'     =>array(
+                'url'       => 'javascript:;',
+                'child'     =>array(
                     
                      '0'    =>array(
-                                'name'=>'用户信息',
+                                'name'=>'基本信息',
                                 'url' =>U('Home/Member/view'),  
                             ),
                      '1'    =>array(
-                                'name'=>'账户记录',
-                                'url' =>U('Home/Member/record'),                      
+                                'name'=>'邀请好友',
+                                'url' =>U('Home/Member/invite'),
                             ),
+                    /*
                      '2'    =>array(
-                                'name'=>'子账户管理',
-                                'url' =>U('Home/Member/sub_account'),
-                            ),
-                     '3'    =>array(
-                                'name'=>'数据统计',
-                                'url' =>'',
-                            ),
-                 ),*/
+                                'name'=>'我的账单',
+                                'url' =>U('Home/Member/bill'),
+                     ),
+                    */
+                 ),
              ),
             
             '6'=>array(
@@ -73,6 +78,12 @@ class MenuModel extends Model
                 'controller'=>'Login',
                 'url'       =>U('Home/Login/logout'),
              ),
+            '7'=>array(
+                'name'      =>'意见反馈',
+                'controller'=>'feedback',
+                'class' => 'feedback_link',
+                'url'       =>U('Home/Letter/sentLetter',array('feedback'=>'true')),
+            ),
         );
         
         return $_menu;

@@ -49,6 +49,17 @@
     right: 15px;
     top: 5px;}
 
+.nav_wrap ul li a.firstA.feedback_link{
+    background: #ff9600;
+    border: 0 none;
+    color: #fff;
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    margin: 15px;
+    width: 90px;
+}
+
 .main_wrap_inner{ 
 	background: -moz-linear-gradient(top,#eaeaea,#f5f5f5); 
 	background:-webkit-linear-gradient(top,#eaeaea,#f5f5f5);

@@ -8780,6 +8780,13 @@ class RegisterController extends BaseController
             exit();
         }
 
+        $member_id = alphaID($invite_code,true,6);
+        $_info = M('member_info')->where('member_id='.$member_id)->find();
+        if($_info){
+            $this->ajaxReturn(array('error'=>0,'response'=>U('Home/Register/index',array('invite_code'=>$invite_code))));
+            exit();
+        }
+
         $this->ajaxReturn(array('error'=>1,'response'=>'无效的邀请码'));
         exit();
     }
@@ -8819,9 +8826,15 @@ class RegisterController extends BaseController
             $agree_terms = isset($_POST['agree_terms']) && $_POST['agree_terms'] ? 1: 0;
 
             if(!$invite_code || !in_array($invite_code,$this->invite_codes)){
-                $this->ajaxReturn(array('error'=>102,'response'=>'无效的邀请码'));
-                exit();
+
+                $invite_code = alphaID($invite_code,true,6);
+                $_info = M('member_info')->where('member_id='.$invite_code)->find();
+                if(!$_info){
+                    $this->ajaxReturn(array('error'=>102,'response'=>'无效的邀请码'));
+                    exit();
+                }
             }
+
 
             $errors = array();
 

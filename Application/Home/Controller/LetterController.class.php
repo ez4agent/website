@@ -63,6 +63,12 @@ class LetterController extends FrontbaseController
         if($member_id>0){
            $member_name =getField_value('member', 'username',array('member_id'=>$member_id));  
         }
+
+        $feedback = I('get.feedback',0,'trim');
+        if($feedback == 'true'){
+            $member_name = 'ez4agent';
+        }
+
         //常用联系人
         $this->assign('contact',$this->letter_mod->get_contact_list($this->member_id));
         $this->assign('type','send');
