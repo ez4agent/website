@@ -45,9 +45,16 @@
     width:163px;
 }
 
-.nav_wrap ul li i{ background-color:#ff9600; line-height:18px; height:18px; padding:0 10px; color:#fff; display:inline-block; border-radius:9px; vertical-align:middle;    position: absolute;
+.nav_wrap ul li i{    background-color:#ff2200;
+    line-height:20px;
+    height:20px;
+    color:#fff; display:inline-block;
+    border-radius:20px;
+    vertical-align:middle;    position: absolute;
     right: 15px;
-    top: 5px;}
+    top: 5px;
+    width: 20px;
+    text-align: center;}
 
 .nav_wrap ul li a.firstA.feedback_link{
     background: #ff9600;
@@ -159,7 +166,7 @@ a.school_add:hover{filter:Alpha(opacity=80);-moz-opacity:0.8;opacity:0.8;}
 .c_tem_search .search_text{ width:76px; height:24px; border:none; background:none; vertical-align:middle; color:#444444;}
 .table_list{ height:410px;}
 .table_list ul{width:298px; margin:0 auto;}
-.table_list li{ line-height:30px; border-bottom:1px solid #dfdfdf; padding:10px 0;}
+.table_list li{ line-height:30px; border-bottom:1px solid #dfdfdf; padding:10px 0; position: relative}
 .table_list li i{ width:30px; height:30px; background-position:0 -235px; vertical-align:middle; margin-left:10px;}
 .table_list li em{ display:inline-block; width:130px; padding-left:30px; color:#fea50f; vertical-align:middle;}
 .table_list li a{
@@ -178,6 +185,19 @@ a.school_add:hover{filter:Alpha(opacity=80);-moz-opacity:0.8;opacity:0.8;}
 .table_list li.error a,
 .table_list li.success a{ background:#b5b5b6; }
 .table_list li.success i{ background-position:0 -295px;}
+
+.table_list li span.event_count{
+    background-color:#ff2200;
+    line-height:20px;
+    height:20px;
+    color:#fff; display:inline-block;
+    border-radius:20px;
+    vertical-align:middle;    position: absolute;
+    right: 0px;
+    top: 5px;
+    width: 20px;
+    text-align: center;
+}
 
 .kongjianWrap{padding:20px;}
 .kongjianWrap li{float:left;width:32%;margin-bottom:10px;}

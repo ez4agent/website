@@ -25,6 +25,7 @@
             </ul>
           </notempty>
           <if condition="($vo['name'] eq '提醒') and ($event_num gt 0)"><i>{$event_num}</i></if>
+          <if condition="($vo['name'] eq '学生') and ($apply_event_total_count gt 0)"><i>{$apply_event_total_count}</i></if>
       </li>
       </volist>
     </ul>

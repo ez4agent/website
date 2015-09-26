@@ -56,7 +56,19 @@ class StudentController extends FrontbaseController
        //自生学员列表
        $condition = array('a.member_id'=>$this->member_id);
        $page = isset($_GET['P'])?intval($_GET['P']):1;
-       $this->assign('stu_list',$this->student_mod->get_stu_list($condition,$page,25));
+
+
+       $stu_list =  $this->student_mod->get_stu_list($condition,$page,25);
+
+       foreach($stu_list as $k=>$r){
+           if(isset($this->apply_event_stu_count[$r['stu_id']])){
+               $stu_list[$k]['event_num'] = $this->apply_event_stu_count[$r['stu_id']];
+           }else{
+               $stu_list[$k]['event_num'] = 0;
+           }
+       }
+
+       $this->assign('stu_list',$stu_list);
        $this->assign('info',$_info);
        $this->assign('country',country());//国家配置
        $this->assign('education',C('Education_TYPE')); //学历配置

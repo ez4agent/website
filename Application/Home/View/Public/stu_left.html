@@ -22,7 +22,11 @@
       <div class="Scroller-Container">
           <ul id='stu_list'>
             <volist name='stu_list' id="vo">
-            <li> <i class="icon"></i> <em>{$vo['name']}</em> <a href="{$vo['url']}">查	看</a> </li>
+            <li>
+                <i class="icon"></i> <em>{$vo['name']}</em>
+                <a href="{$vo['url']}">查	看</a>
+                <if condition="$vo['event_num'] gt 0"><span class="event_count">{$vo['event_num']}</span></if>
+            </li>
             </volist>
           </ul>
       </div>

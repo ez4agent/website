@@ -191,6 +191,8 @@ class ApplyController extends FrontbaseController
             $this->assign('visa_info',$visa_info);
         }
 
+        M('stu_apply_operate_log')->where(array('apply_id'=>$apply_id,'operate_user_id'=>array('NEQ',$this->auth()->member_id)))->save(array('has_readed'=>1));
+
         $this->assign('log',$this->log_mod->get_log($apply_id));
         $this->assign('session',$this->member_id);
         $this->assign('stu_id3',getField_value('stu_apply', 'member_stu_id',
