@@ -4,6 +4,9 @@
     <admin:formrow title="附件名称：" >
         <admin:text name="title"  value="{$info.title}" len="10" datatype="*"  />
     </admin:formrow>
+    <admin:formrow title="上传方式：" tip="">
+        <admin:radio name="type" item="本地上传,url" value="1,2" checked="$info[type]" isset="1" />
+    </admin:formrow>
     <admin:formrow title="上传附件：" >
         <admin:text name="file_path" type="text" value="{$info.file_path}" len="250" width="medium" />
         <a class="u-btn u-btn-primary" data="file_path" href="javascript:;" id="upload">上传</a>
@@ -14,6 +17,7 @@
   </admin:form>
 </admin:panel>
 <script type="text/javascript">
+
 Do.ready('base',function() {
 	$('#form').duxForm();
 

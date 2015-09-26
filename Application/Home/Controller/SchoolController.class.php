@@ -309,9 +309,12 @@ class SchoolController extends FrontbaseController
         $attachArr = D('CollegeAttach')->loadList(array('college_id'=>$id));
         $url = "http://".$_SERVER['HTTP_HOST'];
         foreach($attachArr as $k =>$v){
-            $attachArr[$k]['file_url'] = $url.$v['file_path'];
+            if($v['type'] == 1){
+                $attachArr[$k]['file_url'] = $url.$v['file_path'];
+            }else{
+                $attachArr[$k]['file_url'] = $v['file_path'];
+            }
         }
-
 
         $this->assign('add',$is_partner?1:0);
         $this->assign('info',$this->school_mod->get_college_info($id));
