@@ -132,15 +132,17 @@ class ApplyModel extends Model
             $msg='等待材料审核';
         }
         elseif($status==self::APPLY_CONFIRM){
-            $msg='等待院校申请结果';
+            $msg='等待院校结果';
         }
         elseif($status==self::APPLY_HAS_CONDITION)
         {
-            $msg='有条件录取';
+            //$msg='有条件录取';
+            $msg='院校已回复';
         }
         elseif($status==self::APPLY_NO_CONDITION)
         {
-            $msg='无条件录取/等待签证结果';
+            //$msg='无条件录取/等待签证结果';
+            $msg='等待入学';
         }
         elseif($status==self::VISA_WAIT)
         {
@@ -159,7 +161,7 @@ class ApplyModel extends Model
             $msg='确认入学';
         }
         elseif($status==self::PAY_WAIT){
-            $msg='等待佣金支付';
+            $msg='等待佣金结算';
         }
         elseif($status==self::FINISH){
             $msg='完成';
