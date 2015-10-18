@@ -14,195 +14,91 @@
 <!--[if lt IE 9]>
     <script src="__PUBLIC__/js/html5.js"></script>
 <![endif]-->
-    <style>
-
-        .qabox h1{
-            margin: 15px 0;
-            font-size: 18px;
-        }
-
-        .qabox h4{
-            margin: 15px 0;
-            font-size: 18px;
-        }
-
-        .qabox p{
-            line-height: 26px;
-            text-indent: 10px;
-            font-size: 14px;
-        }
-
-        .qabox table{
-            width: 100%;
-            border-collapse: collapse;
-            border-left:#C8B9AE solid 1px;
-            border-top:#C8B9AE solid 1px;
-        }
-
-        .qabox table th,
-        .qabox table td{
-            background: #fff;
-            border-right:#C8B9AE solid 1px;
-            border-bottom:#C8B9AE solid 1px;
-            padding: 5px 10px;
-            vertical-align: top；
-        }
-    </style>
 </head>
 
 <body>
 <section class="main_wrap main_wrap_inner">
-	<!--公用方法-->
     <include file="Public:menu" />
     <section class="content_wrap clearfix">
-
-        <div class="qabox">
-            <h1>Q&A 申请步骤</h1>
-            <h4>第一步：新建学生</h4>
-            <p>
-                <img src="__PUBLIC__/st1.png" />
-            </p>
-            <h4>第二步：填写学生信息</h4>
-            <p>
-                <img src="__PUBLIC__/st2.png" />
-            </p>
-            <h4>第三步：选择学校</h4>
-            <p>
-                <img src="__PUBLIC__/st3.png" />
-            </p>
-            <h4>第四步：选择学历申请</h4>
-            <p>
-                <img src="__PUBLIC__/st4.png" />
-            </p>
-            <h4>第五步：填写入学日期和上传申请材料</h4>
-            <p>
-                <img src="__PUBLIC__/st5.png" />
-            </p>
-            <h4>第六步：申请完成，可点击“查看申请”查询进度</h4>
-            <p>
-                <img src="__PUBLIC__/st6.png" />
-            </p>
-            <h4>首年佣金&后续年佣金：</h4>
-            <p>根据每个学校提供的佣金显示<br/>
-                有些学校会基于人数变化推出奖励制度，所以其首年佣金&后续年佣金可能会随着时间变化而改变。最终的佣金额度会根据实际入学人数计算。<br/>
-                例：</p>
-            <p>院校A推出奖励制度，如果本年度入学人数超过5人（含），该年度入学学生的中介可获得后续年佣金5%。则佣金额度显示如下：</p>
-            <table>
-                <tr>
-                    <th>人数</th>
-                    <th>首年佣金</th>
-                    <th>后续年佣金</th>
-                </tr>
-                <tr>
-                    <td>1-4</td>
-                    <td>10%</td>
-                    <td>0%</td>
-                </tr>
-                <tr>
-                    <td>5-</td>
-                    <td>10%</td>
-                    <td>5%</td>
-                </tr>
-            </table>
-
-            <h4>奖励制度佣金计算：</h4>
-            <p>某些院校推出的奖励制度，可能导致前后佣金不平等。为了公平期间，EZ4Agent做了平均处理。<br/>
-                例：</p>
-            <p>院校A推出2015年2月预科佣金奖励制度</p>
-            <table>
-                <tr>
-                    <th>人数</th>
-                    <th>佣金</th>
-                </tr>
-                <tr>
-                    <td>1-10</td>
-                    <td>10%</th>
-                </tr>
-                <tr>
-                    <td>11-</td>
-                    <td>15%</td>
-                </tr>
-            </table>
-            <p>实际入学人数25人，平均每人佣金获得=（10x10%+15x15%）/25=13%</p>
-
-            <h4>服务费：</h4>
-            <p>EZ4Agent根据院校情况收取不等量的服务费。服务费一般以百分比形式呈现，根据实际佣金收入计算。<br/>
-                例：</p>
-            <p>输送一位学生至A大学，学费$30000，佣金10%，服务费10%</p>
-            <p>佣金收入=$3000<br/>
-                服务费支出=$300<br/>
-                实际收入=$2700
-            </p>
-
-            <h4>支付周期：</h4>
-            <p>支付周期是指从入学日期至学校佣金支付日的时间段。在部分院校还未取得合作关系的情况下，EZ4Agent会注明是否通过第三方转申请，佣金结算可能会延缓几日。<br/>
-                注：目前多所知名大学出现拖延佣金支付的情况，如有延迟，请谅解。</p>
-
-            <h4>支付方式：</h4>
-            <p>支付方式是指院校分几次支付承诺佣金。支付方式有两种：一次支付和两次支付。<br/>
-            <p>例：<br/>
-                院校A承诺中介可获得学生首年学费的10%，支付方式为两次。即院校A会在第一学期支付整年学费的5%，并在第二学期支付整年学费的5%。如果该生在第一学期后退学，第二学期的佣金可能不再支付。
-            </p>
-
-            <h4>新西兰佣金计算：</h4>
-            <p>由于新西兰不同的财务制度，在向海外中介支付佣金时，其中的GST部分会被扣除。<br/>
-                GST即Goods and Services Tax（GST） 增值税，消费与服务税。与我国征收VAT（VALUE ADDED TAX）营业加值税类似。新西兰GST税率为15%。
-            </p>
-            <p>例：<br/>
-                学费NZ$30000，佣金10%<br/>
-                GST计算公式：NZ$30000x3/23=NZ$3913.04<br/>
-                实际佣金收入=(NZ$30000-NZ$3913.04)x10%=NZ$2608.70
-            </p>
-
-            <p>注：为何新西兰本地中介在收取佣金时不扣除GST呢？新西兰本地中介会收到NZ$3000的佣金，其中GST NZ$3913.04会在以后的财务报税中直接向税务局缴纳。</p>
-
-            <h4>最终佣金不同于先期佣金显示：</h4>
-            <p>先期佣金是以申请人数为计算基数，最终佣金是以实际入学人数为计算基数。<br/>
-                最终佣金不同于先期佣金显示仅可能出现在某些有奖励制度的院校中。
-            <p>例：院校A推出的奖励制度如下：<br/>
-            <table>
-                <tr>
-                    <th>人数</th>
-                    <th>佣金</th>
-                </tr>
-                <tr>
-                    <td>1-10</td>
-                    <td>10%</th>
-                </tr>
-                <tr>
-                    <td>11-</td>
-                    <td>15%</td>
-                </tr>
-            </table>
-            </p>
-            <p>
-            <table>
-                <tr>
-                    <th>入学日期</th>
-                    <th>申请人数</th>
-                    <th>实际入学人数</th>
-                    <th>佣金</th>
-                    <th>最终佣金</th>
-                </tr>
-                <tr>
-                    <td>2015年2月</td>
-                    <td>15</th>
-                    <td>9</td>
-                    <td>15%</td>
-                    <td>10%</td>
-                </tr>
-            </table>
-            </p>
-            <h4>佣金结算</h4>
-            <p>佣金结算是指EZ4Agent向用户支付返佣。EZ4Agent每月5日结算一次，结算范围以上月所收到的院校返佣为准。</p>
-            <p>例：1月1日—31日，共收到3所学校30个申请的返佣。2月5日，EZ4Agent将向该30个申请所属的用户支付返佣。用户应该会在其后1-2个工作日收到钱款。</p>
-
-            <h4>佣金结算货币</h4>
-            <p>以院校支付货币为准。</p>
-
+        <div class="con_item">
+            <h2 class="con_item_tit clearfix">
+                <em class="font18 ffyh fl">我的账单</em>
+            </h2>
+            <div class="con_item_c">
+                <div class="baseInfor">
+                    <div class="filter">
+                        <dl>
+                            <dt>起止日期</dt>
+                            <dd>
+                                <input type="text" class="baseInfor_input" id="date_start" name="date_start" placeholder="开始时间" readonly />
+                            </dd>
+                            <dd>-</dd>
+                            <dd>
+                                <input type="text" class="baseInfor_input" id="date_end" name="date_end"  placeholder="结束时间" readonly/>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="filter">
+                        <dl>
+                            <dt>交易状态</dt>
+                            <dd>
+                                <a href="javascript:;" class="cur">全部</a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:;">已收</a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:;">未收</a>
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="filter">
+                        <dl>
+                            <dt>关键词</dt>
+                            <dd>
+                                <input type="text" class="baseInfor_input"  placeholder="交易流水号" />
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="con_item_c">
+                <div class="baseInfor">
+                    <table width="100%" class="bill-table">
+                        <thead>
+                            <tr>
+                                <th>付款时间</th>
+                                <th>名称|交易号</th>
+                                <th>对方</th>
+                                <th>金额</th>
+                                <th>状态</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="5">
+                                    <div class="list-empty">
+                                        还没有记录
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </section>
     <include file="Public:footer" />
 </section>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/js/time/jquery.datetimepicker.css">
+<script type="text/javascript" src="__PUBLIC__/js/time/jquery.datetimepicker.js"></script>
+<script>
+    $('#date_start,#date_end').datetimepicker({
+        timepicker:false,
+        format:'Y/m/d',
+        formatDate:'Y/m/d',
+        maxDate: (new Date().getFullYear() - 1 ) + "-01-01"
+    });
+</script>
 </body>
 </html>

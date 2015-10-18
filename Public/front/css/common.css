@@ -808,3 +808,35 @@ a.school_add:hover{filter:Alpha(opacity=80);-moz-opacity:0.8;opacity:0.8;}
 .commision table th{ width: 100px}
 
 #invite_pop .invite_box h1{ font-size: 14px; margin-bottom: 10px; line-height: 27px}
+
+.filter{ height: 30px; line-height: 30px; padding: 10px 0; border-bottom: 1px dashed #ddd}
+.filter dt, .filter dd {
+    float: left;
+    height: 30px; line-height: 30px;
+}
+
+.filter dt{width: 70px; text-align: right; padding-right: 10px; color: #000; font-size: 14px}
+.filter dd{ padding: 0 10px}
+.filter dd a{height: 25px; line-height: 25px; display: inline-block}
+.filter dd a.cur{
+    background: #ff9600;
+    color: #fff;
+    border-radius: 3px;
+    padding: 0 5px;
+}
+
+.bill-table th{
+    background: #ddd;
+    line-height: 40px;
+    color: #222;
+    padding: 0 5px;
+    font-size: 14px;
+}
+
+.bill-table .list-empty{
+    width: 300px;
+    margin: 30px auto;
+    text-align: center;
+    font-size: 14px;
+}
+

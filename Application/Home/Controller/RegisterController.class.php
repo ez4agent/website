@@ -8824,6 +8824,7 @@ class RegisterController extends BaseController
             $invite_code = isset($_POST['invite_code']) ? trim($_POST['invite_code']): '';
 
             $agree_terms = isset($_POST['agree_terms']) && $_POST['agree_terms'] ? 1: 0;
+            $agree_protocol = isset($_POST['agree_protocol']) && $_POST['agree_protocol'] ? 1: 0;
 
             if(!$invite_code || !in_array($invite_code,$this->invite_codes)){
 
@@ -8876,10 +8877,13 @@ class RegisterController extends BaseController
                 $errors[] = array('message'=>'请接受服务条款','label' => 'agree_terms');
             }
 
+            if(!$agree_protocol){
+                $errors[] = array('message'=>'请接受中介协议','label' => 'agree_protocol');
+            }
+
             if(!empty($errors)){
                 $this->ajaxReturn(array('error'=>101,'response'=>$errors));
             }
-
 
             $member_data = array(
                 'username'=> $username,
@@ -8920,7 +8924,7 @@ class RegisterController extends BaseController
 
                     M('member')->where('member_id='.$result['data'])->setInc('login_times');
 
-                    $this->ajaxReturn(array('error'=>0,'response'=>'/index.php?m=Home&c=School&a=index'));
+                    $this->ajaxReturn(array('error'=>0,'response'=>'/index.php?m=Home&c=Qa&a=index'));
                     exit();
 
                     //$this->ajaxReturn(array('error'=>0,'invite_confirm'=>1,'response'=>'账户审核需大约1-3个工作日， 谢谢您的注册'));

@@ -64,12 +64,10 @@ class MenuModel extends Model
                                 'name'=>'邀请好友',
                                 'url' =>U('Home/Member/invite'),
                             ),
-                    /*
                      '2'    =>array(
                                 'name'=>'我的账单',
                                 'url' =>U('Home/Member/bill'),
-                     ),
-                    */
+                     )
                  ),
              ),
             
