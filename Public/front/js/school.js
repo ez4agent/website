@@ -31,6 +31,7 @@ $(function () {
 		var myurl=new objURL(window.location.href);
 		//alert(myurl);
 		//return false;
+        myurl.remove('p');
 		var value = $(this).attr('country_id');
 		myurl.set('country_id',value);
 		//alert(myurl.url());
@@ -57,6 +58,7 @@ $(function () {
 
 	$(".education").click(function(){
 		var myurl=new objURL(window.location.href);
+        myurl.remove('p');
 		var value = $(this).attr('education');
 		myurl.set('education',value);
 		//alert(myurl.url());
@@ -66,6 +68,7 @@ $(function () {
 	$("#icon_search").click(function(){
 		
 		var myurl=new objURL(window.location.href);
+        myurl.remove('p');
 		var keywords = $("#search_college_name").val();
 		if(!keywords)
 		{
