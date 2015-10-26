@@ -580,7 +580,7 @@ class SchoolController extends FrontbaseController
                       $str .= "<tr>
                         <th>".$member_infos[$r['from_member_id']]."</th>
                         <th>".date('Y-m-d',$r['add_time'])."</th>
-                        <th>".($r['is_finish']? "是": "否")."</th>
+                        <th>".($r['is_finish']? "是": "还未")."</th>
                       </tr>";
                   }
         $str .= "</table></div>";
