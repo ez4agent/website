@@ -349,4 +349,120 @@ class CronController extends Controller {
 
         return M('college_education')->add($insert);
     }
+
+
+    function commision(){
+        $path = 'commision.xlsx';
+        $file = ROOT_PATH."Public/xls/".$path;
+        //liujinlong.xlsx
+        if(!is_file($file)){
+            exit('no file : '.$file);
+        }
+
+        import("Common.Util.PHPExcel");
+        import("Common.Util.PHPExcel.IOFactory");
+
+        $ext = pathinfo($file,PATHINFO_EXTENSION);
+        if($ext == 'xls'){
+            $reader = \PHPExcel_IOFactory::createReader('Excel5');
+        }else{
+            $reader = \PHPExcel_IOFactory::createReader('Excel2007'); //设置以Excel5格式(Excel97-2003工作簿)
+        }
+
+        $PHPExcel = $reader->load($file); // 载入excel文件
+        $sheet = $PHPExcel->getSheet(0); // 读取第一個工作表
+        $highestRow = $sheet->getHighestRow(); // 取得总行数
+        $highestColumm = $sheet->getHighestColumn(); // 取得总列数
+
+        $group = array();
+
+        $education = C('Education_TYPE');
+
+        for ($row = 2; $row <= $highestRow; $row++){//行数是以第1行开始
+
+            $tmp = array();
+            for ($column = 'A'; $column <= $highestColumm; $column++) {
+
+                $index = $column.$row;
+                $v = trim($sheet->getCell($index)->getValue());
+
+                if(empty($v)){
+                    //continue;
+                }
+
+                if($column == 'A'){
+                    $tmp['college'] = (string)$v;
+                }elseif($column == 'B') {
+
+                    $id = array_search($v,$education);
+                    if($id !== false){
+                        $tmp['education'] = $id;
+                    }else{
+                        $tmp['education'] = 0;
+                    }
+
+                }elseif($column == 'C'){
+                    $tmp['rule_id'] = (string)$v;
+                }elseif($column == 'D'){
+                    $tmp['pay_length'] = (string)$v;
+                }elseif($column == 'E'){
+                    $tmp['commision_type'] = $v == '比例' ? 1 : 2;
+                }elseif($column == 'F'){
+                    $tmp['apply_min'] = (int)$v;
+                }elseif($column == 'G'){
+                    $tmp['apply_max'] = (int)$v;
+                }elseif($column == 'H'){
+                    $tmp['enroll_time_start'] = '2016-01-01';
+                }elseif($column == 'I'){
+                    $tmp['enroll_time_end'] = '9999-12-31';
+                }elseif($column == 'J'){
+                    $tmp['first_pay'] = $tmp['commision_type'] == 1 && $v > 0 ? $v * 100 : 0;
+                }elseif($column == 'K'){
+                    $tmp['first_service_price'] = $tmp['commision_type'] == 1 && $v > 0 ? $v * 100 : 0;;
+                }elseif($column == 'L'){
+                    $tmp['after_pay'] = $tmp['commision_type'] == 1 && $v > 0 ? $v * 100 : 0;;
+                }elseif($column == 'M'){
+                    $tmp['after_service_price'] = 0;
+                }elseif($column == 'N'){
+
+                    if(!$v){
+                        $tmp['ext_price'] = 0;
+                        $tmp['ext_price_unit'] = '$';
+                    }elseif(strpos($v,'NZD') !== false){
+                        $tmp['ext_price'] = trim($v,'NZD');
+                        $tmp['ext_price_unit'] = 'NZD';
+                    }else{
+                        $tmp['ext_price'] = $v;
+                        $tmp['ext_price_unit'] = '$';
+                    }
+                }
+            }
+
+            $group[] =$tmp;
+        }
+
+
+
+        $member_id = C('SYSTEM_PARTNER_MEMBER');
+
+        $country = array();
+        foreach($group as $r) {
+
+            $college_info = M('college')->where(array('ename' => $r['college']))->find();
+            if (empty($college_info)) {
+                echo "college not exist : " . $r['en_name'], PHP_EOL;
+                continue;
+            }
+
+            unset($r['college']);
+            $r['college_id'] = $college_info['college_id'];
+
+            if(!M('college_commision')->add($r)){
+                echo "add college_commision faild : ".$r['college'],PHP_EOL;
+                continue;
+            }
+        }
+
+        echo 'done';
+    }
 }
