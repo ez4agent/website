@@ -5,7 +5,7 @@ class CronController extends Controller {
 
 	function index(){
 	}
-
+/*
     function import(){
 
         $path = isset($_GET['path']) ? $_GET['path'] : '';
@@ -195,5 +195,158 @@ class CronController extends Controller {
 
         return false;
 
+    }
+*/
+
+
+    function school(){
+        //$path = isset($_GET['path']) ? $_GET['path'] : '';
+        //if(!$path){
+        //    exit;
+        //}
+        $path = 'school.xlsx';
+        $file = ROOT_PATH."Public/xls/".$path;
+        //liujinlong.xlsx
+        if(!is_file($file)){
+            exit('no file : '.$file);
+        }
+
+        import("Common.Util.PHPExcel");
+        import("Common.Util.PHPExcel.IOFactory");
+
+        $ext = pathinfo($file,PATHINFO_EXTENSION);
+        if($ext == 'xls'){
+            $reader = \PHPExcel_IOFactory::createReader('Excel5');
+        }else{
+            $reader = \PHPExcel_IOFactory::createReader('Excel2007'); //设置以Excel5格式(Excel97-2003工作簿)
+        }
+
+        $PHPExcel = $reader->load($file); // 载入excel文件
+        $sheet = $PHPExcel->getSheet(0); // 读取第一個工作表
+        $highestRow = $sheet->getHighestRow(); // 取得总行数
+        $highestColumm = $sheet->getHighestColumn(); // 取得总列数
+
+        $group = array();
+
+        for ($row = 2; $row <= $highestRow; $row++){//行数是以第1行开始
+
+            $tmp = array();
+            for ($column = 'A'; $column <= $highestColumm; $column++) {
+
+                $index = $column.$row;
+                $v = trim($sheet->getCell($index)->getValue());
+
+                if(empty($v)){
+                   continue;
+                }
+
+                if($column == 'A'){
+                    $tmp['country'] = (string)$v;
+                }elseif($column == 'D'){
+                    $tmp['cn_name'] = (string)$v;
+                }elseif($column == 'E'){
+                    $tmp['en_name'] = (string)$v;
+                }elseif($column == 'F'){
+                    $tmp['type'] = $v == '公立' ? 5 : 6;
+                }elseif($column == 'G'){
+                    $tmp['education'] = explode('，',$v);
+                }elseif($column == 'I'){
+                    $tmp['website'] = (string)$v;
+                }
+            }
+
+            $group[] =$tmp;
+        }
+
+        $education = C('Education_TYPE');
+
+        $member_id = C('SYSTEM_PARTNER_MEMBER');
+
+        $country = array();
+        foreach($group as $r){
+
+            $college_info= M('college')->where(array('ename'=>$r['en_name']))->find();
+            if(!empty($college_info)){
+                echo "college exist : ".$r['en_name'],PHP_EOL;
+                continue;
+            }
+
+            if(!isset($country[$r['country']])){
+                $country_info= M('country')->where(array('cname'=>$r['country']))->find();
+                if(!$country_info){
+                    echo "no country found : ".$r['country'],PHP_EOL;
+                    continue;
+                }
+
+                $country[$r['country']] =$country_info['countryid'];
+            }
+
+            $college_info = array(
+                'cname'=> $r['cn_name'] ? $r['cn_name'] : '',
+                'ename'=> $r['en_name'],
+                'country_id'=> $country[$r['country']],
+                'area_id'=> 0,
+                'city_id'=> 0,
+                'apply_price'=> 0,
+                'schoolbadge'=> '',
+                'introduction'=> '',
+                'website'=> $r['website'] ? $r['website'] : ''
+            );
+            $college_id = M('college')->add($college_info);
+            //echo M('college')->getLastSql();
+            //exit;
+            if(!$college_id){
+                echo "add college faild : ".$r['en_name'],PHP_EOL;
+                continue;
+            }
+
+            $partner_info = M('partner_college')->where(array('member_id'=>$member_id,'college_id'=>$college_id))->find();
+            if($partner_info){
+                echo "has partner",PHP_EOL;
+                return false;
+            }
+
+            $this->add_type($college_id,$r['type']);
+            $this->add_partner($member_id,$college_id);
+
+            foreach ($r['education'] as $str) {
+
+                $id = array_search($str,$education);
+                if($id !== false){
+                    $this->add_education($college_id,$id);
+                }
+
+            }
+        }
+    }
+
+    function add_partner($member_id,$college_id){
+        $insert = array(
+            'member_id' => $member_id,
+            'college_id' => $college_id,
+            'addtime' => time()
+        );
+
+        return M('partner_college')->add($insert);
+    }
+
+    function add_type($college_id,$type){
+
+        $insert = array(
+            'type' => $type,
+            'college_id' => $college_id
+        );
+
+        return M('college_type')->add($insert);
+    }
+
+    function add_education($college_id,$education){
+
+        $insert = array(
+            'education' => $education,
+            'college_id' => $college_id
+        );
+
+        return M('college_education')->add($insert);
     }
 }
