@@ -147,7 +147,7 @@ var submit_url = "{:U('Home/Register/regact')}";
 
 $('input[name="member_type"]').click(function(){ 
 	
-	var type=$("input[name='member_type']:checked").val();
+	var type=1;//$("input[name='member_type']:checked").val();
 	if(type==2) {
 		$("#company_show").hide();
         $("#contact_show").hide();
