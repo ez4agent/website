@@ -8867,9 +8867,19 @@ class RegisterController extends BaseController
                 $errors[] = array('message'=>'请输入真实姓名','label' => 'realname');
             }
 
-            if($member_type == 1 && empty($phone)){
+            if(empty($company)){
+                $errors[] = array('message'=>'请输入公司名称','label' => 'company');
+            }
+
+            if(empty($contact)){
+                $errors[] = array('message'=>'请输入联系人','label' => 'contact');
+            }
+
+            if(empty($phone)){
                 $errors[] = array('message'=>'请输入固定电话','label' => 'phone');
-            }elseif($member_type == 2 && empty($mobile_num)){
+            }
+
+            if(empty($mobile_num)){
                 $errors[] = array('message'=>'请输入移动电话','label' => 'mobile_num');
             }
 

@@ -79,7 +79,7 @@
                    <span id="company_inpt" class="popover"></span>
                 </li>
                 <li class="clearfix" id="contact_show" >
-                   <em><span id="contact_name">联系人</span>：</em>
+                   <em><span style="color:#ff0000; margin-right:3px;">*</span><span id="contact_name">联系人</span>：</em>
                    <input id="input_contact" type="text" maxlength="12" name="contact" class="regsiter_input"/>
                    <span id="contact_inpt" class="popover"></span>
                 </li>
@@ -96,10 +96,10 @@
                     <span id="phone_inpt" class="popover"></span>
                 </li>
                 <li class="clearfix">
-                   <em><span style="color:#ff0000; margin-right:3px;display: none" id="need_moblie">*</span>移动电话：</em>
+                   <em><span style="color:#ff0000; margin-right:3px;" id="need_moblie">*</span>移动电话：</em>
                    + <input type="text" maxlength="3" class="baseInfor_input" style="width:50px"  placeholder="国家编号" name="mobile_country_num" value="" />-
-                   <input id="moblie_num" type="text" maxlength="11" class="regsiter_input" name="mobile_num"/>
-                    <span id="moblie_num_inpt" class="popover"></span>
+                   <input id="mobile_num" type="text" maxlength="11" class="regsiter_input" name="mobile_num"/>
+                    <span id="mobile_num_inpt" class="popover"></span>
                 </li>
                 <li class="clearfix">
                     <em><span style="color:#ff0000; margin-right:3px;">*</span>邮箱：</em>
@@ -159,7 +159,7 @@ $('input[name="member_type"]').click(function(){
         $("#contact_show").show();
         $("#realname_show").hide();
         $("#need_phone").show();
-        $("#need_moblie").hide();
+        $("#need_moblie").show();
 	}
 })
 
